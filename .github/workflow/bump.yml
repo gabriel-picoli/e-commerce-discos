@@ -1,0 +1,22 @@
+name: Bump version and tag
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v18
+
+      - name: Bump version
+        uses: phips28/gh-action-bump-version@v11.0.7

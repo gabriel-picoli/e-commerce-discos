@@ -1,0 +1,12 @@
+{
+  "packages": {
+    "app": {
+      "release-type": "node",
+      "path": "app"
+    },
+    "backend": {
+      "release-type": "php",
+      "path": "backend"
+    }
+  }
+}

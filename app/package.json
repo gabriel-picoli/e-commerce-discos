@@ -10,6 +10,7 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.85.5",
     "axios": "^1.11.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

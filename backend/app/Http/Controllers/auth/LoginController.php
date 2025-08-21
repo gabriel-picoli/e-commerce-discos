@@ -14,8 +14,8 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-                $credentials = $request->validate([
-            'username' => 'required|string',
+        $credentials = $request->validate([
+            'email' => 'required|email',
             'password' => 'required|string',
         ]);
 
@@ -27,13 +27,9 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
-        $token = $user->createToken('token-name')->plainTextToken;
-
         return response()->json([
             'user' => new UserResource($user),
-            'token' => $token,
+
         ]);
     }
-
-    
 }

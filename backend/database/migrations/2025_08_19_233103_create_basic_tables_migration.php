@@ -31,13 +31,14 @@ return new class extends Migration
 
         // Alterar tabela 'users'
         Schema::table('users', function (Blueprint $table) {
-            $table->char('cpf', 11)->nullable();
-            $table->char('cnpj', 14)->nullable();
+            $table->string('cpf', 11)->nullable();
+            $table->string('cnpj', 14)->nullable();
             $table->string('telefone')->nullable();
             $table->string('cep')->nullable();
             $table->string('endereco')->nullable();
             $table->string('cidade')->nullable();
             $table->string('estado')->nullable();
+            $table->string('vendedor')->nullable()->default("n");
         });
     }
 
@@ -45,7 +46,7 @@ return new class extends Migration
     {
         // Remover colunas adicionadas em users
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['cpf', 'cnpj', 'telefone', 'cep', 'endereco', 'cidade', 'estado']);
+            $table->dropColumn(['cpf', 'cnpj', 'telefone', 'cep', 'endereco', 'cidade', 'estado', 'vendedor']);
         });
 
         // Apagar tabela anuncio

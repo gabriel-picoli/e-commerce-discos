@@ -8,7 +8,7 @@ use App\Models\Anuncio;
 
 class AnuncioController extends Controller
 {
-     public function store(Request $request)
+    public function store(Request $request)
     {
         // Validação dos dados recebidos
         $request->validate([
@@ -21,5 +21,16 @@ class AnuncioController extends Controller
 
         // Criar anúncio
         Anuncio::create($request->all());
+    }
+
+    public function show($id)
+    {
+        $anuncio = Anuncio::with(['produto', 'user'])->find($id);
+
+        if (!$anuncio) {
+            return response()->json(['message' => 'Anúncio não encontrado'], 404);
+        }
+
+        return response()->json($anuncio);
     }
 }

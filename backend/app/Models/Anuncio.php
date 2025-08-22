@@ -18,4 +18,14 @@ class Anuncio extends Model
         'id_user',
         'id_produto',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'id_user');
+    }
+
+    public function produto()
+    {
+        return $this->belongsTo(\App\Models\Produto::class, 'id_produto');
+    }
 }

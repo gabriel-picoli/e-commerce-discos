@@ -22,4 +22,9 @@ class Produto extends Model
         'lancamento',
         'id_user',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'id_user');
+    }
 }

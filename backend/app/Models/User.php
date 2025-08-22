@@ -19,17 +19,17 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'cpf',
-    'cnpj',
-    'vendedor',
-    'telefone',
-    'cep',
-    'endereco',
-    'cidade',
-    'estado',
+        'name',
+        'email',
+        'password',
+        'cpf',
+        'cnpj',
+        'vendedor',
+        'telefone',
+        'cep',
+        'endereco',
+        'cidade',
+        'estado',
 
     ];
 
@@ -54,5 +54,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function produtos()
+    {
+        return $this->hasMany(\App\Models\Produto::class, 'id_user');
+    }
+
+    public function anuncios()
+    {
+        return $this->hasMany(\App\Models\Anuncio::class, 'id_user');
     }
 }

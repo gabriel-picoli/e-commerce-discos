@@ -26,4 +26,15 @@ class ProdutoController extends Controller
         // Criar o produto
         Produto::create($request->all());
     }
+
+    public function show($id)
+    {
+        $produto = Produto::find($id);
+
+        if (!$produto) {
+            return response()->json(['message' => 'Produto não encontrado'], 404);
+        }
+
+        return response()->json($produto);
+    }
 }

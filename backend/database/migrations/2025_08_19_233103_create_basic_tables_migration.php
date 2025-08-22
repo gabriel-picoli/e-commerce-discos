@@ -9,15 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         // Criar tabela 'anuncio'
-        Schema::create('anuncio', function (Blueprint $table) {
+
+        Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('name');
             $table->string('tipo');
-            $table->string('titulo');
-            $table->string('descricao');
-            $table->decimal('preco', 10, 2);
-            $table->unsignedBigInteger('id_user');
             $table->string('conservacao');
             $table->string('genero');
             $table->string('artista');
@@ -25,7 +22,7 @@ return new class extends Migration
             $table->text('capa');
             $table->string('lancamento');
 
-            // Foreign key para users(id)
+            $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
 
@@ -40,6 +37,20 @@ return new class extends Migration
             $table->string('estado')->nullable();
             $table->string('vendedor')->nullable()->default("n");
         });
+
+        Schema::create('anuncio', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('titulo');
+            $table->string('descricao');
+            $table->decimal('preco', 10, 2);
+            $table->unsignedBigInteger('id_user');
+
+            $table->unsignedBigInteger('id_produto');
+            $table->foreign('id_produto')->references('id')->on('produtos')->onDelete('cascade');
+            // Foreign key para users(id)
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 
     public function down(): void
@@ -50,6 +61,6 @@ return new class extends Migration
         });
 
         // Apagar tabela anuncio
-        Schema::dropIfExists('anuncio');
+        Schema::dropIfExists('anuncio', 'produtos');
     }
 };

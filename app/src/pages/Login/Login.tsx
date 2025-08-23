@@ -5,6 +5,7 @@ import z from 'zod'
 
 import Input from '../../components/input/Input'
 import Form from '../../components/form'
+import Button from '../../components/button'
 
 const schema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
@@ -41,7 +42,7 @@ export default function Login() {
         helperText={errors.lastName?.message}
       />
 
-      <button type="submit">Enter</button>
+      <Button type="submit">Enviar</Button>
     </Form>
   )
 }

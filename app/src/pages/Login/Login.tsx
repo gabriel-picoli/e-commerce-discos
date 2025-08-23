@@ -12,7 +12,7 @@ const schema = z.object({
 
 type DataProps = z.infer<typeof schema>
 
-export default function EnterPage() {
+export default function Login() {
   const {
     register,
     handleSubmit,

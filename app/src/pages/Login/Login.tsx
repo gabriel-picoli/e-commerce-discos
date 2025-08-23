@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
 import Input from '../../components/input/Input'
+import Form from '../../components/form'
 
 const schema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
@@ -23,7 +24,7 @@ export default function Login() {
   })
 
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <Form onSubmit={handleSubmit((data) => console.log(data))}>
       <Input
         type="text"
         {...register('name')}
@@ -41,6 +42,6 @@ export default function Login() {
       />
 
       <button type="submit">Enter</button>
-    </form>
+    </Form>
   )
 }

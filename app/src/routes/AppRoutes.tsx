@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 
 import { Routes, Route } from 'react-router-dom'
 
-import Layout from '../styles/Layout'
+import Layout from '../components/layout/Layout'
 
 const EnterPage = lazy(() => import('../pages/EnterPage/EnterPage'))
 

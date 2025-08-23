@@ -4,15 +4,14 @@ import { Routes, Route } from 'react-router-dom'
 
 import Layout from '../components/layout/Layout'
 
-const EnterPage = lazy(() => import('../pages/EnterPage/EnterPage'))
+const Login = lazy(() => import('../pages/Login/Login'))
 
 export default function AppRoutes() {
   return (
     <Suspense fallback={<p>carregando...</p>}>
       <Routes>
-        <Route element={<Layout />}>
-          <Route path="/enter" element={<EnterPage />} />
-        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route element={<Layout />}></Route>
       </Routes>
     </Suspense>
   )

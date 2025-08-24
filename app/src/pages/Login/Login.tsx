@@ -51,7 +51,7 @@ export default function Login() {
             />
 
             <Input
-              type="text"
+              type="password"
               {...register('password')}
               placeholder="Enter your last password"
               label="Password"

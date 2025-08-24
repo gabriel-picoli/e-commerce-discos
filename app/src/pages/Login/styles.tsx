@@ -95,7 +95,7 @@ export const FormContainer = styled.div`
   width: 100%;
   max-width: 420px;
   padding: 3rem 2rem;
-  background: ${theme.colors.neutral_100};
+  background: ${theme.colors.neutral_50};
   border-radius: 0 0 ${theme.radius.lg} ${theme.radius.lg};
   box-shadow: ${theme.shadows.lg};
   position: relative;

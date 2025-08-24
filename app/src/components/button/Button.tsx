@@ -1,11 +1,11 @@
 import * as S from './styles'
 
-interface BaseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+type BaseButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode
   size?: 'small' | 'medium' | 'large'
 }
 
-interface ButtonProps extends BaseButtonProps {
+type ButtonProps = BaseButtonProps & {
   variant?: 'primary' | 'outline' | 'rounded-outline' | 'cancel'
 }
 

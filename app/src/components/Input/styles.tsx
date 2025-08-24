@@ -19,6 +19,7 @@ export const Input = styled.input<{ $hasError: boolean }>`
   border: 1px solid ${(props) => (props.$hasError ? `${theme.colors.red}` : '#ccc')};
   border-radius: 4px;
   font-size: 1rem;
+  background-color: transparent;
 
   &:focus {
     border-color: ${(props) => (props.$hasError ? `${theme.colors.red}` : '#666')};

@@ -1,48 +1,75 @@
 import { useForm } from 'react-hook-form'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
+
+import * as S from './styles'
 
 import Input from '../../components/input/Input'
 import Form from '../../components/form'
 import Button from '../../components/button'
 
-const schema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters long'),
-  lastName: z.string().min(2, 'Last Name must be at least 2 characters long')
+const loginSchema = z.object({
+  email: z.string().min(2, 'E-mail must be at least 2 characters long'),
+  password: z.string().min(6, 'Password must be at least 6 characters long')
 })
 
-type DataProps = z.infer<typeof schema>
+type LoginData = z.infer<typeof loginSchema>
 
 export default function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<DataProps>({
+  } = useForm<LoginData>({
     mode: 'onBlur',
-    resolver: zodResolver(schema)
+    resolver: zodResolver(loginSchema)
   })
 
   return (
-    <Form onSubmit={handleSubmit((data) => console.log(data))}>
-      <Input
-        type="text"
-        {...register('name')}
-        placeholder="Name"
-        label="Name"
-        helperText={errors.name?.message}
-      />
+    <S.Container>
+      <S.LeftPanel>
+        <S.BrandSection>
+          <S.BrandName>Pozzoleone</S.BrandName>
+          <S.BrandTagline>Premium Vinyl Collection</S.BrandTagline>
+        </S.BrandSection>
+      </S.LeftPanel>
 
-      <Input
-        type="text"
-        {...register('lastName')}
-        placeholder="Last Name"
-        label="Last Name"
-        helperText={errors.lastName?.message}
-      />
+      <S.RightPanel>
+        <S.FormContainer>
+          <S.FormHeader>
+            <S.FormTitle>Hello Again</S.FormTitle>
+            <S.FormSubtitle>Time to drop the needle on your collection</S.FormSubtitle>
+          </S.FormHeader>
 
-      <Button type="submit">Enviar</Button>
-    </Form>
+          <Form onSubmit={handleSubmit((data) => console.log(data))}>
+            <Input
+              type="email"
+              {...register('email')}
+              placeholder="Enter your e-mail"
+              label="E-mail"
+              helperText={errors.email?.message}
+            />
+
+            <Input
+              type="text"
+              {...register('password')}
+              placeholder="Enter your last password"
+              label="Password"
+              helperText={errors.password?.message}
+            />
+
+            <Button.Primary type="submit" size="medium">
+              Sign In
+            </Button.Primary>
+          </Form>
+
+          <S.FormFooter>
+            <S.FooterText>
+              Don't have an account? <S.FooterLink href="#register">Sign up here</S.FooterLink>
+            </S.FooterText>
+          </S.FormFooter>
+        </S.FormContainer>
+      </S.RightPanel>
+    </S.Container>
   )
 }

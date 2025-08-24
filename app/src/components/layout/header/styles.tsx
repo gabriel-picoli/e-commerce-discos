@@ -32,7 +32,7 @@ export const LogoTitle = styled.h1`
   color: ${theme.colors.black};
   font-weight: 900;
   font-size: 2rem;
-  letter-spacing: -3px;
+  letter-spacing: -2px;
 
   @media (max-width: 768px) {
     font-size: 1.5rem;

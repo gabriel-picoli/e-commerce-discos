@@ -1,11 +1,8 @@
 const theme = {
   colors: {
-    // base
+    // brand
     primary: '#d0ab6bff',
     primaryHover: '#b69259ff',
-
-    white: '#FFFFFF',
-    black: '#262323FF',
 
     // estados
     red: '#DC3545',
@@ -17,20 +14,21 @@ const theme = {
     yellow: '#ffc107',
     yellowHover: '#e0a800',
 
-    // fundo e superficies
-    background: '#F9F9F9', // fundo geral (app, paginas)
-    surface: '#FFFFFF', // cartoes, modais, paineis
-    border: '#E5E5E5', // linhas sutis
+    // escala neutra (fundo, bordas, textos)
+    neutral_50: '#F9F9F9', // fundo geral (app, páginas)
+    neutral_100: '#F4F4F4', // superfícies claras
+    neutral_200: '#E5E5E5', // bordas, divisores
+    neutral_300: '#D3D3D3', // texto secundário claro
+    neutral_400: '#ADB5BD', // texto desabilitado
+    neutral_500: '#6C757D', // texto secundário
+    neutral_900: '#262323', // texto/preto principal
 
-    // texto
-    blackText: '#262323FF', // cor preta principal
-    whiteText: '#FFFFFF', // cor branca principal
-
-    textSecondary: '#d3d3d3ff', // texto secundario, descriçoes
-    textDisabled: '#adb5bd' // campos desabilitados
+    // utilitárias
+    white: '#FFFFFF',
+    black: '#000000'
   },
 
-  // tipografia (escalas de tamanho/peso)
+  // tipografia
   typography: {
     fontFamily: "'Poppins', sans-serif",
     h1: { size: '2.5rem', weight: 700, lineHeight: 1.2 },
@@ -40,7 +38,7 @@ const theme = {
     small: { size: '0.875rem', weight: 400, lineHeight: 1.4 }
   },
 
-  // sombras (minimo para depth)
+  // sombras
   shadows: {
     sm: '0 1px 2px rgba(0,0,0,0.05)',
     md: '0 4px 6px rgba(0,0,0,0.1)',

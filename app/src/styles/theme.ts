@@ -26,7 +26,7 @@ const theme = {
     blackText: '#262323FF', // cor preta principal
     whiteText: '#FFFFFF', // cor branca principal
 
-    textSecondary: '#6c757d', // texto secundario, descriçoes
+    textSecondary: '#d3d3d3ff', // texto secundario, descriçoes
     textDisabled: '#adb5bd' // campos desabilitados
   },
 

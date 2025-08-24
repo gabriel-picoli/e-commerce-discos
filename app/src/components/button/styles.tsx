@@ -55,11 +55,11 @@ const buttonSizes = {
     font-size: 14px;
   `,
   medium: css`
-    padding: 15px 32px;
+    padding: 13px 30px;
     font-size: 16px;
   `,
   large: css`
-    padding: 20px 40px;
+    padding: 16px 40px;
     font-size: 18px;
   `
 }

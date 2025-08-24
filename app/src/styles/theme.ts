@@ -4,7 +4,10 @@ const theme = {
     primaryHover: '#b69259ff',
 
     white: '#FFFFFF',
-    black: '#262323FF'
+    black: '#262323FF',
+
+    red: '#DC3545',
+    redHover: '#C82333'
   }
 }
 

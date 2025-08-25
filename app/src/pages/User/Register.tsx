@@ -12,7 +12,8 @@ const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
   email: z.string().min(2, 'E-mail must be at least 2 characters long'),
   password: z.string().min(6, 'Password must be at least 6 characters long'),
-  confirmPassword: z.string().min(6, 'Password must be at least 6 characters long')
+  confirmPassword: z.string().min(6, 'Password must be at least 6 characters long'),
+  seller: z.boolean()
 })
 
 type RegisterData = z.infer<typeof registerSchema>
@@ -75,12 +76,10 @@ export default function Register() {
               helperText={errors.confirmPassword?.message}
             />
 
-            <Input
-              type="checkbox"
-              {...register('confirmPassword')}
-              placeholder="Confirm your password"
-              label="Confirm password"
-              helperText={errors.confirmPassword?.message}
+            <Input.Checkbox
+              {...register('seller')}
+              label="I want to sell my vinyls"
+              helperText={errors.seller?.message}
             />
 
             <Button.Primary type="submit" size="medium">

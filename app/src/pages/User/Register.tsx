@@ -4,25 +4,27 @@ import z from 'zod'
 
 import * as S from './styles'
 
-import Input from '../../components/input/Input'
-import Form from '../../components/form'
+import Input from '../../components/input'
 import Button from '../../components/button'
+import Form from '../../components/form'
 
-const loginSchema = z.object({
+const registerSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters long'),
   email: z.string().min(2, 'E-mail must be at least 2 characters long'),
-  password: z.string().min(6, 'Password must be at least 6 characters long')
+  password: z.string().min(6, 'Password must be at least 6 characters long'),
+  confirmPassword: z.string().min(6, 'Password must be at least 6 characters long')
 })
 
-type LoginData = z.infer<typeof loginSchema>
+type RegisterData = z.infer<typeof registerSchema>
 
-export default function Login() {
+export default function Register() {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginData>({
+  } = useForm<RegisterData>({
     mode: 'onBlur',
-    resolver: zodResolver(loginSchema)
+    resolver: zodResolver(registerSchema)
   })
 
   return (
@@ -37,11 +39,18 @@ export default function Login() {
       <S.RightPanel>
         <S.FormContainer>
           <S.FormHeader>
-            <S.FormTitle>Hello Again</S.FormTitle>
+            <S.FormTitle>Register</S.FormTitle>
             <S.FormSubtitle>Time to drop the needle on your collection</S.FormSubtitle>
           </S.FormHeader>
 
           <Form onSubmit={handleSubmit((data) => console.log(data))}>
+            <Input
+              type="name"
+              {...register('name')}
+              placeholder="Enter your name"
+              label="Name"
+              helperText={errors.name?.message}
+            />
             <Input
               type="email"
               {...register('email')}
@@ -53,21 +62,31 @@ export default function Login() {
             <Input
               type="password"
               {...register('password')}
-              placeholder="Enter your last password"
+              placeholder="Enter your password"
               label="Password"
               helperText={errors.password?.message}
             />
 
+            <Input
+              type="password"
+              {...register('confirmPassword')}
+              placeholder="Confirm your password"
+              label="Confirm password"
+              helperText={errors.confirmPassword?.message}
+            />
+
+            <Input
+              type="checkbox"
+              {...register('confirmPassword')}
+              placeholder="Confirm your password"
+              label="Confirm password"
+              helperText={errors.confirmPassword?.message}
+            />
+
             <Button.Primary type="submit" size="medium">
-              Sign In
+              Sign Up
             </Button.Primary>
           </Form>
-
-          <S.FormFooter>
-            <S.FooterText>
-              Don't have an account? <S.FooterLink href="#register">Sign up here</S.FooterLink>
-            </S.FooterText>
-          </S.FormFooter>
         </S.FormContainer>
       </S.RightPanel>
     </S.Container>

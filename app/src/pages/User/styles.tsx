@@ -34,7 +34,7 @@ export const LeftPanel = styled.div`
       135deg,
       rgba(0, 0, 0, 0.7) 0%,
       rgba(0, 0, 0, 0.4) 50%,
-      rgba(139, 69, 19, 0.6) 100%
+      rgba(139, 19, 19, 0.6) 100%
     );
     pointer-events: none;
   }
@@ -133,7 +133,7 @@ export const FormHeader = styled.div`
 `
 
 export const FormTitle = styled.h2`
-  font-size: 3rem;
+  font-size: 3.3rem;
   font-weight: 900;
   color: #1a1a1a;
   margin-bottom: 0.5rem;
@@ -165,6 +165,7 @@ export const FooterLink = styled.a`
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
+  cursor: pointer;
 
   &:hover {
     color: ${theme.colors.primaryHover};

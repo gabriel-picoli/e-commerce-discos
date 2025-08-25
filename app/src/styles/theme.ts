@@ -1,12 +1,12 @@
 const theme = {
   colors: {
     // brand
-    primary: '#d0ab6bff',
-    primaryHover: '#b69259ff',
+    primary: '#c45e5eff',
+    primaryHover: '#994f4fff',
 
     // estados
     red: '#DC3545',
-    redHover: '#C82333',
+    redHover: '#a81d2bff',
 
     green: '#28a745',
     greenHover: '#218838',
@@ -23,7 +23,7 @@ const theme = {
     neutral_500: '#6C757D', // texto secundário
     neutral_900: '#262323', // texto/preto principal
 
-    // utilitárias
+    // utilitarias
     white: '#FFFFFF',
     black: '#000000'
   },

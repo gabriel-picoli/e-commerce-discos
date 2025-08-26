@@ -10,9 +10,11 @@ export const fetchUsers = async () => {
 export const createUser = async (user: User) => {
   console.log(user)
 
-  // const { data } = await api.post('/users', user)
+  const { data } = await api.post('/register', user)
 
-  // return data
+  console.log(data)
+
+  return data
 }
 
 export const updateUser = async (user: Partial<User>) => {

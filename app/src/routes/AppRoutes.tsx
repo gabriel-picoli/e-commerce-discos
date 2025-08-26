@@ -4,8 +4,8 @@ import { Routes, Route } from 'react-router-dom'
 
 import Layout from '../components/layout/Layout'
 
-import Login from '../pages/User/Login'
-import Register from '../pages/User/Register'
+import Login from '../pages/Access/Login'
+import Register from '../pages/Access/Register'
 
 export default function AppRoutes() {
   return (

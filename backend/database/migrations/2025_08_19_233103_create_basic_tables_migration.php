@@ -55,13 +55,15 @@ return new class extends Migration
 
     public function down(): void
     {
-
+        Schema::dropIfExists('anuncio');
+        Schema::dropIfExists('produtos');
 
         // Remover colunas adicionadas em users
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn(['cpf', 'cnpj', 'telefone', 'cep', 'endereco', 'cidade', 'estado', 'vendedor']);
         });
-        Schema::dropIfExists('anuncio', 'produtos');
+        
+
         // Apagar tabela anuncio
 
     }

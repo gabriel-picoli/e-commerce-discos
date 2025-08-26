@@ -32,16 +32,57 @@ export const Input = styled.input<{ $hasError: boolean }>`
   }
 `
 
-export const CheckboxContainer = styled.div`
+export const CheckboxContainer = styled.label`
   display: flex;
   align-items: center;
-  margin-top: 0.5rem;
+  cursor: pointer;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: ${theme.colors.neutral_900};
+  user-select: none;
 `
 
-export const Checkbox = styled.input`
+export const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+`
+
+export const Checkbox = styled.span<{ $checked?: boolean }>`
   width: 20px;
   height: 20px;
-  margin-right: 0.5rem;
+  display: inline-block;
+  border: 2px solid ${theme.colors.neutral_500};
+  border-radius: 4px;
+  background: ${(props) => (props.$checked ? theme.colors.primary : 'transparent')};
+  transition: all 0.2s ease;
+  position: relative;
+
+  ${CheckboxContainer}:hover & {
+    border-color: ${theme.colors.primary};
+  }
+
+  ${(props) =>
+    props.$checked &&
+    `
+      &::after {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 0px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+  `}
 `
 
 export const CheckboxLabel = styled.label`

@@ -2,17 +2,18 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
-import * as S from './styles'
-
 import Input from '../../components/input'
 import Button from '../../components/button'
 import Form from '../../components/form'
+
+import * as S from './styles'
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
   email: z.string().min(2, 'E-mail must be at least 2 characters long'),
   password: z.string().min(6, 'Password must be at least 6 characters long'),
-  confirmPassword: z.string().min(6, 'Password must be at least 6 characters long')
+  confirmPassword: z.string().min(6, 'Password must be at least 6 characters long'),
+  vendedor: z.boolean()
 })
 
 type RegisterData = z.infer<typeof registerSchema>
@@ -27,11 +28,27 @@ export default function Register() {
     resolver: zodResolver(registerSchema)
   })
 
+  const onSubmit = (data: RegisterData) => {
+    if (!data) {
+      return
+    }
+
+    const userPayload = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      vendedor: data.vendedor ? 'S' : 'N'
+    }
+
+    console.log(userPayload)
+  }
+
   return (
     <S.Container>
       <S.LeftPanel>
         <S.BrandSection>
           <S.BrandName>Pozzoleone</S.BrandName>
+
           <S.BrandTagline>Premium Vinyl Collection</S.BrandTagline>
         </S.BrandSection>
       </S.LeftPanel>
@@ -40,10 +57,11 @@ export default function Register() {
         <S.FormContainer>
           <S.FormHeader>
             <S.FormTitle>Register</S.FormTitle>
+
             <S.FormSubtitle>Time to drop the needle on your collection</S.FormSubtitle>
           </S.FormHeader>
 
-          <Form onSubmit={handleSubmit((data) => console.log(data))}>
+          <Form onSubmit={handleSubmit((data) => onSubmit(data))}>
             <Input
               type="name"
               {...register('name')}
@@ -51,6 +69,7 @@ export default function Register() {
               label="Name"
               helperText={errors.name?.message}
             />
+
             <Input
               type="email"
               {...register('email')}
@@ -75,12 +94,10 @@ export default function Register() {
               helperText={errors.confirmPassword?.message}
             />
 
-            <Input
-              type="checkbox"
-              {...register('confirmPassword')}
-              placeholder="Confirm your password"
-              label="Confirm password"
-              helperText={errors.confirmPassword?.message}
+            <Input.Checkbox
+              {...register('vendedor')}
+              label="I want to sell my vinyls"
+              helperText={errors.vendedor?.message}
             />
 
             <Button.Primary type="submit" size="medium">

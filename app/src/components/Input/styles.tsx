@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import theme from '../../styles/theme'
 
-export const Container = styled.div`
+export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -30,6 +30,23 @@ export const Input = styled.input<{ $hasError: boolean }>`
     color: ${theme.colors.neutral_500};
     font-size: 0.9rem;
   }
+`
+
+export const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+`
+
+export const Checkbox = styled.input`
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+`
+
+export const CheckboxLabel = styled.label`
+  font-size: 0.9rem;
+  color: ${theme.colors.neutral_900};
 `
 
 export const ErrorMessage = styled.span`

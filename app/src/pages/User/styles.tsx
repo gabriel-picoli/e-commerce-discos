@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import theme from '../../styles/theme'
 
-import vinyl from '../../../public/images/vinyl.jpg'
+import vinyl from '/images/vinyl.jpg'
 
 export const Container = styled.div`
   min-height: 100vh;

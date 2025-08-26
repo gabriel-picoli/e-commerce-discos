@@ -1,4 +1,4 @@
-import { forwardRef, useId } from 'react'
+import { forwardRef, useId, useState } from 'react'
 
 import * as S from './styles'
 
@@ -30,12 +30,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 ) as InputComponent
 
-Input.Checkbox = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref) => (
-  <S.CheckboxContainer>
-    <S.HiddenCheckbox ref={ref} {...props} />
-    <S.Checkbox $checked={props.checked} />
-    {label}
-  </S.CheckboxContainer>
-))
+Input.Checkbox = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref) => {
+  return (
+    <S.CheckboxContainer>
+      <S.HiddenCheckbox ref={ref} {...props} />
+      <S.Checkbox />
+      {label}
+    </S.CheckboxContainer>
+  )
+})
 
 export default Input

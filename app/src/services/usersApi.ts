@@ -1,3 +1,4 @@
+import type { User } from '../interfaces/User'
 import api from './api'
 
 export const fetchUsers = async () => {
@@ -6,4 +7,26 @@ export const fetchUsers = async () => {
   return data
 }
 
-export const createUser = async ({}) => {}
+export const createUser = async (user: User) => {
+  console.log(user)
+
+  // const { data } = await api.post('/users', user)
+
+  // return data
+}
+
+export const updateUser = async (user: Partial<User>) => {
+  console.log(user)
+
+  // const { data } = await api.put(`/users/${user.id}`, user)
+
+  // return data
+}
+
+export const deleteUser = async ({ id }: User) => {
+  console.log(id)
+
+  // const { data } = await api.delete(`/users/${id}`)
+
+  // return data
+}

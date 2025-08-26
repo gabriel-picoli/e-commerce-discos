@@ -7,6 +7,7 @@ import Button from '../../components/button'
 import Form from '../../components/form'
 
 import * as S from './styles'
+import { useCreateUser } from '../../hooks/useUsers'
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
@@ -28,6 +29,8 @@ export default function Register() {
     resolver: zodResolver(registerSchema)
   })
 
+  const createUser = useCreateUser()
+
   const onSubmit = (data: RegisterData) => {
     if (!data) {
       return
@@ -40,7 +43,7 @@ export default function Register() {
       vendedor: data.vendedor ? 'S' : 'N'
     }
 
-    console.log(userPayload)
+    createUser.mutate(userPayload)
   }
 
   return (

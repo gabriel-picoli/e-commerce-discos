@@ -40,6 +40,7 @@ export const CheckboxContainer = styled.label`
   font-size: 0.9rem;
   color: ${theme.colors.neutral_900};
   user-select: none;
+  position: relative;
 `
 
 export const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
@@ -52,37 +53,60 @@ export const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   position: absolute;
   white-space: nowrap;
   width: 1px;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 `
 
-export const Checkbox = styled.span<{ $checked?: boolean }>`
+export const Checkbox = styled.span`
   width: 20px;
   height: 20px;
   display: inline-block;
   border: 2px solid ${theme.colors.neutral_500};
   border-radius: 4px;
-  background: ${(props) => (props.$checked ? theme.colors.primary : 'transparent')};
+  background: transparent;
   transition: all 0.2s ease;
   position: relative;
+  text-align: center;
+  line-height: 18px;
 
-  ${CheckboxContainer}:hover & {
+  &::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    background: ${theme.colors.primary};
+    border-radius: 4px;
+    opacity: 0.3;
+    transition:
+      width 0.3s ease,
+      height 0.3s ease,
+      opacity 0.3s ease;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  ${CheckboxContainer}:hover &::before {
+    width: 20px;
+    height: 20px;
+    opacity: 0.2;
+  }
+
+  ${HiddenCheckbox}:checked + & {
+    background: ${theme.colors.primary};
     border-color: ${theme.colors.primary};
   }
 
-  ${(props) =>
-    props.$checked &&
-    `
-      &::after {
-        content: '';
-        position: absolute;
-        left: 4px;
-        top: 0px;
-        width: 6px;
-        height: 12px;
-        border: solid white;
-        border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
-      }
-  `}
+  ${HiddenCheckbox}:checked + &::after {
+    content: '✔';
+    font-size: 12px;
+    color: white;
+    display: block;
+  }
 `
 
 export const CheckboxLabel = styled.label`

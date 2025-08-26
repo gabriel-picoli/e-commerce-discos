@@ -30,13 +30,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 ) as InputComponent
 
-Input.Checkbox = forwardRef<HTMLInputElement, InputProps>(
-  ({ type = 'checkbox', ...props }, ref) => (
-    <S.CheckboxContainer>
-      <S.Checkbox id={props.id} type={type} ref={ref} {...props} />
-      <S.CheckboxLabel htmlFor={props.id}>{props.label}</S.CheckboxLabel>
-    </S.CheckboxContainer>
-  )
-)
+Input.Checkbox = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref) => (
+  <S.CheckboxContainer>
+    <S.HiddenCheckbox ref={ref} {...props} />
+    <S.Checkbox $checked={props.checked} />
+    {label}
+  </S.CheckboxContainer>
+))
 
 export default Input

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
 import api from '../services/api'
 
@@ -29,6 +30,7 @@ export function useAuth() {
   const token = useAuthStore((state) => state.token)
 
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   // login
   const loginMutation = useMutation({
@@ -38,6 +40,13 @@ export function useAuth() {
       setAuth(user, token)
 
       queryClient.invalidateQueries({ queryKey: ['user'] })
+
+      // redireciona pos login
+      navigate('/test')
+    },
+
+    onError: (error) => {
+      console.error('Login error:', error)
     }
   })
 
@@ -59,7 +68,6 @@ export function useAuth() {
 
   return {
     login: loginMutation.mutateAsync,
-
     user: useAuthStore((s) => s.user),
     token: useAuthStore((s) => s.token),
     isLoading: loginMutation.isPending || userQuery.isLoading

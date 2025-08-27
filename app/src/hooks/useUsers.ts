@@ -1,10 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { fetchUser, createUser, updateUser, deleteUser } from '../services/usersApi'
+import { fetchUser, createUser, updateUser, deleteUser } from '../services/userApi'
 
-export const useUsers = () => {
+export const useUser = () => {
   return useQuery({
-    queryKey: ['users'], // chave do cache
+    queryKey: ['user'], // chave do cache
     queryFn: fetchUser // funçao que busca os dados
   })
 }
@@ -16,7 +16,7 @@ export const useCreateUser = () => {
     mutationFn: createUser, // funçao que cria o usuario
     onSuccess: () => {
       // quando der certo, invalida o cache e busca dados novamente
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['user'] })
     }
   })
 }
@@ -28,7 +28,7 @@ export const useUpdateUser = () => {
     mutationFn: updateUser, // funçao que atualiza o usuario
     onSuccess: () => {
       // quando der certo, invalida o cache e busca dados novamente
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['user'] })
     }
   })
 }
@@ -40,7 +40,7 @@ export const useDeleteUser = () => {
     mutationFn: deleteUser, // funçao que deleta o usuario
     onSuccess: () => {
       // quando der certo, invalida o cache e busca dados novamente
-      queryClient.invalidateQueries({ queryKey: ['users'] })
+      queryClient.invalidateQueries({ queryKey: ['user'] })
     }
   })
 }

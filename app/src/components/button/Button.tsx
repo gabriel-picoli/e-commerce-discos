@@ -1,11 +1,8 @@
 import * as S from './styles'
 
-type BaseButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode
   size?: 'small' | 'medium' | 'large'
-}
-
-type ButtonProps = BaseButtonProps & {
   variant?: 'primary' | 'outline' | 'rounded-outline' | 'cancel'
 }
 
@@ -17,25 +14,25 @@ function Button({ children, variant = 'primary', size = 'medium', type, ...props
   )
 }
 
-Button.Primary = ({ children, size = 'medium', ...props }: BaseButtonProps) => (
+Button.Primary = ({ children, size = 'medium', ...props }: Omit<ButtonProps, 'variant'>) => (
   <Button variant="primary" size={size} {...props}>
     {children}
   </Button>
 )
 
-Button.Outline = ({ children, size = 'medium', ...props }: BaseButtonProps) => (
+Button.Outline = ({ children, size = 'medium', ...props }: Omit<ButtonProps, 'variant'>) => (
   <Button variant="outline" size={size} {...props}>
     {children}
   </Button>
 )
 
-Button.RoundedOutline = ({ children, size = 'medium', ...props }: BaseButtonProps) => (
+Button.RoundedOutline = ({ children, size = 'medium', ...props }: Omit<ButtonProps, 'variant'>) => (
   <Button variant="rounded-outline" size={size} {...props}>
     {children}
   </Button>
 )
 
-Button.Cancel = ({ children, size = 'medium', ...props }: BaseButtonProps) => (
+Button.Cancel = ({ children, size = 'medium', ...props }: Omit<ButtonProps, 'variant'>) => (
   <Button variant="cancel" size={size} {...props}>
     {children}
   </Button>

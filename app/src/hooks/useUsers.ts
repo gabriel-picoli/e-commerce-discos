@@ -17,6 +17,10 @@ export const useCreateUser = () => {
     onSuccess: () => {
       // quando der certo, invalida o cache e busca dados novamente
       queryClient.invalidateQueries({ queryKey: ['user'] })
+    },
+
+    onError: (error) => {
+      console.log('Register error:', error)
     }
   })
 }

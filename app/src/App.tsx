@@ -1,6 +1,7 @@
 import { ThemeProvider } from 'styled-components'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter } from 'react-router-dom'
+import { Toaster } from 'sonner'
 
 import theme from './styles/theme'
 import GlobalStyle from './styles/GlobalStyle'
@@ -17,6 +18,8 @@ function App() {
           <GlobalStyle />
 
           <AppRoutes />
+
+          <Toaster position="bottom-left" toastOptions={{ duration: 5000 }} visibleToasts={3} />
         </ThemeProvider>
       </QueryClientProvider>
     </BrowserRouter>

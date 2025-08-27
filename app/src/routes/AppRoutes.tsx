@@ -4,8 +4,10 @@ import { Routes, Route } from 'react-router-dom'
 
 import Layout from '../components/layout/Layout'
 
-import Login from '../pages/Access/Login'
-import Register from '../pages/Access/Register'
+import { Login } from '../pages/Access/Login'
+import { Register } from '../pages/Access/Register'
+
+const Main = lazy(() => import('../pages/Main/Main'))
 
 export default function AppRoutes() {
   return (
@@ -16,7 +18,7 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
 
         <Route element={<Layout />}>
-          <Route path="/test" element={<div>test</div>} />
+          <Route path="/test" element={<Main />} />
         </Route>
       </Routes>
     </Suspense>

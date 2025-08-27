@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import api from './api'
+import api from '../services/api'
 
 import { useAuthStore } from '../stores/authStore'
 
 import type { User } from '../interfaces/User'
 import { useEffect } from 'react'
-import { fetchUser } from './usersApi'
+import { fetchUser } from '../services/userApi'
 
 interface LoginResponse {
   user: User
@@ -26,6 +26,7 @@ const login = async (user: { email: string; password: string }) => {
 export function useAuth() {
   const setAuth = useAuthStore((state) => state.setAuth)
   const clearAuth = useAuthStore((state) => state.clearAuth)
+  const token = useAuthStore((state) => state.token)
 
   const queryClient = useQueryClient()
 
@@ -43,7 +44,8 @@ export function useAuth() {
   // checa se usuario esta logado
   const userQuery = useQuery({
     queryKey: ['user'],
-    queryFn: fetchUser
+    queryFn: fetchUser,
+    enabled: !!token
   })
 
   // sync do zustand com react query

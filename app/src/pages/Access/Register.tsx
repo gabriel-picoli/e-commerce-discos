@@ -7,6 +7,7 @@ import Button from '../../components/button'
 import Form from '../../components/form'
 
 import * as S from './styles'
+
 import { useCreateUser } from '../../hooks/useUsers'
 
 const registerSchema = z.object({

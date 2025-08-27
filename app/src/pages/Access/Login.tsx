@@ -1,15 +1,16 @@
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
 import * as S from './styles'
 
-import Input from '../../components/input/Input'
+import { useAuth } from '../../hooks/useAuth'
+
+import Input from '../../components/input'
 import Form from '../../components/form'
 import Button from '../../components/button'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../services/useAuth'
-import { toast } from 'sonner'
 
 const loginSchema = z.object({
   email: z.string().min(2, 'E-mail must be at least 2 characters long'),

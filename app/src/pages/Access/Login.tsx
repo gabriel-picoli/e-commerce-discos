@@ -8,6 +8,8 @@ import Input from '../../components/input/Input'
 import Form from '../../components/form'
 import Button from '../../components/button'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../services/useAuth'
+import { toast } from 'sonner'
 
 const loginSchema = z.object({
   email: z.string().min(2, 'E-mail must be at least 2 characters long'),
@@ -26,7 +28,20 @@ export default function Login() {
     resolver: zodResolver(loginSchema)
   })
 
+  const { login, user, isLoading } = useAuth()
+
   const navigate = useNavigate()
+
+  const onSubmit = async ({ email, password }: LoginData) => {
+    try {
+      await login({ email, password })
+      toast.success('Login efetuado com sucesso!')
+    } catch (error) {
+      console.error(error)
+
+      toast.error('Erro ao efetuar login')
+    }
+  }
 
   return (
     <S.Container>
@@ -44,7 +59,7 @@ export default function Login() {
             <S.FormSubtitle>Time to drop the needle on your collection</S.FormSubtitle>
           </S.FormHeader>
 
-          <Form onSubmit={handleSubmit((data) => console.log(data))}>
+          <Form onSubmit={handleSubmit((data) => onSubmit(data))}>
             <Input
               type="email"
               {...register('email')}

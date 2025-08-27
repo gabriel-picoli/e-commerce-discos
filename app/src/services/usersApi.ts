@@ -1,12 +1,15 @@
-import type { User } from '../interfaces/User'
 import api from './api'
 
-export const fetchUsers = async () => {
-  const { data } = await api.get('/users')
+import type { User } from '../interfaces/User'
+
+// checa se o usuario esta logado
+export const fetchUser = async () => {
+  const { data } = await api.get('/user')
 
   return data
 }
 
+// registra um usuario
 export const createUser = async (user: User) => {
   console.log(user)
 
@@ -17,6 +20,7 @@ export const createUser = async (user: User) => {
   return data
 }
 
+// funçao para atualizaçao de dados do usuario
 export const updateUser = async (user: Partial<User>) => {
   console.log(user)
 

@@ -19,7 +19,7 @@ function App() {
 
           <AppRoutes />
 
-          <Toaster position="bottom-left" toastOptions={{ duration: 5000 }} visibleToasts={3} />
+          <Toaster position="bottom-center" toastOptions={{ duration: 5000 }} visibleToasts={3} />
         </ThemeProvider>
       </QueryClientProvider>
     </BrowserRouter>

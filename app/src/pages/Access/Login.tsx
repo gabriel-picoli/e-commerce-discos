@@ -29,19 +29,16 @@ export default function Login() {
     resolver: zodResolver(loginSchema)
   })
 
-  const { login, user, isLoading } = useAuth()
+  const { login } = useAuth()
 
   const navigate = useNavigate()
 
   const onSubmit = async ({ email, password }: LoginData) => {
-    try {
-      await login({ email, password })
-      toast.success('Login efetuado com sucesso!')
-    } catch (error) {
-      console.error(error)
-
-      toast.error('Erro ao efetuar login')
-    }
+    toast.promise(login({ email, password }), {
+      loading: 'Logging in...',
+      success: 'Welcome back!',
+      error: 'Failed to login. Please check your credentials.'
+    })
   }
 
   return (

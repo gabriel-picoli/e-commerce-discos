@@ -1,11 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { fetchUsers, createUser, updateUser, deleteUser } from '../services/usersApi'
+import { fetchUser, createUser, updateUser, deleteUser } from '../services/usersApi'
 
 export const useUsers = () => {
   return useQuery({
     queryKey: ['users'], // chave do cache
-    queryFn: fetchUsers // funçao que busca os dados
+    queryFn: fetchUser // funçao que busca os dados
   })
 }
 

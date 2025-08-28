@@ -9,6 +9,7 @@ import Form from '../../components/form'
 import * as S from './styles'
 
 import { useCreateUser } from '../../hooks/useUsers'
+import { toast } from 'sonner'
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
@@ -20,7 +21,7 @@ const registerSchema = z.object({
 
 type RegisterData = z.infer<typeof registerSchema>
 
-export default function Register() {
+export function Register() {
   const {
     register,
     handleSubmit,
@@ -44,7 +45,11 @@ export default function Register() {
       vendedor: data.vendedor ? 'S' : 'N'
     }
 
-    createUser.mutate(userPayload)
+    toast.promise(createUser.mutateAsync(userPayload), {
+      loading: 'Registering user... ',
+      success: 'User registered successfully! ',
+      error: 'Failed to register user. Please try again.'
+    })
   }
 
   return (

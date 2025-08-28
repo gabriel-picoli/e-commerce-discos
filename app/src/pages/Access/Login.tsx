@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -7,6 +9,8 @@ import z from 'zod'
 import * as S from './styles'
 
 import { useAuth } from '../../hooks/useAuth'
+
+import { useAuthStore } from '../../stores/authStore'
 
 import Input from '../../components/input'
 import Form from '../../components/form'
@@ -19,7 +23,7 @@ const loginSchema = z.object({
 
 type LoginData = z.infer<typeof loginSchema>
 
-export default function Login() {
+export function Login() {
   const {
     register,
     handleSubmit,
@@ -31,6 +35,8 @@ export default function Login() {
 
   const { login } = useAuth()
 
+  const { clearAuth } = useAuthStore()
+
   const navigate = useNavigate()
 
   const onSubmit = async ({ email, password }: LoginData) => {
@@ -40,6 +46,10 @@ export default function Login() {
       error: 'Failed to login. Please check your credentials.'
     })
   }
+
+  useEffect(() => {
+    clearAuth()
+  }, [])
 
   return (
     <S.Container>

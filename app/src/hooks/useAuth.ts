@@ -46,7 +46,7 @@ export function useAuth() {
     },
 
     onError: (error) => {
-      console.error('Login error:', error)
+      console.error('Login error: ', error)
     }
   })
 

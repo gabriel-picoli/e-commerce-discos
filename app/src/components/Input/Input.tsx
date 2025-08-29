@@ -1,4 +1,4 @@
-import { forwardRef, useId, useState } from 'react'
+import { forwardRef, useId } from 'react'
 
 import * as S from './styles'
 

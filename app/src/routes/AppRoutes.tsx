@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 
 import { Routes, Route } from 'react-router-dom'
 
-import Layout from '../components/layout/Layout'
+import Layout from '../components/layout'
 
 import { Login } from '../pages/Access/Login'
 import { Register } from '../pages/Access/Register'

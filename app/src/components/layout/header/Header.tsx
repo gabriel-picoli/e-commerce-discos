@@ -14,15 +14,16 @@ export default function Header() {
       <S.Nav>
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
+        <Link to="/contact">Contact</Link>
       </S.Nav>
 
       <S.ActionsContainer>
         <S.Icon>
-          <FiShoppingCart size={20} />
+          <FiSearch size={20} />
         </S.Icon>
 
         <S.Icon>
-          <FiSearch size={20} />
+          <FiShoppingCart size={20} />
         </S.Icon>
 
         <S.Icon>

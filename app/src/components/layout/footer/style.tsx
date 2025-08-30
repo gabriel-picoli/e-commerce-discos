@@ -5,7 +5,7 @@ import theme from '../../../styles/theme'
 export const Footer = styled.footer`
   border-top: 1px solid ${theme.colors.neutral_400};
   padding: 2rem;
-  color: ${theme.colors.neutral_900};
+  color: ${theme.colors.primary};
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -20,7 +20,7 @@ export const FooterTop = styled.div`
 `
 
 export const Logo = styled.h1`
-  color: ${theme.colors.black};
+  color: ${theme.colors.primary};
   font-weight: 900;
   font-size: 1.5rem;
   letter-spacing: -2px;
@@ -37,13 +37,13 @@ export const Nav = styled.nav`
 `
 
 export const NavLink = styled.a`
-  color: ${theme.colors.neutral_900};
+  color: ${theme.colors.primary};
   text-decoration: none;
   font-weight: 500;
   font-size: 0.9rem;
 
   &:hover {
-    color: ${theme.colors.primary};
+    color: ${theme.colors.primaryHover};
   }
 `
 
@@ -54,11 +54,11 @@ export const Socials = styled.div`
 `
 
 export const SocialLink = styled.a`
-  color: ${theme.colors.neutral_900};
+  color: ${theme.colors.primary};
   transition: color 0.2s;
 
   &:hover {
-    color: ${theme.colors.primary};
+    color: ${theme.colors.primaryHover};
   }
 `
 

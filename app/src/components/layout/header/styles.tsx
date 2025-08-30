@@ -4,6 +4,7 @@ import theme from '../../../styles/theme'
 export const Header = styled.header`
   display: flex;
   justify-content: space-between;
+  background-color: ${theme.colors.white};
   align-items: center;
   padding: 1rem 2rem;
   position: sticky;
@@ -29,7 +30,7 @@ export const Logo = styled.img`
 `
 
 export const LogoTitle = styled.h1`
-  color: ${theme.colors.black};
+  color: ${theme.colors.primary};
   font-weight: 900;
   font-size: 2rem;
   letter-spacing: -2px;
@@ -48,14 +49,14 @@ export const Nav = styled.nav`
     text-decoration: none;
     font-weight: 500;
     transition: all 0.2s ease;
-    color: ${theme.colors.black};
+    color: ${theme.colors.primary};
 
     &:hover {
-      transform: scale(1.1);
+      color: ${theme.colors.primaryHover};
     }
 
     &:visited {
-      color: ${theme.colors.black};
+      color: ${theme.colors.primary};
     }
   }
 
@@ -78,10 +79,11 @@ export const Icon = styled.button`
   border: none;
   cursor: pointer;
   padding: 0;
+  color: ${theme.colors.primary};
 
   transition: all 0.2s ease;
 
   &:hover {
-    transform: scale(1.1);
+    color: ${theme.colors.primaryHover};
   }
 `

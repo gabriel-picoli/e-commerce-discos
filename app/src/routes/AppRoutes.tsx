@@ -18,7 +18,7 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
 
         <Route element={<Layout />}>
-          <Route path="/test" element={<Main />} />
+          <Route path="/" element={<Main />} />
         </Route>
       </Routes>
     </Suspense>

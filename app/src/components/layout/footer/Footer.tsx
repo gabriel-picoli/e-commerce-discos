@@ -15,13 +15,13 @@ export default function Footer() {
 
         <S.Socials>
           <S.SocialLink href="#">
-            <FiFacebook />
+            <FiFacebook size={22} />
           </S.SocialLink>
           <S.SocialLink href="#">
-            <FiInstagram />
+            <FiInstagram size={22} />
           </S.SocialLink>
           <S.SocialLink href="#">
-            <FiLinkedin />
+            <FiLinkedin size={22} />
           </S.SocialLink>
         </S.Socials>
       </S.FooterTop>

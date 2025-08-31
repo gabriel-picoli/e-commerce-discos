@@ -4,11 +4,11 @@ import theme from '../../../styles/theme'
 
 export const Footer = styled.footer`
   border-top: 1px solid ${theme.colors.neutral_400};
-  padding: 2rem;
+  padding: 2rem 4rem;
   color: ${theme.colors.primary};
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 `
 
 export const FooterTop = styled.div`
@@ -22,7 +22,7 @@ export const FooterTop = styled.div`
 export const Logo = styled.h1`
   color: ${theme.colors.primary};
   font-weight: 900;
-  font-size: 1.5rem;
+  font-size: 2rem;
   letter-spacing: -2px;
 
   @media (max-width: 768px) {
@@ -40,7 +40,7 @@ export const NavLink = styled.a`
   color: ${theme.colors.primary};
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 1.4rem;
 
   &:hover {
     color: ${theme.colors.primaryHover};
@@ -50,7 +50,6 @@ export const NavLink = styled.a`
 export const Socials = styled.div`
   display: flex;
   gap: 1rem;
-  font-size: 1.5rem;
 `
 
 export const SocialLink = styled.a`

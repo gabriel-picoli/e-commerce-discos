@@ -17,7 +17,7 @@ export const HeroContainer = styled.div`
   align-items: center;
   text-align: center;
   color: white;
-  padding: 2rem;
+  padding: 4rem;
 `
 export const Card = styled.div`
   background-color: ${theme.colors.white};
@@ -35,7 +35,7 @@ export const CardContainer = styled.div`
 `
 
 export const Subtitle = styled.p`
-  font-size: 1.3rem;
+  font-size: 2rem;
   text-align: left;
   color: ${theme.colors.neutral_900};
   letter-spacing: 4px;
@@ -44,15 +44,15 @@ export const Subtitle = styled.p`
 `
 
 export const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 4rem;
   color: ${theme.colors.primary};
-  line-height: 1.3;
+  line-height: 1.2;
   max-width: 450px;
   text-align: left;
   margin-bottom: 1rem;
 `
 export const Description = styled.p`
-  font-size: 1rem;
+  font-size: 1.4rem;
   font-weight: 400;
   color: ${theme.colors.neutral_900};
   text-align: left;

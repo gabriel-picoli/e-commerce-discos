@@ -6,7 +6,7 @@ export const Header = styled.header`
   justify-content: space-between;
   background-color: ${theme.colors.white};
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 2rem 4rem;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -15,12 +15,6 @@ export const Header = styled.header`
     flex-direction: column;
     padding: 1rem;
   } */
-`
-
-export const BrandSection = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 `
 
 export const Logo = styled.img`
@@ -32,11 +26,11 @@ export const Logo = styled.img`
 export const LogoTitle = styled.h1`
   color: ${theme.colors.primary};
   font-weight: 900;
-  font-size: 2rem;
+  font-size: 3rem;
   letter-spacing: -2px;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 `
 
@@ -48,6 +42,7 @@ export const Nav = styled.nav`
   a {
     text-decoration: none;
     font-weight: 500;
+    font-size: 1.6rem;
     transition: all 0.2s ease;
     color: ${theme.colors.primary};
 

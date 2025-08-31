@@ -15,7 +15,7 @@ export default function Hero() {
             editions that bring every track to life — only on vinyl.
           </S.Description>
 
-          <Button.Primary size='large'>Shop Now</Button.Primary>
+          <Button.Primary size="large">Shop Now</Button.Primary>
         </S.CardContainer>
       </S.Card>
     </S.HeroContainer>

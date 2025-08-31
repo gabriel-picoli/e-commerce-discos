@@ -22,7 +22,7 @@ export const HeroContainer = styled.div`
 export const Card = styled.div`
   background-color: ${theme.colors.white};
   padding: 2rem;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: ${theme.shadows.lg};
   max-width: 550px;
   width: 100%;

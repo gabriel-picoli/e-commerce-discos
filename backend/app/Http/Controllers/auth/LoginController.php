@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -25,13 +22,26 @@ class LoginController extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
+        // Regenera a sessão para proteger contra session fixation
+        $request->session()->regenerate();
 
-        $token = $user->createToken('token-name')->plainTextToken;
+        $user = Auth::user();
 
         return response()->json([
             'user' => new UserResource($user),
-            'token' => $token
+
         ]);
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json(['message' => 'Logout realizado com sucesso']);
+    }
 }
+

@@ -19,22 +19,22 @@ const buttonVariants = {
   `,
   outline: css`
     background-color: transparent;
-    border: 2px solid ${theme.colors.black};
-    color: ${theme.colors.black};
+    border: 2px solid ${theme.colors.primary};
+    color: ${theme.colors.primary};
 
     &:hover {
-      background-color: ${theme.colors.black};
+      background-color: ${theme.colors.primary};
       color: white;
     }
   `,
   'rounded-outline': css`
     background-color: transparent;
-    border: 2px solid ${theme.colors.black};
+    border: 2px solid ${theme.colors.primary};
     border-radius: 25px;
-    color: ${theme.colors.black};
+    color: ${theme.colors.primary};
 
     &:hover {
-      background-color: ${theme.colors.black};
+      background-color: ${theme.colors.primary};
       color: white;
     }
   `,

@@ -22,7 +22,7 @@ export const FooterTop = styled.div`
 export const Logo = styled.h1`
   color: ${theme.colors.primary};
   font-weight: 900;
-  font-size: 2rem;
+  font-size: 2.2rem;
   letter-spacing: -2px;
 
   @media (max-width: 768px) {
@@ -69,6 +69,6 @@ export const FooterBottom = styled.div`
 `
 
 export const Copyright = styled.div`
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   color: ${theme.colors.neutral_500};
 `

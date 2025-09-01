@@ -1,5 +1,5 @@
-// Footer.styles.ts
 import styled from 'styled-components'
+
 import theme from '../../../styles/theme'
 
 export const Footer = styled.footer`

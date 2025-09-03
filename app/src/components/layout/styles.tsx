@@ -8,7 +8,6 @@ export const LayoutContainer = styled.div`
 
 export const Main = styled.main`
   flex: 1;
-  padding: 1rem;
 `
 
 export const Footer = styled.footer`

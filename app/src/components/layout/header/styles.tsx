@@ -4,8 +4,9 @@ import theme from '../../../styles/theme'
 export const Header = styled.header`
   display: flex;
   justify-content: space-between;
+  background-color: ${theme.colors.white};
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 2rem 4rem;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -16,12 +17,6 @@ export const Header = styled.header`
   } */
 `
 
-export const BrandSection = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`
-
 export const Logo = styled.img`
   object-fit: contain;
   max-height: 50px;
@@ -29,13 +24,13 @@ export const Logo = styled.img`
 `
 
 export const LogoTitle = styled.h1`
-  color: ${theme.colors.black};
+  color: ${theme.colors.primary};
   font-weight: 900;
-  font-size: 2rem;
+  font-size: 3rem;
   letter-spacing: -2px;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 `
 
@@ -47,15 +42,16 @@ export const Nav = styled.nav`
   a {
     text-decoration: none;
     font-weight: 500;
+    font-size: 1.6rem;
     transition: all 0.2s ease;
-    color: ${theme.colors.black};
+    color: ${theme.colors.primary};
 
     &:hover {
-      transform: scale(1.1);
+      color: ${theme.colors.primaryHover};
     }
 
     &:visited {
-      color: ${theme.colors.black};
+      color: ${theme.colors.primary};
     }
   }
 
@@ -78,10 +74,11 @@ export const Icon = styled.button`
   border: none;
   cursor: pointer;
   padding: 0;
+  color: ${theme.colors.primary};
 
   transition: all 0.2s ease;
 
   &:hover {
-    transform: scale(1.1);
+    color: ${theme.colors.primaryHover};
   }
 `

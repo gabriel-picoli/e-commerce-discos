@@ -1,14 +1,14 @@
-// Footer.styles.ts
 import styled from 'styled-components'
+
 import theme from '../../../styles/theme'
 
 export const Footer = styled.footer`
   border-top: 1px solid ${theme.colors.neutral_400};
-  padding: 2rem;
-  color: ${theme.colors.neutral_900};
+  padding: 2rem 4rem;
+  color: ${theme.colors.primary};
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 `
 
 export const FooterTop = styled.div`
@@ -20,9 +20,9 @@ export const FooterTop = styled.div`
 `
 
 export const Logo = styled.h1`
-  color: ${theme.colors.black};
+  color: ${theme.colors.primary};
   font-weight: 900;
-  font-size: 1.5rem;
+  font-size: 2.2rem;
   letter-spacing: -2px;
 
   @media (max-width: 768px) {
@@ -37,28 +37,27 @@ export const Nav = styled.nav`
 `
 
 export const NavLink = styled.a`
-  color: ${theme.colors.neutral_900};
+  color: ${theme.colors.primary};
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 1.4rem;
 
   &:hover {
-    color: ${theme.colors.primary};
+    color: ${theme.colors.primaryHover};
   }
 `
 
 export const Socials = styled.div`
   display: flex;
   gap: 1rem;
-  font-size: 1.5rem;
 `
 
 export const SocialLink = styled.a`
-  color: ${theme.colors.neutral_900};
+  color: ${theme.colors.primary};
   transition: color 0.2s;
 
   &:hover {
-    color: ${theme.colors.primary};
+    color: ${theme.colors.primaryHover};
   }
 `
 
@@ -70,6 +69,6 @@ export const FooterBottom = styled.div`
 `
 
 export const Copyright = styled.div`
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   color: ${theme.colors.neutral_500};
 `

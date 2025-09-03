@@ -42,7 +42,7 @@ export function useAuth() {
       queryClient.invalidateQueries({ queryKey: ['user'] })
 
       // redireciona pos login
-      navigate('/test')
+      navigate('/')
     },
 
     onError: (error) => {

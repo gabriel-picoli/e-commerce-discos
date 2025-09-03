@@ -7,9 +7,7 @@ import * as S from './styles'
 export default function Header() {
   return (
     <S.Header>
-      <S.BrandSection>
-        <S.LogoTitle>Pozzoleone</S.LogoTitle>
-      </S.BrandSection>
+      <S.LogoTitle>Pozzoleone</S.LogoTitle>
 
       <S.Nav>
         <Link to="/">Home</Link>

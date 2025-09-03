@@ -1,15 +1,14 @@
-import { useAuthStore } from '../../stores/authStore'
+import * as S from './styles'
+
+import Hero from '../../components/hero'
+import Section from '../../components/section/Section'
 
 export default function Main() {
-  const user = useAuthStore((state) => state.user)
-
   return (
-    <div>
-      <h3>user logado</h3>
-      <p>{user?.id}</p>
-      <p>{user?.name}</p>
-      <p>{user?.email}</p>
-      <p>{user?.vendedor}</p>
-    </div>
+    <S.Main>
+      <Hero />
+
+      <Section />
+    </S.Main>
   )
 }

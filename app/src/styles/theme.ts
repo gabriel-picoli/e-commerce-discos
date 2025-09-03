@@ -1,8 +1,8 @@
 const theme = {
   colors: {
     // brand
-    primary: '#c45e5eff',
-    primaryHover: '#994f4fff',
+    primary: '#692E27',
+    primaryHover: '#50231eff',
 
     // estados
     red: '#DC3545',

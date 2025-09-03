@@ -12,6 +12,8 @@ import { useAuth } from '../../hooks/useAuth'
 
 import { useAuthStore } from '../../stores/authStore'
 
+import getCsrfCookie from '../../utils/getCsrfCookie'
+
 import Input from '../../components/input'
 import Form from '../../components/form'
 import Button from '../../components/button'
@@ -40,6 +42,8 @@ export function Login() {
   const navigate = useNavigate()
 
   const onSubmit = async ({ email, password }: LoginData) => {
+    await getCsrfCookie()
+
     toast.promise(login({ email, password }), {
       loading: 'Logging in...',
       success: 'Welcome back!',

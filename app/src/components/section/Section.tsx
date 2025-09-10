@@ -32,6 +32,7 @@ function VinylAd({ name, price, image }: VinylAdProps) {
   return (
     <S.VinylAdCard>
       <S.VinylImage src={image} alt={name} />
+      
       <S.VinylInfo>
         <S.VinylName>{name}</S.VinylName>
         <S.VinylPrice>{price}</S.VinylPrice>

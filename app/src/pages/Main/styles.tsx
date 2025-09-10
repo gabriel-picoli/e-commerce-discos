@@ -9,6 +9,13 @@ export const Main = styled.main`
   position: relative;
 `
 
+export const SectionContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+`
+
 export const Title = styled.h1`
   font-size: 4.8rem;
   font-weight: 900;

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 
-import { FiSearch, FiShoppingCart, FiUser } from 'react-icons/fi'
+import { FiShoppingCart, FiUser } from 'react-icons/fi'
 
 import * as S from './styles'
+import Search from '../../search'
 
 export default function Header() {
   return (
@@ -16,9 +17,11 @@ export default function Header() {
       </S.Nav>
 
       <S.ActionsContainer>
-        <S.Icon>
-          <FiSearch size={20} />
-        </S.Icon>
+        <Search
+          onSearch={(value) => {
+            console.log('onSearch: ', value)
+          }}
+        />
 
         <S.Icon>
           <FiShoppingCart size={20} />

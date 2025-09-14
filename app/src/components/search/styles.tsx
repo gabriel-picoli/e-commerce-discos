@@ -8,7 +8,7 @@ export const SearchContainer = styled.div`
   position: relative;
 `
 
-export const SearchIconButton = styled.button`
+export const SearchIcon = styled.button`
   display: inline-flex;
   align-items: center;
   color: ${theme.colors.primary};

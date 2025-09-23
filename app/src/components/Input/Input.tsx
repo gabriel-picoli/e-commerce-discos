@@ -1,6 +1,6 @@
 import { forwardRef, useId } from 'react'
 
-import * as S from './styles'
+import * as S from './styles.tsx'
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string
@@ -35,7 +35,7 @@ Input.Checkbox = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, 
     <S.CheckboxContainer>
       <S.HiddenCheckbox ref={ref} {...props} />
       <S.Checkbox />
-      {label}
+      <S.CheckboxLabel>{label}</S.CheckboxLabel>
     </S.CheckboxContainer>
   )
 })

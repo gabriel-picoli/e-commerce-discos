@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
-import Input from '../../components/input'
+import Input from '../../components/Input'
 import Button from '../../components/button'
 import Form from '../../components/form'
 
@@ -109,9 +109,11 @@ export function Register() {
               helperText={errors.vendedor?.message}
             />
 
-            <Button.Primary type="submit" size="medium">
-              Sign Up
-            </Button.Primary>
+            <S.ButtonContainer>
+              <Button.Primary type="submit" size="medium">
+                Sign Up
+              </Button.Primary>
+            </S.ButtonContainer>
           </Form>
         </S.FormContainer>
       </S.RightPanel>

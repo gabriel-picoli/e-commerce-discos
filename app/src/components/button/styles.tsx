@@ -73,6 +73,7 @@ export const Button = styled.button<ButtonProps>`
   transition: all 0.3s ease;
   border-radius: 2px;
   font-weight: 500;
+  width: 100%;
 
   ${({ $variant }) => buttonVariants[$variant]}
 

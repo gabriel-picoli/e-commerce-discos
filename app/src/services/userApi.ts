@@ -20,7 +20,7 @@ export const createUser = async (user: User) => {
   return data
 }
 
-// funçao para atualizaçao de dados do usuario
+// atualiza dados do usuario
 export const updateUser = async (user: Partial<User>) => {
   console.log(user)
 

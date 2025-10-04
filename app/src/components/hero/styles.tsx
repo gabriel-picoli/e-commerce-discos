@@ -19,6 +19,7 @@ export const HeroContainer = styled.div`
   color: white;
   padding: 4rem;
 `
+
 export const Card = styled.div`
   background-color: ${theme.colors.white};
   padding: 2rem;
@@ -44,15 +45,16 @@ export const Subtitle = styled.p`
 `
 
 export const Title = styled.h1`
-  font-size: 4rem;
+  font-size: 4.8rem;
   color: ${theme.colors.primary};
   line-height: 1.2;
   max-width: 450px;
   text-align: left;
   margin-bottom: 1rem;
 `
+
 export const Description = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 400;
   color: ${theme.colors.neutral_900};
   text-align: left;

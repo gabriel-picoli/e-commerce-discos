@@ -8,17 +8,17 @@ export const InputContainer = styled.div`
 `
 
 export const Label = styled.label`
-  font-size: 1rem;
+  font-size: 1.6rem;
   color: ${theme.colors.neutral_900};
   margin-bottom: 0.2rem;
   font-weight: 600;
 `
 
 export const Input = styled.input<{ $hasError: boolean }>`
-  padding: 0.5rem;
+  padding: 0.8rem;
   border: 1px solid ${(props) => (props.$hasError ? `${theme.colors.red}` : '#ccc')};
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 1.6rem;
   background-color: transparent;
 
   &:focus {
@@ -28,7 +28,7 @@ export const Input = styled.input<{ $hasError: boolean }>`
 
   &::placeholder {
     color: ${theme.colors.neutral_500};
-    font-size: 0.9rem;
+    font-size: 1.4rem;
   }
 `
 
@@ -103,19 +103,19 @@ export const Checkbox = styled.span`
 
   ${HiddenCheckbox}:checked + &::after {
     content: '✔';
-    font-size: 12px;
+    font-size: 1.2rem;
     color: white;
     display: block;
   }
 `
 
 export const CheckboxLabel = styled.label`
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   color: ${theme.colors.neutral_900};
 `
 
 export const ErrorMessage = styled.span`
   color: ${theme.colors.red};
-  font-size: 0.775rem;
+  font-size: 1.2rem;
   margin-top: 0.2rem;
 `

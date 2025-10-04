@@ -14,7 +14,7 @@ import { useAuthStore } from '../../stores/authStore'
 
 import getCsrfCookie from '../../utils/getCsrfCookie'
 
-import Input from '../../components/input'
+import Input from '../../components/Input'
 import Form from '../../components/form'
 import Button from '../../components/button'
 
@@ -88,9 +88,11 @@ export function Login() {
               helperText={errors.password?.message}
             />
 
-            <Button.Primary type="submit" size="medium">
-              Sign In
-            </Button.Primary>
+            <S.ButtonContainer>
+              <Button.Primary type="submit" size="medium">
+                Sign In
+              </Button.Primary>
+            </S.ButtonContainer>
           </Form>
 
           <S.FormFooter>

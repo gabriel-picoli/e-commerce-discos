@@ -22,6 +22,11 @@ export const SearchIcon = styled.button`
 `
 
 export const SearchInput = styled.input<{ $open?: boolean }>`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
   width: ${(props) => (props.$open ? '220px' : '0px')};
   opacity: ${(props) => (props.$open ? 1 : 0)};
   margin-left: ${(props) => (props.$open ? '8px' : '0')};

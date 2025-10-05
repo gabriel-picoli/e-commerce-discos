@@ -26,13 +26,14 @@ type VinylAdProps = {
   name: string
   price: string
   image: string
+  onClick?: () => void
 }
 
-function VinylAd({ name, price, image }: VinylAdProps) {
+function VinylAd({ name, price, image, onClick }: VinylAdProps) {
   return (
-    <S.VinylAdCard>
+    <S.VinylAdCard onClick={onClick}>
       <S.VinylImage src={image} alt={name} />
-      
+
       <S.VinylInfo>
         <S.VinylName>{name}</S.VinylName>
         <S.VinylPrice>{price}</S.VinylPrice>

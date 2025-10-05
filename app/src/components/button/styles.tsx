@@ -51,7 +51,7 @@ const buttonVariants = {
 
 const buttonSizes = {
   small: css`
-    padding: 8px 16px;
+    padding: 12px 24px;
     font-size: 14px;
   `,
   medium: css`
@@ -67,11 +67,14 @@ const buttonSizes = {
 export const Button = styled.button<ButtonProps>`
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
   margin: 4px 2px;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 2px;
+  border-radius: 8px;
   font-weight: 500;
   width: 100%;
 

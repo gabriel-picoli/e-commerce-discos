@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 
-import { FiShoppingCart, FiUser } from 'react-icons/fi'
+import { FiUser } from 'react-icons/fi'
 
 import * as S from './styles'
+
 import Search from '../../search'
+import ShoppingCart from '../../shopping-cart'
 
 export default function Header() {
   return (
@@ -24,11 +26,11 @@ export default function Header() {
         />
 
         <S.Icon>
-          <FiShoppingCart size={20} />
+          <FiUser size={20} />
         </S.Icon>
 
         <S.Icon>
-          <FiUser size={20} />
+          <ShoppingCart />
         </S.Icon>
       </S.ActionsContainer>
     </S.Header>

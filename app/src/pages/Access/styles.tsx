@@ -50,7 +50,7 @@ export const BrandSection = styled.div`
 `
 
 export const BrandName = styled.h1`
-  font-size: 4rem;
+  font-size: 7rem;
   font-weight: 900;
   color: ${theme.colors.white};
   letter-spacing: -2px;
@@ -65,7 +65,7 @@ export const BrandName = styled.h1`
 `
 
 export const BrandTagline = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   color: ${theme.colors.neutral_400};
   font-weight: 300;
   letter-spacing: 1.5px;
@@ -133,7 +133,7 @@ export const FormHeader = styled.div`
 `
 
 export const FormTitle = styled.h2`
-  font-size: 3.3rem;
+  font-size: 4.3rem;
   font-weight: 900;
   color: #1a1a1a;
   margin-bottom: 0.5rem;
@@ -142,9 +142,13 @@ export const FormTitle = styled.h2`
 
 export const FormSubtitle = styled.p`
   color: #666;
-  font-size: 0.95rem;
+  font-size: 1.4rem;
   font-weight: 400;
   line-height: 1.5;
+`
+
+export const ButtonContainer = styled.div`
+  margin-top: 2rem;
 `
 
 export const FormFooter = styled.div`
@@ -156,7 +160,7 @@ export const FormFooter = styled.div`
 
 export const FooterText = styled.p`
   color: #666;
-  font-size: 0.9rem;
+  font-size: 1.4rem;
   margin-bottom: 1rem;
 `
 
@@ -164,6 +168,7 @@ export const FooterLink = styled.a`
   color: ${theme.colors.primary};
   text-decoration: none;
   font-weight: 500;
+  font-size: 1.4rem;
   transition: color 0.2s ease;
   cursor: pointer;
 

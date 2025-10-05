@@ -1,7 +1,9 @@
+import type { ReactNode } from 'react'
+
 import * as S from './styles'
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  children: React.ReactNode
+  children: ReactNode
   size?: 'small' | 'medium' | 'large'
   variant?: 'primary' | 'outline' | 'rounded-outline' | 'cancel'
 }

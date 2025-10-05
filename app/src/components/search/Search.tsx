@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 
 import * as S from './styles'
 
-import useDebounce from '../../hooks/useDebounce'
 import { FiSearch } from 'react-icons/fi'
+
+import useDebounce from '../../hooks/useDebounce'
+
+import Icon from '../icon'
 
 type SearchProps = {
   onSearch: (query: string) => void
@@ -57,13 +60,13 @@ export default function Search({
 
   return (
     <S.SearchContainer ref={containerRef} data-open={open}>
-      <S.SearchIconButton
+      <Icon
         aria-expanded={open}
         aria-label={open ? 'Close search' : 'Open search'}
         onClick={() => setOpen(!open)}
       >
         <FiSearch size={20} />
-      </S.SearchIconButton>
+      </Icon>
 
       <S.SearchInput
         ref={inputRef}

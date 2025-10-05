@@ -10,6 +10,11 @@ const GlobalStyle = createGlobalStyle`
      font-size: 62.5%;
    }
 
+   // resolve bug de aparecer cursor pointer em div de overlay 
+   div {
+      cursor: default;
+   }
+
 `
 
 export default GlobalStyle

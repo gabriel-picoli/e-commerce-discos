@@ -56,7 +56,6 @@ export const VinylAdCard = styled.div`
     box-shadow 0.25s ease;
 
   &:hover {
-    transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
   }
 `

@@ -301,7 +301,6 @@ export default function ProductDetailWrapper() {
 
   return (
     <>
-      <Hero />
       <ProductDetail product={product} />
     </>
   )

@@ -30,7 +30,7 @@ export const MainImage = styled.div`
   aspect-ratio: 1;
   border-radius: 24px;
   overflow: hidden;
-  background: #f8f8f8;
+  background: ${theme.colors.neutral_100};
   margin-bottom: 16px;
 
   img {
@@ -113,7 +113,7 @@ export const SizeBadge = styled.span<{ $active?: boolean }>`
   height: 32px;
   padding: 0 22px;
   border-radius: 16px;
-  font-size: 0.8125rem;
+  font-size: 1rem;
   text-transform: uppercase;
   font-weight: 600;
   cursor: default;
@@ -226,7 +226,7 @@ export const QuantitySelector = styled.div`
   display: flex;
   align-items: center;
   gap: 0;
-  border: 2px solid #e5e5e5;
+  border: 2px solid ${theme.colors.primary};
   border-radius: 12px;
   overflow: hidden;
   background: #fff;
@@ -241,7 +241,7 @@ export const QuantityButton = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #111;
+  color: ${theme.colors.primary};
   font-size: 1.25rem;
   transition: all 0.2s ease;
 
@@ -259,7 +259,7 @@ export const QuantityValue = styled.span`
   text-align: center;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #111;
+  color: ${theme.colors.primary};
 `
 
 export const Actions = styled.div`
@@ -298,9 +298,9 @@ export const DetailHeader = styled.button<{ $open?: boolean }>`
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  color: #111;
+  color: ${theme.colors.neutral_900};
   text-align: left;
 
   svg {
@@ -347,13 +347,13 @@ export const IconItem = styled.div`
   svg {
     width: 32px;
     height: 32px;
-    color: #555;
+    color: ${theme.colors.primary};
   }
 `
 
 export const IconLabel = styled.span`
   font-size: 1.2rem;
-  color: #777;
+  color: ${theme.colors.neutral_700};
   font-weight: 500;
 `
 

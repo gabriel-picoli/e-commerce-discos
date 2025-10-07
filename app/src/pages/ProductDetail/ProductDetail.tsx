@@ -14,15 +14,16 @@ import {
   FiPackage,
   FiTruck,
   FiShield,
-  FiShoppingCart
+  FiShoppingCart,
+  FiAlertCircle
 } from 'react-icons/fi'
 
 import type { Product } from '../../interfaces/Products'
 
 import * as S from './styles'
 
-import Button from '../button'
-import Hero from '../hero'
+import Button from '../../components/button'
+import Hero from '../../components/hero'
 
 type ProductDetailProps = {
   product: Product
@@ -282,23 +283,25 @@ export default function ProductDetailWrapper() {
 
   if (!product) {
     return (
-      <div
-        style={{
-          padding: '64px',
-          textAlign: 'center',
-          fontSize: '1.25rem',
-          color: '#777'
-        }}
-      >
-        Produto não encontrado
-      </div>
+      <S.NotFoundContainer>
+        <S.NotFoundCard>
+          <S.IconWrapper>
+            <FiAlertCircle size={60} />
+          </S.IconWrapper>
+
+          <S.NotFoundTitle>Produto não encontrado</S.NotFoundTitle>
+
+          <S.NotFoundSubtitle>
+            O produto que você procura não está disponível ou foi removido.
+          </S.NotFoundSubtitle>
+        </S.NotFoundCard>
+      </S.NotFoundContainer>
     )
   }
 
   return (
     <>
       <Hero />
-
       <ProductDetail product={product} />
     </>
   )

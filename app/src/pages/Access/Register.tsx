@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
-import Input from '../../components/Input'
+import Input from '../../components/input'
 import Button from '../../components/button'
 import Form from '../../components/form'
 

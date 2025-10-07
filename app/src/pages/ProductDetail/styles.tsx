@@ -362,3 +362,41 @@ export const IconValue = styled.span`
   color: #111;
   font-weight: 600;
 `
+
+export const NotFoundContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  background: #f8f9fa;
+  padding: 2rem;
+`
+
+export const NotFoundCard = styled.div`
+  background: #fff;
+  padding: 3rem 4rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 480px;
+  transition: all 0.3s ease;
+`
+
+export const IconWrapper = styled.div`
+  color: ${theme.colors.red};
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+`
+
+export const NotFoundTitle = styled.h2`
+  font-size: 2.6rem;
+  color: #222;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+`
+
+export const NotFoundSubtitle = styled.p`
+  font-size: 1.4rem;
+  color: #777;
+  line-height: 1.6;
+`

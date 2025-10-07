@@ -6,13 +6,14 @@ import Layout from '../components/layout'
 
 import { Login } from '../pages/Access/Login'
 import { Register } from '../pages/Access/Register'
+import Loading from '../components/loading/Loading'
 
 const Main = lazy(() => import('../pages/Main/Main'))
 const ProductDetail = lazy(() => import('../pages/ProductDetail/ProductDetail'))
 
 export default function AppRoutes() {
   return (
-    <Suspense fallback={<p>carregando...</p>}>
+    <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/login" element={<Login />} />
 

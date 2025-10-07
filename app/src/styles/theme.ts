@@ -18,14 +18,17 @@ const theme = {
     neutral_50: '#F9F9F9', // fundo geral (app, páginas)
     neutral_100: '#F4F4F4', // superfícies claras
     neutral_200: '#E5E5E5', // bordas, divisores
-    neutral_300: '#D3D3D3', // texto secundário claro
-    neutral_400: '#ADB5BD', // texto desabilitado
-    neutral_500: '#6C757D', // texto secundário
-    neutral_900: '#262323', // texto/preto principal
+    neutral_300: '#D3D3D3',
+    neutral_400: '#ADB5BD',
+    neutral_500: '#6C757D',
+    neutral_600: '#495057',
+    neutral_700: '#343A40',
+    neutral_800: '#212529',
+    neutral_900: '#262323',
 
     // utilitarias
     white: '#FFFFFF',
-    black: '#000000'
+    black: '#1a1a1aff'
   },
 
   // tipografia

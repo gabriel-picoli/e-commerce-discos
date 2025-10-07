@@ -23,7 +23,6 @@ import type { Product } from '../../interfaces/Products'
 import * as S from './styles'
 
 import Button from '../../components/button'
-import Hero from '../../components/hero'
 
 type ProductDetailProps = {
   product: Product
@@ -76,6 +75,7 @@ function ProductDetail({ product }: ProductDetailProps) {
         <S.MainImage>
           <img src={images[selectedImage]} alt={product.name} />
         </S.MainImage>
+
         <S.Thumbs>
           {images.map((img, idx) => (
             <S.ThumbButton
@@ -93,6 +93,7 @@ function ProductDetail({ product }: ProductDetailProps) {
         <S.Header>
           <S.TitleWrapper>
             <S.Title>{product.name}</S.Title>
+
             <S.SizeBadge
               $active={true}
               style={{
@@ -115,6 +116,7 @@ function ProductDetail({ product }: ProductDetailProps) {
 
         <S.PriceSection>
           {product.preco && <S.Price>R$ {product.preco.toFixed(2).replace('.', ',')}</S.Price>}
+
           <S.StockBadge $available={product.quanti > 0}>
             {product.quanti > 0
               ? `${product.quanti} ${product.quanti === 1 ? 'unidade' : 'unidades'} disponível`
@@ -138,7 +140,9 @@ function ProductDetail({ product }: ProductDetailProps) {
                   >
                     <FiMinus />
                   </S.QuantityButton>
+
                   <S.QuantityValue>{quantity}</S.QuantityValue>
+
                   <S.QuantityButton
                     onClick={() => setQuantity(Math.min(maxQuantity, quantity + 1))}
                     disabled={quantity >= maxQuantity}
@@ -163,17 +167,23 @@ function ProductDetail({ product }: ProductDetailProps) {
         <S.IconGrid>
           <S.IconItem>
             <FiTruck />
+
             <S.IconLabel>Envio rápido</S.IconLabel>
+
             <S.IconValue>3-5 dias</S.IconValue>
           </S.IconItem>
           <S.IconItem>
             <FiShield />
+
             <S.IconLabel>Garantia</S.IconLabel>
+
             <S.IconValue>30 dias</S.IconValue>
           </S.IconItem>
           <S.IconItem>
             <FiPackage />
+
             <S.IconLabel>Embalagem</S.IconLabel>
+            
             <S.IconValue>Protegida</S.IconValue>
           </S.IconItem>
         </S.IconGrid>

@@ -6,9 +6,9 @@ import Layout from '../components/layout'
 
 import { Login } from '../pages/Access/Login'
 import { Register } from '../pages/Access/Register'
-import ProductDetailWrapper from '../components/product-detail'
 
 const Main = lazy(() => import('../pages/Main/Main'))
+const ProductDetail = lazy(() => import('../pages/ProductDetail/ProductDetail'))
 
 export default function AppRoutes() {
   return (
@@ -20,7 +20,7 @@ export default function AppRoutes() {
 
         <Route element={<Layout />}>
           <Route path="/" element={<Main />} />
-          <Route path="/product" element={<ProductDetailWrapper />} />
+          <Route path="/product" element={<ProductDetail />} />
         </Route>
       </Routes>
     </Suspense>

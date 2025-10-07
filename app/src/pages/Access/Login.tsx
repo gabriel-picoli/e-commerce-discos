@@ -14,7 +14,7 @@ import { useAuthStore } from '../../stores/authStore'
 
 import getCsrfCookie from '../../utils/getCsrfCookie'
 
-import Input from '../../components/Input'
+import Input from '../../components/input'
 import Form from '../../components/form'
 import Button from '../../components/button'
 

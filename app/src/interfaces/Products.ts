@@ -8,6 +8,6 @@ export interface Product {
   quanti: number
   capa: string
   lancamento: string
+  preco: number
   id_user: number
-  preco?: number
 }

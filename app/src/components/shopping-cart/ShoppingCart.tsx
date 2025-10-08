@@ -2,12 +2,21 @@ import { useState } from 'react'
 
 import { FiShoppingCart, FiX } from 'react-icons/fi'
 
+import { useCartStore } from '../../stores/cartStore'
+
+import { formatCurrency } from '../../utils/currency'
+
 import * as S from './styles'
 
 import Icon from '../icon'
+import CartItem from './item/CartItem'
 
 export default function ShoppingCart() {
   const [open, setOpen] = useState(false)
+
+  const { items } = useCartStore()
+
+  const total = items.reduce((acc, item) => acc + item.product.preco * item.quantity, 0)
 
   return (
     <>
@@ -19,40 +28,36 @@ export default function ShoppingCart() {
         </Icon>
 
         <S.SideCart className={open ? 'active' : ''}>
-          <header>
-            <h2>Shopping Cart</h2>
-            <button onClick={() => setOpen(false)}>
+          <S.Header>
+            <S.Title>Shopping Cart</S.Title>
+
+            <S.CloseButton onClick={() => setOpen(false)}>
               <FiX size={20} />
-            </button>
-          </header>
+            </S.CloseButton>
+          </S.Header>
 
-          <div className="items">
-            <div className="item">
-              <img src="https://via.placeholder.com/60" alt="Asgaard sofa" />
-              <div>
-                <p>Asgaard sofa</p>
-                <span>1 x Rs. 250,000.00</span>
-              </div>
-            </div>
-            <div className="item">
-              <img src="https://via.placeholder.com/60" alt="Casaliving Wood" />
-              <div>
-                <p>Casaliving Wood</p>
-                <span>1 x Rs. 270,000.00</span>
-              </div>
-            </div>
-          </div>
+          <S.ItemWrapper>
+            {items.length === 0 ? (
+              <S.EmptyMessage>
+                Seu carrinho está vazio
+                <FiShoppingCart size={18} />
+              </S.EmptyMessage>
+            ) : (
+              items.map((product) => (
+                <CartItem
+                  key={product.product.id}
+                  product={product.product}
+                  quantity={product.quantity}
+                />
+              ))
+            )}
+          </S.ItemWrapper>
 
-          <div className="subtotal">
-            <span>Subtotal</span>
-            <strong>Rs. 520,000.00</strong>
-          </div>
+          <S.Footer>
+            <S.SubtotalTitle>Subtotal</S.SubtotalTitle>
 
-          <footer>
-            <button>Cart</button>
-            <button>Checkout</button>
-            <button>Comparison</button>
-          </footer>
+            <S.Subtotal>{formatCurrency(total)}</S.Subtotal>
+          </S.Footer>
         </S.SideCart>
       </S.CartWrapper>
     </>

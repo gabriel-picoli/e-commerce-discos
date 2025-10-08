@@ -29,9 +29,7 @@ export default function Header() {
           <FiUser size={20} />
         </S.Icon>
 
-        <S.Icon>
-          <ShoppingCart />
-        </S.Icon>
+        <ShoppingCart />
       </S.ActionsContainer>
     </S.Header>
   )

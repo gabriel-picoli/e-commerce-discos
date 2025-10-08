@@ -23,6 +23,7 @@ import type { Product } from '../../interfaces/Products'
 import * as S from './styles'
 
 import Button from '../../components/button'
+import { useCartStore } from '../../stores/cartStore'
 
 type ProductDetailProps = {
   product: Product
@@ -36,6 +37,8 @@ function ProductDetail({ product }: ProductDetailProps) {
     conservation: false,
     shipping: false
   })
+
+  const addToCart = useCartStore((state) => state.addToCart)
 
   const images = [product.capa, product.capa, product.capa]
 
@@ -156,7 +159,12 @@ function ProductDetail({ product }: ProductDetailProps) {
 
           {product.quanti > 0 && (
             <S.Actions>
-              <Button.Primary size="small">
+              <Button.Primary
+                size="small"
+                onClick={() => {
+                  addToCart(product, quantity)
+                }}
+              >
                 <FiShoppingCart size={20} />
                 Adicionar ao carrinho
               </Button.Primary>
@@ -183,7 +191,7 @@ function ProductDetail({ product }: ProductDetailProps) {
             <FiPackage />
 
             <S.IconLabel>Embalagem</S.IconLabel>
-            
+
             <S.IconValue>Protegida</S.IconValue>
           </S.IconItem>
         </S.IconGrid>
@@ -289,6 +297,7 @@ function ProductDetail({ product }: ProductDetailProps) {
 
 export default function ProductDetailWrapper() {
   const location = useLocation()
+
   const { product } = location.state || {}
 
   if (!product) {

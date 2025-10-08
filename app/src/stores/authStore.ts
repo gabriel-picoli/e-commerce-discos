@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 import type { User } from '../interfaces/User'
 
-interface AuthState {
+type AuthState = {
   user: User | null
   token: string | null
   setAuth: (user: User, token: string) => void

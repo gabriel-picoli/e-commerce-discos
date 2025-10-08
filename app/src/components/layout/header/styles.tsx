@@ -10,6 +10,7 @@ export const Header = styled.header`
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: ${theme.shadows.lg};
 
   /* @media (max-width: 768px) {
     flex-direction: column;

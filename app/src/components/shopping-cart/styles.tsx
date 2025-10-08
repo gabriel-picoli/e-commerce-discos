@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import theme from '../../styles/theme'
+
 export const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -41,25 +43,6 @@ export const SideCart = styled.aside`
     right: 0;
   }
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #eee;
-
-    h2 {
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    button {
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-  }
-
   .items {
     flex: 1;
     overflow-y: auto;
@@ -89,39 +72,69 @@ export const SideCart = styled.aside`
       }
     }
   }
+`
 
-  .subtotal {
-    display: flex;
-    justify-content: space-between;
-    padding: 16px;
-    border-top: 1px solid #eee;
-    font-size: 14px;
+export const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+`
 
-    strong {
-      color: #d97706;
-    }
+export const Title = styled.h2`
+  color: ${theme.colors.primary};
+  font-size: 2rem;
+  font-weight: 600;
+`
+
+export const CloseButton = styled.button`
+  background: none;
+  color: ${theme.colors.primary};
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: ${theme.colors.primaryHover};
   }
+`
 
-  footer {
-    display: flex;
-    justify-content: space-around;
-    padding: 12px;
-    border-top: 1px solid #eee;
+export const ItemWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
 
-    button {
-      flex: 1;
-      margin: 0 4px;
-      padding: 10px;
-      border-radius: 20px;
-      border: 1px solid #333;
-      background: none;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.2s;
+export const Footer = styled.footer`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-top: 1px solid #eee;
+`
 
-      &:hover {
-        background: #f5f5f5;
-      }
-    }
-  }
+export const SubtotalTitle = styled.div`
+  color: ${theme.colors.primary};
+  font-size: 1.6rem;
+  font-weight: 600;
+`
+
+export const Subtotal = styled.div`
+  color: ${theme.colors.primary};
+  font-size: 2rem;
+  font-weight: 600;
+`
+
+export const EmptyMessage = styled.p`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1.8rem;
+  color: ${theme.colors.neutral_400};
+  text-align: center;
+  padding: 2.2rem;
 `

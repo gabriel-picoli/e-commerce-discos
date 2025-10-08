@@ -52,7 +52,7 @@ const buttonVariants = {
 const buttonSizes = {
   small: css`
     padding: 12px 24px;
-    font-size: 14px;
+    font-size: 12px;
   `,
   medium: css`
     padding: 13px 30px;

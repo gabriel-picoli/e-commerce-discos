@@ -27,7 +27,7 @@ export const SearchInput = styled.input<{ $open?: boolean }>`
   top: 50%;
   transform: translateY(-50%);
 
-  width: ${(props) => (props.$open ? '220px' : '0px')};
+  width: ${(props) => (props.$open ? '280px' : '0px')};
   opacity: ${(props) => (props.$open ? 1 : 0)};
   margin-left: ${(props) => (props.$open ? '8px' : '0')};
   padding: ${(props) => (props.$open ? '6px 10px' : '0')};
@@ -35,12 +35,13 @@ export const SearchInput = styled.input<{ $open?: boolean }>`
   border: none;
   height: 36px;
   font-size: 14px;
+  outline: none;
+  
   transition:
     width 220ms ease,
     opacity 220ms ease,
     margin-left 220ms ease,
     padding 220ms ease;
-  outline: none;
 
   pointer-events: ${(props) => (props.$open ? 'auto' : 'none')};
 

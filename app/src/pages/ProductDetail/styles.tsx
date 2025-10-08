@@ -368,7 +368,6 @@ export const NotFoundContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 70vh;
-  background: #f8f9fa;
   padding: 2rem;
 `
 

@@ -1,4 +1,4 @@
-import { FiFacebook, FiInstagram, FiLinkedin, FiTwitter, FiX } from 'react-icons/fi'
+import { FiFacebook, FiInstagram, FiLinkedin } from 'react-icons/fi'
 import * as S from './style'
 
 export default function Footer() {
@@ -17,9 +17,11 @@ export default function Footer() {
           <S.SocialLink href="#">
             <FiFacebook size={22} />
           </S.SocialLink>
+
           <S.SocialLink href="#">
             <FiInstagram size={22} />
           </S.SocialLink>
+          
           <S.SocialLink href="#">
             <FiLinkedin size={22} />
           </S.SocialLink>

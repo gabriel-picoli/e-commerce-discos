@@ -2,8 +2,8 @@ import * as S from './styles'
 
 export default function Shop() {
   return (
-    <div>
+    <S.Container>
       <h1>shop page</h1>
-    </div>
+    </S.Container>
   )
 }

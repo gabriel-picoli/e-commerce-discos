@@ -1,16 +1,11 @@
-import { useEffect } from 'react'
-
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
 
 import * as S from './styles'
 
 import { useAuth } from '../../hooks/useAuth'
-
-import { useAuthStore } from '../../stores/authStore'
 
 import getCsrfCookie from '../../utils/getCsrfCookie'
 
@@ -37,8 +32,6 @@ export function Login() {
 
   const { login, isLoading } = useAuth()
 
-  const { clearAuth } = useAuthStore()
-
   const navigate = useNavigate()
 
   const onSubmit = async (data: LoginData) => {
@@ -46,10 +39,6 @@ export function Login() {
 
     await login(data)
   }
-
-  useEffect(() => {
-    clearAuth()
-  }, [])
 
   return (
     <S.Container>

@@ -15,33 +15,32 @@ import { showSuccess, showError, showInfo } from '../utils/toast'
 
 interface LoginResponse {
   user: User
-  token: string
-}
-
-// funçao que faz a req para a api de login
-const loginRequest = async (user: { email: string; password: string }) => {
-  const { data } = await api.post<LoginResponse>('/login', user)
-
-  return data
 }
 
 export function useAuth() {
   const setAuth = useAuthStore((state) => state.setAuth)
   const clearAuth = useAuthStore((state) => state.clearAuth)
-  const token = useAuthStore((state) => state.token)
+  const authenticated = useAuthStore((state) => state.authenticated)
 
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+
+  // funçao que faz a req para a api de login
+  const loginRequest = async (user: { email: string; password: string }) => {
+    const { data } = await api.post<LoginResponse>('/login', user)
+
+    return data
+  }
 
   // mutation para o login
   const loginMutation = useMutation({
     mutationFn: loginRequest,
 
     // callbacks de sucesso
-    onSuccess: ({ user, token }) => {
-      setAuth(user, token)
+    onSuccess: ({ user }) => {
+      setAuth(user)
 
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+      queryClient.setQueryData(['user'], user)
 
       showSuccess(`Welcome back, ${user.name}!`)
 
@@ -75,24 +74,24 @@ export function useAuth() {
   const userQuery = useQuery({
     queryKey: ['user'],
     queryFn: fetchUser,
-    enabled: !!token
+    enabled: !!useAuthStore.getState().authenticated,
+    retry: false
   })
 
   // sync do zustand com react query
   useEffect(() => {
     if (userQuery.data) {
-      setAuth(userQuery.data, '')
-    } else if (userQuery.isError) {
+      setAuth(userQuery.data)
+    } else if (userQuery.isError && authenticated) {
       clearAuth()
       showError('Session expired. Please log in again.')
     }
-  }, [userQuery.data, userQuery.isError])
+  }, [userQuery.data, userQuery.isError, authenticated])
 
   return {
     login,
     logout,
     user: useAuthStore((s) => s.user),
-    token: useAuthStore((s) => s.token),
     isLoading: loginMutation.isPending || userQuery.isLoading
   }
 }

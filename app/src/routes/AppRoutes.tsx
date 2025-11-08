@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 
 import { Routes, Route } from 'react-router-dom'
 
+import ProtectedRoute from './ProtectedRoute'
+
 import Layout from '../components/layout'
 import Loading from '../components/loading/Loading'
 
@@ -16,14 +18,17 @@ export default function AppRoutes() {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
+        {/* rotas publicas */}
         <Route path="/login" element={<Login />} />
-
         <Route path="/register" element={<Register />} />
 
-        <Route element={<Layout />}>
-          <Route path="/" element={<Main />} />
-          <Route path="/product" element={<ProductDetail />} />
-          <Route path="/shop" element={<Shop />} />
+        {/* rotas protegidas */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Main />} />
+            <Route path="/product" element={<ProductDetail />} />
+            <Route path="/shop" element={<Shop />} />
+          </Route>
         </Route>
       </Routes>
     </Suspense>

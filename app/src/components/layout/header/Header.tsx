@@ -25,11 +25,11 @@ export default function Header() {
           }}
         />
 
+        <ShoppingCart />
+
         <S.Icon>
           <FiUser size={20} />
         </S.Icon>
-
-        <ShoppingCart />
       </S.ActionsContainer>
     </S.Header>
   )

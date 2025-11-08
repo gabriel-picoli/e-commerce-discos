@@ -1,17 +1,31 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 import type { User } from '../interfaces/User'
 
-type AuthState = {
+interface AuthState {
   user: User | null
-  token: string | null
-  setAuth: (user: User, token: string) => void
+  authenticated: boolean
+  setAuth: (user: User) => void
   clearAuth: () => void
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  token: null,
-  setAuth: (user, token) => set({ user, token }),
-  clearAuth: () => set({ user: null, token: null })
-}))
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      authenticated: false,
+
+      setAuth: (user) => set({ user, authenticated: true }),
+      clearAuth: () => set({ user: null, authenticated: false })
+    }),
+    {
+      name: 'auth-storage',
+      
+      partialize: (state) => ({
+        user: state.user,
+        authenticated: state.authenticated
+      })
+    }
+  )
+)

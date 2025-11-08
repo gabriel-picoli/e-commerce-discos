@@ -22,7 +22,6 @@ function App() {
           <Toaster
             position="bottom-center"
             toastOptions={{
-              duration: 5000,
               style: {
                 fontSize: 32
               }

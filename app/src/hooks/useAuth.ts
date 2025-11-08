@@ -1,25 +1,26 @@
+import { useEffect } from 'react'
+
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
 import api from '../services/api'
 
+import { fetchUser } from '../services/userApi'
+
 import { useAuthStore } from '../stores/authStore'
 
 import type { User } from '../interfaces/User'
-import { useEffect } from 'react'
-import { fetchUser } from '../services/userApi'
+
+import { showSuccess, showError, showInfo } from '../utils/toast'
 
 interface LoginResponse {
   user: User
   token: string
 }
 
-const login = async (user: { email: string; password: string }) => {
-  console.log(user)
-
+// funçao que faz a req para a api de login
+const loginRequest = async (user: { email: string; password: string }) => {
   const { data } = await api.post<LoginResponse>('/login', user)
-
-  console.log(data)
 
   return data
 }
@@ -32,23 +33,43 @@ export function useAuth() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
-  // login
+  // mutation para o login
   const loginMutation = useMutation({
-    mutationFn: login,
+    mutationFn: loginRequest,
 
+    // callbacks de sucesso
     onSuccess: ({ user, token }) => {
       setAuth(user, token)
 
       queryClient.invalidateQueries({ queryKey: ['user'] })
 
+      showSuccess(`Welcome back, ${user.name}!`)
+
       // redireciona pos login
       navigate('/')
     },
 
+    // callback de erro
     onError: (error) => {
       console.error('Login error: ', error)
+
+      const message = error?.message || 'Login failed. Please try again.'
+
+      showError(message)
     }
   })
+
+  // funçao que chama o mutation de login
+  const login = async (data: { email: string; password: string }) => {
+    await loginMutation.mutateAsync(data)
+  }
+
+  const logout = () => {
+    clearAuth()
+    queryClient.clear()
+    navigate('/login')
+    showInfo('You have been logged out.')
+  }
 
   // checa se usuario esta logado
   const userQuery = useQuery({
@@ -63,11 +84,13 @@ export function useAuth() {
       setAuth(userQuery.data, '')
     } else if (userQuery.isError) {
       clearAuth()
+      showError('Session expired. Please log in again.')
     }
   }, [userQuery.data, userQuery.isError])
 
   return {
-    login: loginMutation.mutateAsync,
+    login,
+    logout,
     user: useAuthStore((s) => s.user),
     token: useAuthStore((s) => s.token),
     isLoading: loginMutation.isPending || userQuery.isLoading

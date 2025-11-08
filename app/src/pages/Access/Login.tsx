@@ -35,20 +35,16 @@ export function Login() {
     resolver: zodResolver(loginSchema)
   })
 
-  const { login } = useAuth()
+  const { login, isLoading } = useAuth()
 
   const { clearAuth } = useAuthStore()
 
   const navigate = useNavigate()
 
-  const onSubmit = async ({ email, password }: LoginData) => {
+  const onSubmit = async (data: LoginData) => {
     await getCsrfCookie()
 
-    toast.promise(login({ email, password }), {
-      loading: 'Logging in...',
-      success: 'Welcome back!',
-      error: 'Failed to login. Please check your credentials.'
-    })
+    await login(data)
   }
 
   useEffect(() => {
@@ -89,8 +85,8 @@ export function Login() {
             />
 
             <S.ButtonContainer>
-              <Button.Primary type="submit" size="medium">
-                Sign In
+              <Button.Primary type="submit" size="medium" disabled={isLoading}>
+                {isLoading ? 'Signing in...' : 'Sign In'}
               </Button.Primary>
             </S.ButtonContainer>
           </Form>

@@ -1,4 +1,4 @@
-export function parseCurrency(value: string): number {
+export const parseCurrency = (value: string): number => {
   if (!value) return 0
 
   // limpa o valor para apenas numero
@@ -12,6 +12,6 @@ export function parseCurrency(value: string): number {
   return isNaN(number) ? 0 : number
 }
 
-export function formatCurrency(value: number): string {
+export const formatCurrency = (value: number): string => {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }

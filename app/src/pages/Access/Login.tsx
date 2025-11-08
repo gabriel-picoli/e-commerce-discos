@@ -7,8 +7,6 @@ import * as S from './styles'
 
 import { useAuth } from '../../hooks/useAuth'
 
-import getCsrfCookie from '../../utils/getCsrfCookie'
-
 import Input from '../../components/input'
 import Form from '../../components/form'
 import Button from '../../components/button'
@@ -35,8 +33,6 @@ export function Login() {
   const navigate = useNavigate()
 
   const onSubmit = async (data: LoginData) => {
-    await getCsrfCookie()
-
     await login(data)
   }
 

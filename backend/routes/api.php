@@ -8,32 +8,31 @@ use App\Http\Controllers\produtos\ProdutoController;
 use App\Http\Controllers\anuncio\AnuncioController;
 use App\Http\Controllers\UserController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-//login----------------------------------------------------------------------------------
+// TODAS as rotas que usam autenticação stateful devem usar o middleware 'web'
 Route::middleware('web')->group(function () {
+    
+    // Rotas públicas
     Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/register', [RegisterController::class, 'register']);
+    
+    // Rotas autenticadas
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
+        
+        // Criação de produtos e anuncios
+        Route::post('/criarProduto', [ProdutoController::class, 'store']);
+        Route::post('/criarAnuncio', [AnuncioController::class, 'store']);
+
+        // Getters de produtos e anuncios   
+        Route::get('/produtos/getAll', [ProdutoController::class, 'showAll'])->name('produtos.showAll');
+        Route::get('/anuncios/getAll', [AnuncioController::class, 'showAll'])->name('anuncios.showAll');
+        
+        Route::get('/users/{id}/produtos', [UserController::class, 'produtos']);
+        Route::get('/users/{id}/anuncios', [UserController::class, 'anuncios']);
+
+        Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('produtos.show');
+        Route::get('/anuncios/{id}', [AnuncioController::class, 'show'])->name('anuncios.show');
+    });
 });
-
-Route::post('/register', [RegisterController::class, 'register']);
-
-// Route::middleware(['auth:sanctum'])->group(function () {
-
-    //criação de produtos e anuncios
-    Route::post('/criarProduto', [ProdutoController::class, 'store']);
-    Route::post('/criarAnuncio', [AnuncioController::class, 'store']);
-
-    //getters de produtos e anuncios   
-    Route::get('/produtos/getAll', [ProdutoController::class, 'showAll'])->name('produtos.showAll'); //pegar todos os produtos
-    Route::get('/anuncios/getAll', [AnuncioController::class, 'showAll'])->name('anuncios.showAll'); // pegar todos os anuncios
-    
-    Route::get('/users/{id}/produtos', [UserController::class, 'produtos']); //pegar todos produtos do usuario especifico
-    Route::get('/users/{id}/anuncios', [UserController::class, 'anuncios']); //pegar todos anuncios do usuario especifico
-
-    Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('produtos.show'); //pegar produto especifico
-    Route::get('/anuncios/{id}', [AnuncioController::class, 'show'])->name('anuncios.show'); // pegar anuncio especifico
-
-    
-// });

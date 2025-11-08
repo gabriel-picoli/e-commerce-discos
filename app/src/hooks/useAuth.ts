@@ -12,6 +12,7 @@ import { useAuthStore } from '../stores/authStore'
 import type { User } from '../interfaces/User'
 
 import { showSuccess, showError, showInfo } from '../utils/toast'
+import { getCsrfCookie } from '../utils/getCsrfCookie'
 
 interface LoginResponse {
   user: User
@@ -27,9 +28,15 @@ export function useAuth() {
 
   // funçao que faz a req para a api de login
   const loginRequest = async (user: { email: string; password: string }) => {
-    const { data } = await api.post<LoginResponse>('/login', user)
+    try {
+      await getCsrfCookie()
 
-    return data
+      const { data } = await api.post<LoginResponse>('/login', user)
+
+      return data
+    } catch (error) {
+      console.error('Error fetching CSRF cookie:', error)
+    }
   }
 
   // mutation para o login
@@ -37,10 +44,14 @@ export function useAuth() {
     mutationFn: loginRequest,
 
     // callbacks de sucesso
-    onSuccess: ({ user }) => {
+    onSuccess: (data) => {
+      if (!data) return
+
+      const { user } = data
+
       setAuth(user)
 
-      queryClient.setQueryData(['user'], user)
+      queryClient.invalidateQueries({ queryKey: ['user'] })
 
       showSuccess(`Welcome back, ${user.name}!`)
 
@@ -74,19 +85,26 @@ export function useAuth() {
   const userQuery = useQuery({
     queryKey: ['user'],
     queryFn: fetchUser,
-    enabled: !!useAuthStore.getState().authenticated,
+    enabled: authenticated,
     retry: false
   })
 
-  // sync do zustand com react query
+  // atualiza o estado de auth quando os dados do usuario sao buscados
   useEffect(() => {
     if (userQuery.data) {
+      // atualiza o estado com os dados mais recentes
       setAuth(userQuery.data)
-    } else if (userQuery.isError && authenticated) {
+    }
+  }, [userQuery.data])
+
+  // trata erro de sessao expirada ou invalida
+  useEffect(() => {
+    if (userQuery.isError && authenticated) {
+      console.warn('Session expired or invalid')
       clearAuth()
       showError('Session expired. Please log in again.')
     }
-  }, [userQuery.data, userQuery.isError, authenticated])
+  }, [userQuery.isError, authenticated])
 
   return {
     login,

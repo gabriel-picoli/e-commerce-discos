@@ -6,7 +6,6 @@ import { useAuth } from '../../../hooks/useAuth'
 import type { Ad } from '../../../interfaces/Ad'
 
 import * as S from './styles'
-import { FiPlus } from 'react-icons/fi'
 
 export default function ManageAds() {
   const [ads, setAds] = useState<Ad[]>([])

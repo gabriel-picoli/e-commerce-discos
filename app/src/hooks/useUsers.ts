@@ -14,6 +14,7 @@ export const useCreateUser = () => {
 
   return useMutation({
     mutationFn: createUser, // funçao que cria o usuario
+    
     onSuccess: () => {
       // quando der certo, invalida o cache e busca dados novamente
       queryClient.invalidateQueries({ queryKey: ['user'] })
@@ -30,6 +31,7 @@ export const useUpdateUser = () => {
 
   return useMutation({
     mutationFn: updateUser, // funçao que atualiza o usuario
+
     onSuccess: () => {
       // quando der certo, invalida o cache e busca dados novamente
       queryClient.invalidateQueries({ queryKey: ['user'] })
@@ -42,6 +44,7 @@ export const useDeleteUser = () => {
 
   return useMutation({
     mutationFn: deleteUser, // funçao que deleta o usuario
+
     onSuccess: () => {
       // quando der certo, invalida o cache e busca dados novamente
       queryClient.invalidateQueries({ queryKey: ['user'] })

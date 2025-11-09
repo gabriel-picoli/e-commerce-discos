@@ -1,12 +1,20 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { useNavigate } from 'react-router-dom'
+
+import { useAuth } from '../../../hooks/useAuth'
+import { useCreateAd } from '../../../hooks/useAds'
+import { useProductsByUser } from '../../../hooks/useProducts'
+
+import type { Ad } from '../../../interfaces/Ad'
 
 import * as S from './styles'
 
 import Input from '../../../components/input'
 import Button from '../../../components/button'
 import Form from '../../../components/form'
+import Loading from '../../../components/loading/Loading'
 
 const adSchema = z.object({
   titulo: z.string().min(3, 'Title must be at least 3 characters'),
@@ -18,6 +26,15 @@ const adSchema = z.object({
 type AdFormData = z.infer<typeof adSchema>
 
 export default function AdForm() {
+  const navigate = useNavigate()
+
+  const { user } = useAuth()
+  const userId = user?.id ?? 0
+
+  const { mutate: createAd, isPending } = useCreateAd(userId as number)
+
+  const { data: products, isLoading: isLoadingProducts } = useProductsByUser(userId as number)
+
   const {
     register,
     handleSubmit,
@@ -26,13 +43,20 @@ export default function AdForm() {
     resolver: zodResolver(adSchema)
   })
 
-  const onSubmit = async (data: AdFormData) => {
-    try {
-      // TODO: API integration
-      console.log('Ad data:', data)
-    } catch (error) {
-      console.error('Error creating ad:', error)
+  const onSubmit = (data: AdFormData) => {
+    if (userId) return
+
+    const adData: Ad = {
+      ...data,
+      id_user: userId
     }
+    createAd(adData)
+
+    navigate('/seller/ads')
+  }
+
+  if (isLoadingProducts) {
+    return <Loading />
   }
 
   return (
@@ -66,10 +90,16 @@ export default function AdForm() {
           error={errors.id_produto?.message}
         >
           <option value="">Select a product</option>
-          {/* TODO: Add product options from API */}
+          {products?.map((product) => (
+            <option key={product.id} value={product.id}>
+              {product.name}
+            </option>
+          ))}
         </Input.Select>
 
-        <Button.Primary type="submit">Create Advertisement</Button.Primary>
+        <Button.Primary type="submit" disabled={isPending}>
+          {isPending ? 'Creating...' : 'Create Advertisement'}
+        </Button.Primary>
       </Form>
     </S.FormContainer>
   )

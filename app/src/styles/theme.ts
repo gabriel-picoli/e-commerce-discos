@@ -28,7 +28,18 @@ const theme = {
 
     // utilitarias
     white: '#FFFFFF',
-    black: '#1a1a1aff'
+    black: '#1a1a1aff',
+
+    // text
+    text: {
+      primary: '#212529',
+      secondary: '#6C757D'
+    },
+
+    // backgrounds
+    background: {
+      card: '#FFFFFF'
+    }
   },
 
   // tipografia

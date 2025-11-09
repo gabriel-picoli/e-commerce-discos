@@ -35,11 +35,17 @@ export const SectionTitle = styled.h2`
 export const SectionContainer = styled.div`
   margin-top: 3rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
+  justify-content: center;
+
+  margin-left: auto;
+  margin-right: auto;
 
   @media (max-width: 768px) {
     gap: 1.2rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    max-width: 90%;
   }
 `
 
@@ -54,9 +60,11 @@ export const VinylAdCard = styled.div`
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
+  transition: all 0.25s ease;
 
   &:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px);
   }
 `
 

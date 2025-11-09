@@ -44,7 +44,7 @@ export default function AdForm() {
   })
 
   const onSubmit = (data: AdFormData) => {
-    if (userId) return
+    if (!userId) return
 
     const adData: Ad = {
       ...data,

@@ -1,6 +1,9 @@
 import { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
+
+import { FiEdit, FiTag, FiFileText, FiDollarSign, FiAlertCircle } from 'react-icons/fi'
+
 import { useAuth } from '../../../hooks/useAuth'
 import { useAdsByUser } from '../../../hooks/useAds'
 
@@ -15,7 +18,6 @@ import Loading from '../../../components/loading/Loading'
 export default function ManageAds() {
   const { user } = useAuth()
   const userId = user?.id ?? 0
-
   const navigate = useNavigate()
 
   const { data: ads = [], isLoading, isError } = useAdsByUser(userId)
@@ -28,32 +30,67 @@ export default function ManageAds() {
   }, [user, navigate])
 
   const handleCreateAd = () => navigate('/seller/ads/new')
-
   const handleEditAd = (ad: Ad) => navigate(`/seller/ads/edit/${ad.id}`)
 
   return (
     <S.Container>
       <S.Header>
         <S.Title>Manage Advertisements</S.Title>
-        <S.Button onClick={handleCreateAd}>Create New Ad</S.Button>
+        <S.Button onClick={handleCreateAd}>+ Create New Ad</S.Button>
       </S.Header>
 
       {isLoading ? (
         <Loading />
       ) : isError ? (
-        <div>Failed to load ads.</div>
+        <S.NotFoundContainer>
+          <S.NotFoundCard>
+            <S.IconWrapper>
+              <FiAlertCircle size={60} />
+            </S.IconWrapper>
+
+            <S.NotFoundTitle>An error occurred</S.NotFoundTitle>
+
+            <S.NotFoundSubtitle>Failed to load products.</S.NotFoundSubtitle>
+          </S.NotFoundCard>
+        </S.NotFoundContainer>
       ) : ads.length === 0 ? (
-        <div>No ads found. Create your first ad.</div>
+        <S.NotFoundContainer>
+          <S.NotFoundCard>
+            <S.IconWrapper>
+              <FiAlertCircle size={60} />
+            </S.IconWrapper>
+
+            <S.NotFoundTitle>No ads found </S.NotFoundTitle>
+
+            <S.NotFoundSubtitle>You have not added any ads yet.</S.NotFoundSubtitle>
+          </S.NotFoundCard>
+        </S.NotFoundContainer>
       ) : (
         <S.AdList>
           {ads.map((ad) => (
             <S.AdCard key={ad.id_produto}>
-              <S.AdInfo>
-                <S.AdTitle>{ad.titulo}</S.AdTitle>
-                <S.AdDescription>{ad.descricao}</S.AdDescription>
-                <S.AdPrice>{formatCurrency(ad.preco)}</S.AdPrice>
-                <S.EditButton onClick={() => handleEditAd(ad)}>Edit Advertisement</S.EditButton>
-              </S.AdInfo>
+              <S.AdContent>
+                <S.AdHeader>
+                  <S.AdIcon>
+                    <FiTag />
+                  </S.AdIcon>
+                  <S.AdTitle>{ad.titulo}</S.AdTitle>
+                </S.AdHeader>
+
+                <S.AdDescription>
+                  <FiFileText /> {ad.descricao || 'No description provided.'}
+                </S.AdDescription>
+
+                <S.AdPrice>
+                  <FiDollarSign /> {formatCurrency(ad.preco)}
+                </S.AdPrice>
+
+                <S.ButtonGroup>
+                  <S.EditButton onClick={() => handleEditAd(ad)}>
+                    <FiEdit size={14} /> Edit Advertisement
+                  </S.EditButton>
+                </S.ButtonGroup>
+              </S.AdContent>
             </S.AdCard>
           ))}
         </S.AdList>

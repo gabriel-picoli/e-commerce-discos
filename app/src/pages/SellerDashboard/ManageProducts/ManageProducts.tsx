@@ -1,10 +1,21 @@
 import { useEffect } from 'react'
+
 import { useNavigate } from 'react-router-dom'
+
+import {
+  FiEdit,
+  FiTrash2,
+  FiPackage,
+  FiTag,
+  FiLayers,
+  FiAlertCircle,
+  FiMusic
+} from 'react-icons/fi'
+
 import { useAuth } from '../../../hooks/useAuth'
+import { useProductsByUser, useDeleteProduct } from '../../../hooks/useProducts'
 
 import type { Product } from '../../../interfaces/Products'
-
-import { useProductsByUser, useDeleteProduct } from '../../../hooks/useProducts'
 
 import * as S from './styles'
 
@@ -13,29 +24,24 @@ import Loading from '../../../components/loading/Loading'
 export default function ManageProducts() {
   const { user } = useAuth()
   const userId = user?.id ?? 0
-
   const navigate = useNavigate()
 
   const { data: products = [], isLoading, isError } = useProductsByUser(userId)
-
   const deleteMutation = useDeleteProduct()
 
   useEffect(() => {
     if (!user || user.vendedor !== 'S') {
       navigate('/seller')
-
       return
     }
   }, [user, navigate])
 
   const handleCreateProduct = () => navigate('/seller/products/new')
-
   const handleEditProduct = (product: Product) =>
     navigate(`/seller/products/edit/${product.id}`, { state: { product } })
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return
-
     try {
       await deleteMutation.mutateAsync(id)
     } catch (error) {
@@ -47,34 +53,77 @@ export default function ManageProducts() {
     <S.Container>
       <S.Header>
         <S.Title>Manage Products</S.Title>
-
-        <S.Button onClick={handleCreateProduct}>Add New Product</S.Button>
+        <S.Button onClick={handleCreateProduct}>+ Add Product</S.Button>
       </S.Header>
 
       {isLoading ? (
         <Loading />
       ) : isError ? (
-        <div>Failed to load products.</div>
+        <S.NotFoundContainer>
+          <S.NotFoundCard>
+            <S.IconWrapper>
+              <FiAlertCircle size={60} />
+            </S.IconWrapper>
+
+            <S.NotFoundTitle>An error occurred</S.NotFoundTitle>
+
+            <S.NotFoundSubtitle>Failed to load products.</S.NotFoundSubtitle>
+          </S.NotFoundCard>
+        </S.NotFoundContainer>
       ) : products.length === 0 ? (
-        <div>No products found. Create your first product.</div>
+        <S.NotFoundContainer>
+          <S.NotFoundCard>
+            <S.IconWrapper>
+              <FiAlertCircle size={60} />
+            </S.IconWrapper>
+
+            <S.NotFoundTitle>No products found </S.NotFoundTitle>
+
+            <S.NotFoundSubtitle>You have not added any products yet.</S.NotFoundSubtitle>
+          </S.NotFoundCard>
+        </S.NotFoundContainer>
       ) : (
         <S.ProductList>
           {products.map((product) => (
             <S.ProductCard key={product.id}>
-              <S.ProductImage src={product.capa} alt={product.name} />
+              <S.ImageWrapper>
+                <S.ProductImage src={product.capa} alt={product.name} />
+              </S.ImageWrapper>
+
               <S.ProductInfo>
                 <S.ProductName>{product.name}</S.ProductName>
+
                 <S.ProductDetails>
-                  <span>Type: {product.tipo}</span>
-                  <span>Condition: {product.conservacao}</span>
-                  <span>Genre: {product.genero}</span>
-                  <span>Quantity: {product.quanti}</span>
+                  <S.DetailItem>
+                    <FiMusic /> {product.tipo}
+                  </S.DetailItem>
+
+                  <S.DetailItem>
+                    <FiLayers /> {product.conservacao}
+                  </S.DetailItem>
+
+                  <S.DetailItem>
+                    <FiTag /> {product.genero}
+                  </S.DetailItem>
+
+                  <S.DetailItem>
+                    <FiPackage /> {product.quanti} in stock
+                  </S.DetailItem>
                 </S.ProductDetails>
 
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <S.EditButton onClick={() => handleEditProduct(product)}>Edit</S.EditButton>
-                  <S.EditButton onClick={() => handleDelete(product.id)}>Delete</S.EditButton>
-                </div>
+                {product.preco && (
+                  <S.ProductPrice>R$ {Number(product.preco).toFixed(2)}</S.ProductPrice>
+                )}
+
+                <S.ButtonGroup>
+                  <S.EditButton onClick={() => handleEditProduct(product)}>
+                    <FiEdit size={14} /> Edit
+                  </S.EditButton>
+
+                  <S.DeleteButton onClick={() => handleDelete(product.id)}>
+                    <FiTrash2 size={14} /> Delete
+                  </S.DeleteButton>
+                </S.ButtonGroup>
               </S.ProductInfo>
             </S.ProductCard>
           ))}

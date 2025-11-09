@@ -14,6 +14,9 @@ const theme = {
     yellow: '#ffc107',
     yellowHover: '#e0a800',
 
+    blue: '#078fffff',
+    blueHover: '#0068e0ff',
+
     // escala neutra (fundo, bordas, textos)
     neutral_50: '#F9F9F9', // fundo geral (app, páginas)
     neutral_100: '#F4F4F4', // superfícies claras

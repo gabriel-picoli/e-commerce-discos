@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import theme from '../../../styles/theme'
 
 export const Container = styled.div`
@@ -26,7 +25,7 @@ export const Button = styled.button`
   background: ${theme.colors.primary};
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 1.4rem;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -38,45 +37,124 @@ export const Button = styled.button`
 
 export const AdList = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 `
 
 export const AdCard = styled.div`
   background: ${theme.colors.background.card};
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: ${theme.shadows.md};
+  transition: all 0.25s ease;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
 
   &:hover {
-    transform: translateY(-5px);
+    box-shadow: ${theme.shadows.lg};
   }
 `
 
-export const AdInfo = styled.div`
+export const AdContent = styled.div`
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
+
+export const AdHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+`
+
+export const AdIcon = styled.div`
+  font-size: 2.4rem;
+  color: ${theme.colors.primary};
 `
 
 export const AdTitle = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   color: ${theme.colors.text.primary};
-  margin-bottom: 0.5rem;
+  font-weight: 600;
 `
 
 export const AdDescription = styled.p`
-  font-size: 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
   color: ${theme.colors.text.secondary};
-  margin-bottom: 1rem;
+
+  svg {
+    font-size: 1.5rem;
+    color: ${theme.colors.primary};
+  }
 `
 
 export const AdPrice = styled.div`
-  font-size: 1.5rem;
-  color: ${theme.colors.text.primary};
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.3rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  color: ${theme.colors.primary};
+
+  svg {
+    font-size: 1.5rem;
+  }
+`
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  gap: 0.5rem;
 `
 
 export const EditButton = styled(Button)`
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex: 1;
+  background: ${theme.colors.blue};
+
+  &:hover {
+    background: ${theme.colors.blueHover};
+  }
+`
+
+export const NotFoundContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 2rem;
+`
+
+export const NotFoundCard = styled.div`
+  background: #fff;
+  padding: 3rem 4rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 480px;
+  transition: all 0.3s ease;
+`
+
+export const IconWrapper = styled.div`
+  color: ${theme.colors.red};
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+`
+
+export const NotFoundTitle = styled.h2`
+  font-size: 2.6rem;
+  color: #222;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+`
+
+export const NotFoundSubtitle = styled.p`
+  font-size: 1.4rem;
+  color: #777;
+  line-height: 1.6;
 `

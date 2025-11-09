@@ -29,6 +29,30 @@ type ProductDetailProps = {
   product: Product
 }
 
+const CONSERVATION_COLORS: Record<string, string> = {
+  Mint: '#10b981',
+  'Near Mint': '#22c55e',
+  Excellent: '#84cc16',
+  'Very Good Plus': '#eab308',
+  'Very Good': '#f59e0b',
+  'Good Plus': '#f97316',
+  Good: '#ef4444',
+  Fair: '#dc2626',
+  Poor: '#991b1b'
+}
+
+const CONSERVATION_DESCRIPTIONS: Record<string, string> = {
+  Mint: 'Perfeito estado, nunca tocado, sem qualquer marca ou desgaste',
+  'Near Mint': 'Quase perfeito, mínimos sinais de uso, excelente qualidade',
+  Excellent: 'Excelente estado geral, poucas marcas leves de uso',
+  'Very Good Plus': 'Muito bom com marcas mínimas que não afetam reprodução',
+  'Very Good': 'Bom estado geral, algumas marcas visíveis mas reproduz bem',
+  'Good Plus': 'Estado aceitável com marcas moderadas',
+  Good: 'Estado aceitável, marcas e desgastes visíveis',
+  Fair: 'Estado regular, desgaste considerável',
+  Poor: 'Estado deteriorado, muitas marcas e desgastes'
+}
+
 function ProductDetail({ product }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
@@ -41,30 +65,6 @@ function ProductDetail({ product }: ProductDetailProps) {
   const addToCart = useCartStore((state) => state.addToCart)
 
   const images = [product.capa, product.capa, product.capa]
-
-  const conservacaoColors: Record<string, string> = {
-    Mint: '#10b981',
-    'Near Mint': '#22c55e',
-    Excellent: '#84cc16',
-    'Very Good Plus': '#eab308',
-    'Very Good': '#f59e0b',
-    'Good Plus': '#f97316',
-    Good: '#ef4444',
-    Fair: '#dc2626',
-    Poor: '#991b1b'
-  }
-
-  const conservacaoDescriptions: Record<string, string> = {
-    Mint: 'Perfeito estado, nunca tocado, sem qualquer marca ou desgaste',
-    'Near Mint': 'Quase perfeito, mínimos sinais de uso, excelente qualidade',
-    Excellent: 'Excelente estado geral, poucas marcas leves de uso',
-    'Very Good Plus': 'Muito bom com marcas mínimas que não afetam reprodução',
-    'Very Good': 'Bom estado geral, algumas marcas visíveis mas reproduz bem',
-    'Good Plus': 'Estado aceitável com marcas moderadas',
-    Good: 'Estado aceitável, marcas e desgastes visíveis',
-    Fair: 'Estado regular, desgaste considerável',
-    Poor: 'Estado deteriorado, muitas marcas e desgastes'
-  }
 
   const maxQuantity = product.quanti
 
@@ -100,8 +100,8 @@ function ProductDetail({ product }: ProductDetailProps) {
             <S.SizeBadge
               $active={true}
               style={{
-                borderColor: conservacaoColors[product.conservacao],
-                background: conservacaoColors[product.conservacao],
+                borderColor: CONSERVATION_COLORS[product.conservacao],
+                background: CONSERVATION_COLORS[product.conservacao],
                 color: '#fff'
               }}
             >
@@ -202,6 +202,7 @@ function ProductDetail({ product }: ProductDetailProps) {
               Especificações do Produto
               <FiChevronDown size={20} />
             </S.DetailHeader>
+
             <S.DetailBody $open={detailsOpen.specs}>
               <S.DetailContent>
                 <S.IconGrid>
@@ -210,20 +211,23 @@ function ProductDetail({ product }: ProductDetailProps) {
                     <S.IconLabel>Tipo</S.IconLabel>
                     <S.IconValue>{product.tipo}</S.IconValue>
                   </S.IconItem>
+
                   <S.IconItem>
                     <FiTag />
                     <S.IconLabel>Gênero</S.IconLabel>
                     <S.IconValue>{product.genero}</S.IconValue>
                   </S.IconItem>
+
                   <S.IconItem>
                     <FiCalendar />
                     <S.IconLabel>Lançamento</S.IconLabel>
                     <S.IconValue>{product.lancamento}</S.IconValue>
                   </S.IconItem>
+
                   <S.IconItem>
-                    <FiStar style={{ color: conservacaoColors[product.conservacao] }} />
+                    <FiStar style={{ color: CONSERVATION_COLORS[product.conservacao] }} />
                     <S.IconLabel>Conservação</S.IconLabel>
-                    <S.IconValue style={{ color: conservacaoColors[product.conservacao] }}>
+                    <S.IconValue style={{ color: CONSERVATION_COLORS[product.conservacao] }}>
                       {product.conservacao}
                     </S.IconValue>
                   </S.IconItem>
@@ -244,11 +248,11 @@ function ProductDetail({ product }: ProductDetailProps) {
             <S.DetailBody $open={detailsOpen.conservation}>
               <S.DetailContent>
                 <p style={{ marginBottom: '16px', fontWeight: 600, fontSize: '1.4rem' }}>
-                  {conservacaoDescriptions[product.conservacao]}
+                  {CONSERVATION_DESCRIPTIONS[product.conservacao]}
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {Object.entries(conservacaoColors).map(([grade, color]) => (
+                  {Object.entries(CONSERVATION_COLORS).map(([grade, color]) => (
                     <div key={grade} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <div
                         style={{
@@ -262,7 +266,7 @@ function ProductDetail({ product }: ProductDetailProps) {
 
                       <span style={{ fontWeight: 600, fontSize: '1.4rem' }}>{grade}:</span>
                       <span style={{ color: '#777', fontSize: '1.2rem' }}>
-                        {conservacaoDescriptions[grade]}
+                        {CONSERVATION_DESCRIPTIONS[grade]}
                       </span>
                     </div>
                   ))}

@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 
 import type { Product } from '../../interfaces/Products'
 
+import { formatCurrency } from '../../utils/currency'
+
 import * as S from './styles'
 
 import Hero from '../../components/hero'
@@ -194,7 +196,7 @@ export default function Main() {
               <Section.VinylAd
                 key={vinyl.id}
                 name={vinyl.name}
-                price={`R$ ${vinyl.preco?.toFixed(2).replace('.', ',')}`}
+                price={formatCurrency(vinyl.preco)}
                 image={vinyl.capa}
                 onClick={() => handleProductClick(vinyl)}
               />
@@ -210,7 +212,7 @@ export default function Main() {
               <Section.VinylAd
                 key={vinyl.id}
                 name={vinyl.name}
-                price={`R$ ${vinyl.preco?.toFixed(2).replace('.', ',')}`}
+                price={formatCurrency(vinyl.preco)}
                 image={vinyl.capa}
                 onClick={() => handleProductClick(vinyl)}
               />

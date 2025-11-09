@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import theme from '../../../styles/theme'
 
 export const Container = styled.div`
@@ -26,7 +25,7 @@ export const Button = styled.button`
   background: ${theme.colors.primary};
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 1.4rem;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -38,51 +37,150 @@ export const Button = styled.button`
 
 export const ProductList = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
 `
 
 export const ProductCard = styled.div`
   background: ${theme.colors.background.card};
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  box-shadow: ${theme.shadows.md};
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 
   &:hover {
-    transform: translateY(-5px);
+    box-shadow: ${theme.shadows.lg};
   }
+`
+
+export const ImageWrapper = styled.div`
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #f5f5f5;
 `
 
 export const ProductImage = styled.img`
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+
+  ${ProductCard}:hover & {
+    transform: scale(1.05);
+  }
 `
 
 export const ProductInfo = styled.div`
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
 `
 
 export const ProductName = styled.h3`
   font-size: 1.2rem;
   color: ${theme.colors.text.primary};
   margin-bottom: 0.5rem;
+  font-weight: 600;
 `
 
 export const ProductDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+`
 
-  span {
-    font-size: 0.9rem;
-    color: ${theme.colors.text.secondary};
+export const DetailItem = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.4rem;
+  color: ${theme.colors.text.secondary};
+
+  svg {
+    font-size: 1.5rem;
+    color: ${theme.colors.primary};
   }
 `
 
+export const ProductPrice = styled.span`
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: ${theme.colors.primary};
+  margin-bottom: 0.8rem;
+`
+
+export const ButtonGroup = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`
+
 export const EditButton = styled(Button)`
-  width: 100%;
-  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex: 1;
+  background: ${theme.colors.blue};
+
+  &:hover {
+    background: ${theme.colors.blueHover};
+  }
+`
+
+export const DeleteButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex: 1;
+  background: ${theme.colors.red};
+
+  &:hover {
+    background: ${theme.colors.redHover};
+  }
+`
+
+export const NotFoundContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 2rem;
+`
+
+export const NotFoundCard = styled.div`
+  background: #fff;
+  padding: 3rem 4rem;
+  border-radius: 1rem;
+  text-align: center;
+  max-width: 480px;
+  transition: all 0.3s ease;
+`
+
+export const IconWrapper = styled.div`
+  color: ${theme.colors.red};
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+`
+
+export const NotFoundTitle = styled.h2`
+  font-size: 2.6rem;
+  color: #222;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+`
+
+export const NotFoundSubtitle = styled.p`
+  font-size: 1.4rem;
+  color: #777;
+  line-height: 1.6;
 `

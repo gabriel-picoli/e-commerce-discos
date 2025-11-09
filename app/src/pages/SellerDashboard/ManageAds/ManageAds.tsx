@@ -1,64 +1,100 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
+
+import { FiEdit, FiTag, FiFileText, FiDollarSign, FiAlertCircle } from 'react-icons/fi'
+
 import { useAuth } from '../../../hooks/useAuth'
+import { useAdsByUser } from '../../../hooks/useAds'
 
 import type { Ad } from '../../../interfaces/Ad'
 
+import { formatCurrency } from '../../../utils/currency'
+
 import * as S from './styles'
 
+import Loading from '../../../components/loading/Loading'
+
 export default function ManageAds() {
-  const [ads, setAds] = useState<Ad[]>([])
   const { user } = useAuth()
+  const userId = user?.id ?? 0
   const navigate = useNavigate()
+
+  const { data: ads = [], isLoading, isError } = useAdsByUser(userId)
 
   useEffect(() => {
     if (!user || user.vendedor !== 'S') {
       navigate('/')
       return
     }
-
-    // TODO: Fetch user's ads
-    const fetchAds = async () => {
-      try {
-        const response = await fetch(`/api/users/${user.id}/anuncios`)
-        const data = await response.json()
-        setAds(data)
-      } catch (error) {
-        console.error('Error fetching ads:', error)
-      }
-    }
-
-    fetchAds()
   }, [user, navigate])
 
-  const handleCreateAd = () => {
-    navigate('/seller/ads/new')
-  }
-
-  const handleEditAd = (ad: Ad) => {
-    navigate(`/seller/ads/edit/${ad.id}`)
-  }
+  const handleCreateAd = () => navigate('/seller/ads/new')
+  const handleEditAd = (ad: Ad) => navigate(`/seller/ads/edit/${ad.id}`)
 
   return (
     <S.Container>
       <S.Header>
         <S.Title>Manage Advertisements</S.Title>
-        <S.Button onClick={handleCreateAd}>Create New Ad</S.Button>
+        <S.Button onClick={handleCreateAd}>+ Create New Ad</S.Button>
       </S.Header>
 
-      <S.AdList>
-        {ads.map((ad) => (
-          <S.AdCard key={ad.id_produto}>
-            <S.AdInfo>
-              <S.AdTitle>{ad.titulo}</S.AdTitle>
-              <S.AdDescription>{ad.descricao}</S.AdDescription>
-              <S.AdPrice>R$ {ad.preco.toFixed(2)}</S.AdPrice>
-              <S.EditButton onClick={() => handleEditAd(ad)}>Edit Advertisement</S.EditButton>
-            </S.AdInfo>
-          </S.AdCard>
-        ))}
-      </S.AdList>
+      {isLoading ? (
+        <Loading />
+      ) : isError ? (
+        <S.NotFoundContainer>
+          <S.NotFoundCard>
+            <S.IconWrapper>
+              <FiAlertCircle size={60} />
+            </S.IconWrapper>
+
+            <S.NotFoundTitle>An error occurred</S.NotFoundTitle>
+
+            <S.NotFoundSubtitle>Failed to load products.</S.NotFoundSubtitle>
+          </S.NotFoundCard>
+        </S.NotFoundContainer>
+      ) : ads.length === 0 ? (
+        <S.NotFoundContainer>
+          <S.NotFoundCard>
+            <S.IconWrapper>
+              <FiAlertCircle size={60} />
+            </S.IconWrapper>
+
+            <S.NotFoundTitle>No ads found </S.NotFoundTitle>
+
+            <S.NotFoundSubtitle>You have not added any ads yet.</S.NotFoundSubtitle>
+          </S.NotFoundCard>
+        </S.NotFoundContainer>
+      ) : (
+        <S.AdList>
+          {ads.map((ad) => (
+            <S.AdCard key={ad.id_produto}>
+              <S.AdContent>
+                <S.AdHeader>
+                  <S.AdIcon>
+                    <FiTag />
+                  </S.AdIcon>
+                  <S.AdTitle>{ad.titulo}</S.AdTitle>
+                </S.AdHeader>
+
+                <S.AdDescription>
+                  <FiFileText /> {ad.descricao || 'No description provided.'}
+                </S.AdDescription>
+
+                <S.AdPrice>
+                  <FiDollarSign /> {formatCurrency(ad.preco)}
+                </S.AdPrice>
+
+                <S.ButtonGroup>
+                  <S.EditButton onClick={() => handleEditAd(ad)}>
+                    <FiEdit size={14} /> Edit Advertisement
+                  </S.EditButton>
+                </S.ButtonGroup>
+              </S.AdContent>
+            </S.AdCard>
+          ))}
+        </S.AdList>
+      )}
     </S.Container>
   )
 }

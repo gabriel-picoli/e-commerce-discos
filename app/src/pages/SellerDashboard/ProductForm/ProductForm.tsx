@@ -1,6 +1,10 @@
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+
+import { useAuth } from '../../../hooks/useAuth'
+import { useCreateProduct } from '../../../hooks/useProducts'
 
 import * as S from './styles'
 
@@ -31,10 +35,39 @@ export default function ProductForm() {
     resolver: zodResolver(productSchema)
   })
 
+  const { user } = useAuth()
+  const userId = user?.id ?? 0
+
+  const navigate = useNavigate()
+
+  const createMutation = useCreateProduct()
+  const isCreating = (createMutation as any).isLoading || false
+
   const onSubmit = async (data: ProductFormData) => {
     try {
-      // TODO: API integration
-      console.log('Product data:', data)
+      if (!user || !userId) {
+        console.error('User not found. Cannot create product.')
+
+        return
+      }
+
+      const payload = {
+        name: data.name,
+        tipo: data.tipo,
+        conservacao: data.conservacao,
+        genero: data.genero,
+        artista: data.artista,
+        quanti: data.quanti,
+        capa: data.capa,
+        lancamento: data.lancamento,
+        preco: data.preco,
+        id_user: userId
+      }
+
+      await createMutation.mutateAsync(payload)
+
+      // volta para a pagina de produtos do vendedor
+      navigate('/seller/products')
     } catch (error) {
       console.error('Error creating product:', error)
     }
@@ -51,19 +84,21 @@ export default function ProductForm() {
           error={errors.name?.message}
         />
 
-        <Input.Text
-          {...register('tipo')}
-          label="Type"
-          placeholder="LP, EP, etc."
-          error={errors.tipo?.message}
-        />
+        <Form.Row>
+          <Input.Text
+            {...register('tipo')}
+            label="Type"
+            placeholder="LP, EP, etc."
+            error={errors.tipo?.message}
+          />
 
-        <Input.Text
-          {...register('conservacao')}
-          label="Condition"
-          placeholder="Mint, Near Mint, etc."
-          error={errors.conservacao?.message}
-        />
+          <Input.Text
+            {...register('conservacao')}
+            label="Condition"
+            placeholder="Mint, Near Mint, etc."
+            error={errors.conservacao?.message}
+          />
+        </Form.Row>
 
         <Input.Text
           {...register('genero')}
@@ -93,21 +128,25 @@ export default function ProductForm() {
           error={errors.capa?.message}
         />
 
-        <Input.Text
-          {...register('lancamento')}
-          label="Release Year"
-          placeholder="YYYY"
-          error={errors.lancamento?.message}
-        />
+        <Form.Row>
+          <Input.Text
+            {...register('lancamento')}
+            label="Release Year"
+            placeholder="YYYY"
+            error={errors.lancamento?.message}
+          />
 
-        <Input.Number
-          {...register('preco', { valueAsNumber: true })}
-          label="Price"
-          placeholder="Price in BRL"
-          error={errors.preco?.message}
-        />
+          <Input.Number
+            {...register('preco', { valueAsNumber: true })}
+            label="Price"
+            placeholder="Price in BRL"
+            error={errors.preco?.message}
+          />
+        </Form.Row>
 
-        <Button.Primary type="submit">Create Product</Button.Primary>
+        <Button.Primary type="submit" disabled={isCreating}>
+          {isCreating ? 'Creating…' : 'Create Product'}
+        </Button.Primary>
       </Form>
     </S.FormContainer>
   )

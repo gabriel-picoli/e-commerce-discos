@@ -12,7 +12,7 @@ export const FormContainer = styled.div`
 `
 
 export const Title = styled.h2`
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   color: ${theme.colors.text.primary};
   margin-bottom: 2rem;
   text-align: center;

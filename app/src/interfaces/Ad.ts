@@ -1,5 +1,5 @@
 export interface Ad {
-  id: number
+  id?: number
   titulo: string
   descricao: string
   preco: number

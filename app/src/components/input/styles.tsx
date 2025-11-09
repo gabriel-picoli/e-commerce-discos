@@ -1,20 +1,8 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
 import theme from '../../styles/theme'
 
-export const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
-
-export const Label = styled.label`
-  font-size: 1.6rem;
-  color: ${theme.colors.neutral_900};
-  margin-bottom: 0.2rem;
-  font-weight: 600;
-`
-
-export const Input = styled.input<{ $hasError: boolean }>`
+const inputStyles = css<{ $hasError?: boolean }>`
   padding: 0.8rem;
   border: 1px solid ${(props) => (props.$hasError ? `${theme.colors.red}` : '#ccc')};
   border-radius: 4px;
@@ -30,6 +18,39 @@ export const Input = styled.input<{ $hasError: boolean }>`
     color: ${theme.colors.neutral_500};
     font-size: 1.4rem;
   }
+`
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1rem;
+`
+
+export const Label = styled.label`
+  font-size: 1.6rem;
+  color: ${theme.colors.neutral_900};
+  margin-bottom: 0.2rem;
+  font-weight: 600;
+`
+
+export const Input = styled.input<{ $hasError?: boolean }>`
+  ${inputStyles}
+`
+
+export const TextArea = styled.textarea<{ $hasError?: boolean }>`
+  ${inputStyles}
+  min-height: 100px;
+  resize: vertical;
+`
+
+export const Select = styled.select<{ $hasError?: boolean }>`
+  ${inputStyles}
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em;
 `
 
 export const CheckboxContainer = styled.label`

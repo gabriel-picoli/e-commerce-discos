@@ -93,7 +93,7 @@ const ROCK_VINYLS: Product[] = [
 ]
 
 export default function Shop() {
-  const [_, setCurrentFilters] = useState<any>({
+  const [currentFilters, setCurrentFilters] = useState<any>({
     genre: '',
     artist: '',
     conservation: '',
@@ -130,7 +130,55 @@ export default function Shop() {
 
       <Section>
         <Section.Container>
-          {ROCK_VINYLS.map((vinyl) => (
+          {ROCK_VINYLS.filter((vinyl) => {
+            // se n tiver filtros, mostra todos
+            if (!currentFilters) return true
+
+            if (
+              currentFilters.genre &&
+              String(currentFilters.genre) !== '' &&
+              vinyl.genero !== currentFilters.genre
+            ) {
+              return false
+            }
+
+            if (
+              currentFilters.conservation &&
+              String(currentFilters.conservation) !== '' &&
+              vinyl.conservacao !== currentFilters.conservation
+            ) {
+              return false
+            }
+
+            if (
+              currentFilters.type &&
+              String(currentFilters.type) !== '' &&
+              vinyl.tipo !== currentFilters.type
+            ) {
+              return false
+            }
+
+            if (currentFilters.year && String(currentFilters.year) !== '') {
+              const decadeStr = String(currentFilters.year)
+              const productYear = Number(vinyl.lancamento)
+
+              if (!isNaN(productYear)) {
+                const decadeStart = parseInt(decadeStr.slice(0, 4), 10)
+
+                if (Math.floor(productYear / 10) * 10 !== decadeStart) return false
+              } else {
+                return false
+              }
+            }
+
+            const min = Number(currentFilters.priceMin)
+            if (!isNaN(min) && min > 0 && vinyl.preco < min) return false
+
+            const max = Number(currentFilters.priceMax)
+            if (!isNaN(max) && max > 0 && vinyl.preco > max) return false
+
+            return true
+          }).map((vinyl) => (
             <Section.VinylAd
               key={vinyl.id}
               name={vinyl.name}

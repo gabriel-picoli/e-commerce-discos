@@ -1,4 +1,5 @@
 export interface Ad {
+  id: number
   titulo: string
   descricao: string
   preco: number

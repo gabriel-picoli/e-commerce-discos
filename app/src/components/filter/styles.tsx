@@ -129,12 +129,12 @@ export const PriceInput = styled.input`
   }
 
   &:hover {
-    border-bottom-color: ${theme.colors.neutral_400 || '#999'};
+    border-bottom-color: ${theme.colors.primary};
   }
 
   &:focus {
     outline: none;
-    border-bottom-color: ${theme.colors.neutral_900 || '#111'};
+    border-bottom-color: ${theme.colors.primary};
     background-color: ${theme.colors.neutral_50 || '#fafafa'};
   }
 `

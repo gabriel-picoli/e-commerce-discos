@@ -21,8 +21,7 @@ class LoginController extends Controller
                 'message' => 'Credenciais inválidas. Por favor, tente novamente.'
             ], 401);
         }
-
-        // Regenera a sessão para proteger contra session fixation
+        
         $request->session()->regenerate();
 
         $user = Auth::user();

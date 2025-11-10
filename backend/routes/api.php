@@ -34,5 +34,13 @@ Route::middleware('web')->group(function () {
 
         Route::get('/produtos/{id}', [ProdutoController::class, 'show'])->name('produtos.show');
         Route::get('/anuncios/{id}', [AnuncioController::class, 'show'])->name('anuncios.show');
+
+        //Editar produtos e anuncios
+        Route::put('/produtos/{id}', [ProdutoController::class, 'edit'])->name('produtos.edit');
+        Route::put('/anuncios/{id}', [AnuncioController::class, 'update'])->name('anuncios.edit');
+
+        //Deletar produtos e anuncios
+        Route::delete('/produtos/{id}', [ProdutoController::class, 'delete'])->name('produtos.delete');
+        Route::delete('/anuncios/{id}', [AnuncioController::class, 'delete'])->name('anuncios.delete');
     });
 });

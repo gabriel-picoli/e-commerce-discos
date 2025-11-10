@@ -131,7 +131,6 @@ export const NotFoundContainer = styled.div`
 `
 
 export const NotFoundCard = styled.div`
-  background: #fff;
   padding: 3rem 4rem;
   border-radius: 1rem;
   text-align: center;

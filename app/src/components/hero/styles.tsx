@@ -61,14 +61,14 @@ export const BreadcrumbContainer = styled.div`
   background-image: url(${hero});
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 6rem 4rem;
+  padding: 4rem;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: 16vh;
+  min-height: 15vh;
 
   &::before {
     content: '';
@@ -123,7 +123,7 @@ export const BreadcrumbSeparator = styled.span`
 `
 
 export const BreadcrumbTitle = styled.h1`
-  font-size: 4.8rem;
+  font-size: 4.2rem;
   font-weight: 700;
   color: ${theme.colors.neutral_100};
   margin: 0;

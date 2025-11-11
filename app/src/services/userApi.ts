@@ -11,11 +11,7 @@ export const fetchUser = async () => {
 
 // registra um usuario
 export const createUser = async (user: User) => {
-  console.log(user)
-
   const { data } = await api.post('/register', user)
-
-  console.log(data)
 
   return data
 }

@@ -79,14 +79,14 @@ export const AdTitle = styled.h3`
 
 export const AdDescription = styled.p`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.5rem;
-  font-size: 0.95rem;
+  font-size: 1.4rem;
   line-height: 1.4;
   color: ${theme.colors.text.secondary};
 
   svg {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: ${theme.colors.primary};
   }
 `
@@ -100,7 +100,7 @@ export const AdPrice = styled.div`
   color: ${theme.colors.primary};
 
   svg {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 `
 

@@ -28,7 +28,7 @@ class RegisterController extends Controller
 
         if (User::query()->where('email', $credentials['email'])->exists()) {
             return response()->json([
-                'error' => 'usuario ja existe',
+                'error' => 'This user is already registered.',
 
             ], 422);
         }

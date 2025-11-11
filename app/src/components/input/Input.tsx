@@ -21,10 +21,12 @@ interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>
 type InputComponent = React.ForwardRefExoticComponent<
   InputProps & React.RefAttributes<HTMLInputElement>
 > & {
-  Text: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLInputElement>>,
-  Number: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLInputElement>>,
-  TextArea: React.ForwardRefExoticComponent<TextAreaProps & React.RefAttributes<HTMLTextAreaElement>>,
-  Select: React.ForwardRefExoticComponent<SelectProps & React.RefAttributes<HTMLSelectElement>>,
+  Text: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLInputElement>>
+  Number: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLInputElement>>
+  TextArea: React.ForwardRefExoticComponent<
+    TextAreaProps & React.RefAttributes<HTMLTextAreaElement>
+  >
+  Select: React.ForwardRefExoticComponent<SelectProps & React.RefAttributes<HTMLSelectElement>>
   Checkbox: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLInputElement>>
 }
 
@@ -43,21 +45,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 ) as InputComponent
 
-// Text Input
-Input.Text = forwardRef<HTMLInputElement, InputProps>(
-  ({ type = 'text', ...props }, ref) => {
-    return <Input ref={ref} type={type} {...props} />
-  }
-)
+// text input
+Input.Text = forwardRef<HTMLInputElement, InputProps>(({ type = 'text', ...props }, ref) => {
+  return <Input ref={ref} type={type} {...props} />
+})
 
-// Number Input
-Input.Number = forwardRef<HTMLInputElement, InputProps>(
-  ({ type = 'number', ...props }, ref) => {
-    return <Input ref={ref} type={type} {...props} />
-  }
-)
+// number input
+Input.Number = forwardRef<HTMLInputElement, InputProps>(({ type = 'number', ...props }, ref) => {
+  return <Input ref={ref} type={type} {...props} />
+})
 
-// TextArea
+// textarea
 Input.TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ label, error, ...props }, ref) => {
     const textareaId = useId()
@@ -73,7 +71,7 @@ Input.TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   }
 )
 
-// Select
+// select
 Input.Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, error, children, ...props }, ref) => {
     const selectId = useId()
@@ -91,7 +89,7 @@ Input.Select = forwardRef<HTMLSelectElement, SelectProps>(
   }
 )
 
-// Checkbox
+// checkbox
 Input.Checkbox = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref) => {
   return (
     <S.CheckboxContainer>
@@ -101,11 +99,5 @@ Input.Checkbox = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, 
     </S.CheckboxContainer>
   )
 })
-
-Input.Text.displayName = 'Input.Text'
-Input.Number.displayName = 'Input.Number'
-Input.TextArea.displayName = 'Input.TextArea'
-Input.Select.displayName = 'Input.Select'
-Input.Checkbox.displayName = 'Input.Checkbox'
 
 export default Input

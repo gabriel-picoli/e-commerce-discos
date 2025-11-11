@@ -9,7 +9,6 @@ import Form from '../../components/form'
 import * as S from './styles'
 
 import { useCreateUser } from '../../hooks/useUsers'
-import { toast } from 'sonner'
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
@@ -33,6 +32,8 @@ export function Register() {
 
   const createUser = useCreateUser()
 
+  const isLoading = createUser.isPending
+
   const onSubmit = (data: RegisterData) => {
     if (!data) {
       return
@@ -45,11 +46,7 @@ export function Register() {
       vendedor: data.vendedor ? 'S' : 'N'
     }
 
-    toast.promise(createUser.mutateAsync(userPayload), {
-      loading: 'Registering user... ',
-      success: 'User registered successfully! ',
-      error: 'Failed to register user. Please try again.'
-    })
+    createUser.mutateAsync(userPayload)
   }
 
   return (
@@ -110,8 +107,8 @@ export function Register() {
             />
 
             <S.ButtonContainer>
-              <Button.Primary type="submit" size="medium">
-                Sign Up
+              <Button.Primary type="submit" size="medium" disabled={isLoading}>
+                {isLoading ? 'Creating...' : 'Submit'}
               </Button.Primary>
             </S.ButtonContainer>
           </Form>

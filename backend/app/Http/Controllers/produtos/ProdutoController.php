@@ -36,7 +36,7 @@ class ProdutoController extends Controller
         $produto = Produto::create($validator->validated());
 
         return response()->json([
-            'message' => 'Produto criado com sucesso',
+            'message' => 'Product created successfully.',
             'produto' => $produto
         ], 201);
     }
@@ -46,7 +46,7 @@ class ProdutoController extends Controller
         $produto = Produto::find($id);
 
         if (!$produto) {
-            return response()->json(['message' => 'Produto não encontrado'], 404);
+            return response()->json(['message' => 'Product not found.'], 404);
         }
 
         return response()->json($produto);

@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
 import { fetchUser, createUser, updateUser, deleteUser } from '../services/userApi'
 
@@ -14,12 +15,16 @@ export const useUser = () => {
 export const useCreateUser = () => {
   const queryClient = useQueryClient() // da acesso ao cache
 
+  const navigate = useNavigate()
+
   return useMutation({
     mutationFn: createUser, // funçao que cria o usuario
 
     onSuccess: () => {
       // quando der certo, invalida o cache e busca dados novamente
       queryClient.invalidateQueries({ queryKey: ['user'] })
+
+      navigate('/login')
     },
 
     onError: (error) => {

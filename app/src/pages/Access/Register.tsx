@@ -33,6 +33,8 @@ export function Register() {
 
   const createUser = useCreateUser()
 
+  const isLoading = createUser.isPending
+
   const onSubmit = (data: RegisterData) => {
     if (!data) {
       return
@@ -45,11 +47,7 @@ export function Register() {
       vendedor: data.vendedor ? 'S' : 'N'
     }
 
-    toast.promise(createUser.mutateAsync(userPayload), {
-      loading: 'Registering user... ',
-      success: 'User registered successfully! ',
-      error: 'Failed to register user. Please try again.'
-    })
+    createUser.mutateAsync(userPayload)
   }
 
   return (
@@ -110,8 +108,8 @@ export function Register() {
             />
 
             <S.ButtonContainer>
-              <Button.Primary type="submit" size="medium">
-                Sign Up
+              <Button.Primary type="submit" size="medium" disabled={isLoading}>
+                {isLoading ? 'Creating...' : 'Submit'}
               </Button.Primary>
             </S.ButtonContainer>
           </Form>

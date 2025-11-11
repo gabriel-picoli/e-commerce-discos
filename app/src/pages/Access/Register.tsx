@@ -9,7 +9,6 @@ import Form from '../../components/form'
 import * as S from './styles'
 
 import { useCreateUser } from '../../hooks/useUsers'
-import { toast } from 'sonner'
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),

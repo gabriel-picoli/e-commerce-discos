@@ -18,7 +18,7 @@ class LoginController extends Controller
 
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Credenciais inválidas. Por favor, tente novamente.'
+                'message' => 'Invalid credentials. Please try again.'
             ], 401);
         }
         

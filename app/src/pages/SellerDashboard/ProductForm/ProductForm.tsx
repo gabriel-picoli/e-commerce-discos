@@ -19,7 +19,7 @@ const productSchema = z.object({
   genero: z.string().min(1, 'Genre is required'),
   artista: z.string().min(1, 'Artist is required'),
   quanti: z.number().min(1, 'Quantity must be at least 1'),
-  capa: z.string().url('Must be a valid URL'),
+  capa: z.string('Must be a valid URL'),
   lancamento: z.string().min(4, 'Release year is required'),
   preco: z.number().min(0, 'Price must be positive')
 })
@@ -66,7 +66,6 @@ export default function ProductForm() {
 
       await createMutation.mutateAsync(payload)
 
-      // volta para a pagina de produtos do vendedor
       navigate('/seller/products')
     } catch (error) {
       console.error('Error creating product:', error)

@@ -36,7 +36,7 @@ export const SearchInput = styled.input<{ $open?: boolean }>`
   height: 36px;
   font-size: 14px;
   outline: none;
-  
+
   transition:
     width 220ms ease,
     opacity 220ms ease,
@@ -47,5 +47,63 @@ export const SearchInput = styled.input<{ $open?: boolean }>`
 
   &::placeholder {
     color: #9b9b9b;
+  }
+`
+
+export const SearchResults = styled.div`
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  max-height: 360px;
+  overflow: auto;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  z-index: 60;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`
+
+export const ResultItem = styled.button`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  padding: 6px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+
+  &:hover {
+    background: #f6f6f6;
+  }
+
+  img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    strong {
+      font-size: 14px;
+      color: ${theme.colors.text || '#111'};
+    }
+
+    span {
+      color: #666;
+      font-size: 13px;
+    }
   }
 `

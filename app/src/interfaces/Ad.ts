@@ -1,3 +1,5 @@
+import type { Product } from './Products'
+
 export interface Ad {
   id?: number
   titulo: string
@@ -5,4 +7,5 @@ export interface Ad {
   preco: number
   id_user: number
   id_produto: number
+  produto?: Product
 }

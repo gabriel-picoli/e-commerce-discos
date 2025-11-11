@@ -12,6 +12,7 @@ import {
 import type { Product } from '../interfaces/Products'
 
 import { showSuccess } from '../utils/toast'
+import { handleApiError } from '../utils/handleApiError'
 
 // busca todos os protudos
 export const useProducts = () => {
@@ -55,7 +56,7 @@ export const useCreateProduct = () => {
     },
 
     onError: (error) => {
-      console.error('Error creating product:', error)
+      handleApiError(error)
     }
   })
 }
@@ -77,8 +78,9 @@ export const useUpdateProduct = () => {
 
       showSuccess('Product updated successfully!')
     },
+
     onError: (error) => {
-      console.error('Error updating product:', error)
+      handleApiError(error)
     }
   })
 }
@@ -96,8 +98,9 @@ export const useDeleteProduct = () => {
 
       showSuccess('Product deleted successfully!')
     },
+
     onError: (error) => {
-      console.error('Error deleting product:', error)
+      handleApiError(error)
     }
   })
 }

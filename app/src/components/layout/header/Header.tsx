@@ -9,8 +9,9 @@ import ShoppingCart from '../../shopping-cart'
 
 export default function Header() {
   const { user } = useAuth()
-  const navigate = useNavigate()
   const isSeller = user?.vendedor === 'S'
+
+  const navigate = useNavigate()
 
   const handleProfileClick = () => {
     if (!user) {
@@ -48,11 +49,7 @@ export default function Header() {
       <S.ActionsContainer>
         {!isSeller && (
           <>
-            <Search
-              onSearch={(value) => {
-                console.log('onSearch: ', value)
-              }}
-            />
+            <Search />
 
             <ShoppingCart />
           </>

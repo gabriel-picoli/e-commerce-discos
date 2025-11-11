@@ -10,9 +10,11 @@ import { fetchUser } from '../services/userApi'
 import { useAuthStore } from '../stores/authStore'
 
 import type { User } from '../interfaces/User'
+import type { ApiError } from '../interfaces/ApiError'
 
 import { showSuccess, showError, showInfo } from '../utils/toast'
 import { getCsrfCookie } from '../utils/getCsrfCookie'
+import { handleApiError } from '../utils/handleApiError'
 
 interface LoginResponse {
   user: User
@@ -35,7 +37,7 @@ export function useAuth() {
 
       return data
     } catch (error) {
-      console.error('Error fetching CSRF cookie:', error)
+      throw error
     }
   }
 
@@ -60,12 +62,8 @@ export function useAuth() {
     },
 
     // callback de erro
-    onError: (error) => {
-      console.error('Login error: ', error)
-
-      const message = error?.message || 'Login failed. Please try again.'
-
-      showError(message)
+    onError: (error: ApiError) => {
+      handleApiError(error)
     }
   })
 

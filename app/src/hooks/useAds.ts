@@ -5,6 +5,7 @@ import { createAd, fetchAdById, fetchAdByUserId, fetchAllAds } from '../services
 import type { Ad } from '../interfaces/Ad'
 
 import { showSuccess } from '../utils/toast'
+import { handleApiError } from '../utils/handleApiError'
 
 // hook pra buscar todos os anuncios
 export const useAds = () => {
@@ -43,7 +44,7 @@ export const useCreateAd = (userId: number) => {
     },
 
     onError: (error) => {
-      console.error('Error creating ad:', error)
+      handleApiError(error)
     }
   })
 }

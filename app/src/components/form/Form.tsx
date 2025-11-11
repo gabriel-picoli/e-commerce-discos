@@ -6,7 +6,7 @@ type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
   children: ReactNode
 }
 
-function Form({ children, ...props }: FormProps) {
+function Form({ children, autoComplete = 'off', ...props }: FormProps) {
   return <S.Form {...props}>{children}</S.Form>
 }
 

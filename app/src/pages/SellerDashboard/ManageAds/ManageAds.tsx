@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { FiEdit, FiTag, FiFileText, FiDollarSign, FiAlertCircle } from 'react-icons/fi'
+import { FiEdit, FiTag, FiFileText, FiDollarSign, FiAlertCircle, FiTrash2 } from 'react-icons/fi'
 
 import { useAuth } from '../../../hooks/useAuth'
-import { useAdsByUser } from '../../../hooks/useAds'
+import { useAdsByUser, useDeleteAd } from '../../../hooks/useAds'
 
 import type { Ad } from '../../../interfaces/Ad'
 
@@ -18,9 +18,24 @@ import Loading from '../../../components/loading/Loading'
 export default function ManageAds() {
   const { user } = useAuth()
   const userId = user?.id ?? 0
+
   const navigate = useNavigate()
 
   const { data: ads = [], isLoading, isError } = useAdsByUser(userId)
+  const deleteMutation = useDeleteAd()
+
+  const handleDelete = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this product?')) return
+
+    try {
+      await deleteMutation.mutateAsync(id)
+    } catch (error) {
+      console.error('Delete failed', error)
+    }
+  }
+
+  const handleCreateAd = () => navigate('/seller/ads/new')
+  const handleEditAd = (ad: Ad) => navigate(`/seller/ads/edit/${ad.id}`)
 
   useEffect(() => {
     if (!user || user.vendedor !== 'S') {
@@ -28,10 +43,6 @@ export default function ManageAds() {
       return
     }
   }, [user, navigate])
-
-  const handleCreateAd = () => navigate('/seller/ads/new')
-  const handleEditAd = (ad: Ad) => navigate(`/seller/ads/edit/${ad.id}`)
-
   return (
     <S.Container>
       <S.Header>
@@ -87,8 +98,12 @@ export default function ManageAds() {
 
                 <S.ButtonGroup>
                   <S.EditButton onClick={() => handleEditAd(ad)}>
-                    <FiEdit size={14} /> Edit Advertisement
+                    <FiEdit size={14} /> Edit
                   </S.EditButton>
+
+                  <S.DeleteButton onClick={() => handleDelete(ad.id!)}>
+                    <FiTrash2 size={14} /> Delete
+                  </S.DeleteButton>
                 </S.ButtonGroup>
               </S.AdContent>
             </S.AdCard>

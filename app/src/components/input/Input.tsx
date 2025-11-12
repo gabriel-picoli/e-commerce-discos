@@ -1,4 +1,7 @@
 import { forwardRef, useId } from 'react'
+
+import { NumericFormat } from 'react-number-format'
+
 import * as S from './styles.tsx'
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -28,6 +31,9 @@ type InputComponent = React.ForwardRefExoticComponent<
   >
   Select: React.ForwardRefExoticComponent<SelectProps & React.RefAttributes<HTMLSelectElement>>
   Checkbox: React.ForwardRefExoticComponent<InputProps & React.RefAttributes<HTMLInputElement>>
+  Currency: React.ForwardRefExoticComponent<
+    InputProps & { value: string } & React.RefAttributes<HTMLInputElement>
+  >
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -99,5 +105,46 @@ Input.Checkbox = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, 
     </S.CheckboxContainer>
   )
 })
+
+Input.Currency = forwardRef<HTMLInputElement, InputProps & { value: string }>(
+  ({ label, value, error, name, helperText, ...props }, ref) => {
+    const inputId = useId()
+
+    const { defaultValue, type, ...numericFormatProps } = props
+
+    return (
+      <S.InputContainer>
+        <S.Label htmlFor={inputId}>{label}</S.Label>
+        <NumericFormat
+          id={inputId}
+          thousandSeparator="."
+          decimalSeparator=","
+          prefix="R$ "
+          decimalScale={2}
+          fixedDecimalScale
+          value={value}
+          name={name}
+          onValueChange={(values) => {
+            if (numericFormatProps.onChange) {
+              // Create a synthetic event to match the expected signature
+              numericFormatProps.onChange({
+                ...({} as unknown as React.ChangeEvent<HTMLInputElement>),
+                target: {
+                  ...({} as unknown as HTMLInputElement),
+                  value: values.value,
+                  name: name || ''
+                }
+              })
+            }
+          }}
+          customInput={S.Input}
+          getInputRef={ref}
+          {...numericFormatProps}
+        />
+        {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
+      </S.InputContainer>
+    )
+  }
+)
 
 export default Input

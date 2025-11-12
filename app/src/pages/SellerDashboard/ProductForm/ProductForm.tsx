@@ -6,6 +6,10 @@ import { z } from 'zod'
 import { useAuth } from '../../../hooks/useAuth'
 import { useCreateProduct } from '../../../hooks/useProducts'
 
+import type { Product } from '../../../interfaces/Products'
+
+import { parseCurrency } from '../../../utils/currency'
+
 import * as S from './styles'
 
 import Input from '../../../components/input'
@@ -19,17 +23,38 @@ const productSchema = z.object({
   genero: z.string().min(1, 'Genre is required'),
   artista: z.string().min(1, 'Artist is required'),
   quanti: z.number().min(1, 'Quantity must be at least 1'),
-  capa: z.string('Must be a valid URL'),
+  capa: z.string().refine((val) => {
+    try {
+      const url = new URL(val)
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    } catch (error) {
+      return false
+    }
+  }, 'Must be a valid URL'),
   lancamento: z.string().min(4, 'Release year is required'),
-  preco: z.number().min(0, 'Price must be positive')
+  preco: z.string().min(1, 'Price is required')
 })
 
 type ProductFormData = z.infer<typeof productSchema>
+
+const CONSERVATION = [
+  { value: 'mint', label: 'Mint' },
+  { value: 'near mint', label: 'Near Mint' },
+  { value: 'excellent', label: 'Excellent' },
+  { value: 'very good plus', label: 'Very Good Plus' },
+  { value: 'very good', label: 'Very Good' },
+  { value: 'good plus', label: 'Good Plus' },
+  { value: 'good', label: 'Good' },
+  { value: 'fair', label: 'Fair' },
+  { value: 'poor', label: 'Poor' }
+]
 
 export default function ProductForm() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors }
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema)
@@ -51,7 +76,7 @@ export default function ProductForm() {
         return
       }
 
-      const payload = {
+      const payload: Product = {
         name: data.name,
         tipo: data.tipo,
         conservacao: data.conservacao,
@@ -60,7 +85,7 @@ export default function ProductForm() {
         quanti: data.quanti,
         capa: data.capa,
         lancamento: data.lancamento,
-        preco: data.preco,
+        preco: parseCurrency(data.preco),
         id_user: userId
       }
 
@@ -91,12 +116,18 @@ export default function ProductForm() {
             error={errors.tipo?.message}
           />
 
-          <Input.Text
+          <Input.Select
             {...register('conservacao')}
-            label="Condition"
-            placeholder="Mint, Near Mint, etc."
+            label="Select Condition"
             error={errors.conservacao?.message}
-          />
+          >
+            <option value="">Select a condition</option>
+            {CONSERVATION?.map((conservation) => (
+              <option key={conservation.value} value={conservation.value}>
+                {conservation.label}
+              </option>
+            ))}
+          </Input.Select>
         </Form.Row>
 
         <Input.Text
@@ -135,10 +166,14 @@ export default function ProductForm() {
             error={errors.lancamento?.message}
           />
 
-          <Input.Number
-            {...register('preco', { valueAsNumber: true })}
+          <Input.Currency
             label="Price"
             placeholder="Price in BRL"
+            value={watch('preco')}
+            onChange={(e) => {
+              setValue('preco', e.target.value)
+            }}
+            name="preco"
             error={errors.preco?.message}
           />
         </Form.Row>

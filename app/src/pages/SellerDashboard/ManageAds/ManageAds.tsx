@@ -98,7 +98,7 @@ export default function ManageAds() {
 
                 <S.ButtonGroup>
                   <S.EditButton onClick={() => handleEditAd(ad)}>
-                    <FiEdit size={14} /> Edit Advertisement
+                    <FiEdit size={14} /> Edit
                   </S.EditButton>
 
                   <S.DeleteButton

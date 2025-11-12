@@ -9,6 +9,8 @@ import { useProductsByUser } from '../../../hooks/useProducts'
 
 import type { Ad } from '../../../interfaces/Ad'
 
+import { parseCurrency } from '../../../utils/currency'
+
 import * as S from './styles'
 
 import Input from '../../../components/input'
@@ -19,8 +21,12 @@ import Loading from '../../../components/loading/Loading'
 const adSchema = z.object({
   titulo: z.string().min(3, 'Title must be at least 3 characters'),
   descricao: z.string().min(10, 'Description must be at least 10 characters'),
-  preco: z.number().min(0, 'Price must be positive'),
-  id_produto: z.number().min(1, 'Must select a product')
+  preco: z.string().min(1, 'Price is required'),
+
+  id_produto: z.preprocess(
+    (value: number) => (isNaN(value) ? 0 : value),
+    z.number().min(1, 'Product is required')
+  )
 })
 
 type AdFormData = z.infer<typeof adSchema>
@@ -38,6 +44,8 @@ export default function AdForm() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors }
   } = useForm<AdFormData>({
     resolver: zodResolver(adSchema)
@@ -48,6 +56,7 @@ export default function AdForm() {
 
     const adData: Ad = {
       ...data,
+      preco: parseCurrency(data.preco),
       id_user: userId
     }
     createAd(adData)
@@ -77,10 +86,14 @@ export default function AdForm() {
           error={errors.descricao?.message}
         />
 
-        <Input.Number
-          {...register('preco', { valueAsNumber: true })}
+        <Input.Currency
           label="Price"
           placeholder="Price in BRL"
+          value={watch('preco')}
+          onChange={(e) => {
+            setValue('preco', e.target.value)
+          }}
+          name="preco"
           error={errors.preco?.message}
         />
 

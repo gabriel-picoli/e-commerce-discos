@@ -13,6 +13,7 @@ import { Register } from '../pages/Access/Register'
 const Main = lazy(() => import('../pages/Main/Main'))
 const ProductDetail = lazy(() => import('../pages/ProductDetail'))
 const Shop = lazy(() => import('../pages/Shop'))
+const Checkout = lazy(() => import('../pages/Checkout'))
 
 // paginas de vendedor
 const SellerDashboard = lazy(() => import('../pages/SellerDashboard/SellerDashboard'))
@@ -37,6 +38,7 @@ export default function AppRoutes() {
               <Route path="/" element={<Main />} />
               <Route path="/product" element={<ProductDetail />} />
               <Route path="/shop" element={<Shop />} />
+              <Route path="/checkout" element={<Checkout />} />
             </Route>
           </Route>
         </Route>

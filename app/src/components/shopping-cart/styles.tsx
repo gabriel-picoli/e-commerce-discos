@@ -109,10 +109,17 @@ export const ItemWrapper = styled.div`
 export const Footer = styled.footer`
   width: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
   padding: 12px;
   border-top: 1px solid #eee;
+`
+
+export const ValueContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
 `
 
 export const SubtotalTitle = styled.div`

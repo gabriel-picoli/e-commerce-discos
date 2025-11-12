@@ -2,6 +2,8 @@ import { useState } from 'react'
 
 import { FiShoppingCart, FiX } from 'react-icons/fi'
 
+import { useNavigate } from 'react-router-dom'
+
 import { useCartStore } from '../../stores/cartStore'
 
 import { formatCurrency } from '../../utils/currency'
@@ -10,11 +12,14 @@ import * as S from './styles'
 
 import Icon from '../icon'
 import CartItem from './item/CartItem'
+import Button from '../button'
 
 export default function ShoppingCart() {
   const [open, setOpen] = useState(false)
 
   const { items } = useCartStore()
+
+  const navigate = useNavigate()
 
   const total = items.reduce((acc, item) => acc + item.product.preco * item.quantity, 0)
 
@@ -54,9 +59,22 @@ export default function ShoppingCart() {
           </S.ItemWrapper>
 
           <S.Footer>
-            <S.SubtotalTitle>Subtotal</S.SubtotalTitle>
+            <S.ValueContainer>
+              <S.SubtotalTitle>Subtotal</S.SubtotalTitle>
 
-            <S.Subtotal>{formatCurrency(total)}</S.Subtotal>
+              <S.Subtotal>{formatCurrency(total)}</S.Subtotal>
+            </S.ValueContainer>
+
+            <Button
+              size="small"
+              onClick={() => {
+                navigate('/checkout')
+
+                setOpen(false)
+              }}
+            >
+              Buy
+            </Button>
           </S.Footer>
         </S.SideCart>
       </S.CartWrapper>

@@ -42,7 +42,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('titulo');
-            $table->string('descricao');
+            $table->text('descricao');
             $table->decimal('preco', 10, 2);
             $table->unsignedBigInteger('id_user');
 

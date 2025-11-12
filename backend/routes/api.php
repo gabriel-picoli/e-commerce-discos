@@ -7,20 +7,21 @@ use App\Http\Controllers\register\RegisterController;
 use App\Http\Controllers\produtos\ProdutoController;
 use App\Http\Controllers\anuncio\AnuncioController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\checkout\CheckoutController;
 
 // TODAS as rotas que usam autenticação stateful devem usar o middleware 'web'
 Route::middleware('web')->group(function () {
-    
+
     // Rotas públicas
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/register', [RegisterController::class, 'register']);
-    
+
     // Rotas autenticadas
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
-        
+
         // Criação de produtos e anuncios
         Route::post('/criarProduto', [ProdutoController::class, 'store']);
         Route::post('/criarAnuncio', [AnuncioController::class, 'store']);
@@ -28,7 +29,7 @@ Route::middleware('web')->group(function () {
         // Getters de produtos e anuncios   
         Route::get('/produtos/getAll', [ProdutoController::class, 'showAll'])->name('produtos.showAll');
         Route::get('/anuncios/getAll', [AnuncioController::class, 'showAll'])->name('anuncios.showAll');
-        
+
         Route::get('/users/{id}/produtos', [UserController::class, 'produtos']);
         Route::get('/users/{id}/anuncios', [UserController::class, 'anuncios']);
 
@@ -42,5 +43,7 @@ Route::middleware('web')->group(function () {
         //Deletar produtos e anuncios
         Route::delete('/produtos/{id}', [ProdutoController::class, 'delete'])->name('produtos.delete');
         Route::delete('/anuncios/{id}', [AnuncioController::class, 'delete'])->name('anuncios.delete');
+
+        Route::post('/checkout', [CheckoutController::class, 'checkout']);
     });
 });

@@ -24,21 +24,11 @@ import Loading from '../../../components/loading/Loading'
 export default function ManageProducts() {
   const { user } = useAuth()
   const userId = user?.id ?? 0
+
   const navigate = useNavigate()
 
   const { data: products = [], isLoading, isError } = useProductsByUser(userId)
   const deleteMutation = useDeleteProduct()
-
-  useEffect(() => {
-    if (!user || user.vendedor !== 'S') {
-      navigate('/seller')
-      return
-    }
-  }, [user, navigate])
-
-  const handleCreateProduct = () => navigate('/seller/products/new')
-  const handleEditProduct = (product: Product) =>
-    navigate(`/seller/products/edit/${product.id}`, { state: { product } })
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return
@@ -48,6 +38,17 @@ export default function ManageProducts() {
       console.error('Delete failed', error)
     }
   }
+
+  const handleCreateProduct = () => navigate('/seller/products/new')
+  const handleEditProduct = (product: Product) =>
+    navigate(`/seller/products/edit/${product.id}`, { state: { product } })
+
+  useEffect(() => {
+    if (!user || user.vendedor !== 'S') {
+      navigate('/seller')
+      return
+    }
+  }, [user, navigate])
 
   return (
     <S.Container>

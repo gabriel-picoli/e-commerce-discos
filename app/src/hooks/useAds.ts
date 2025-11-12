@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { createAd, fetchAdById, fetchAdByUserId, fetchAllAds } from '../services/adApi'
+import { createAd, deleteAd, fetchAdById, fetchAdByUserId, fetchAllAds } from '../services/adApi'
 
 import type { Ad } from '../interfaces/Ad'
 
@@ -41,6 +41,26 @@ export const useCreateAd = (userId: number) => {
       queryClient.invalidateQueries({ queryKey: ['ads', userId] })
 
       showSuccess('Advertisement created successfully!')
+    },
+
+    onError: (error) => {
+      handleApiError(error)
+    }
+  })
+}
+
+// deletar anuncio
+export const useDeleteAd = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => deleteAd(id),
+
+    onSuccess: (_data, id) => {
+      queryClient.invalidateQueries({ queryKey: ['ads'] })
+      queryClient.invalidateQueries({ queryKey: ['ad', id] })
+
+      showSuccess('Ad deleted successfully!')
     },
 
     onError: (error) => {

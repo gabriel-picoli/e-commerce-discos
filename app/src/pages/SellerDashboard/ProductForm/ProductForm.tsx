@@ -19,12 +19,32 @@ const productSchema = z.object({
   genero: z.string().min(1, 'Genre is required'),
   artista: z.string().min(1, 'Artist is required'),
   quanti: z.number().min(1, 'Quantity must be at least 1'),
-  capa: z.string('Must be a valid URL'),
+  capa: z.string().refine((val) => {
+    try {
+      const url = new URL(val)
+
+      return url.protocol === 'http:' || url.protocol === 'https:'
+    } catch (error) {
+      return false
+    }
+  }, 'Must be a valid URL'),
   lancamento: z.string().min(4, 'Release year is required'),
   preco: z.number().min(0, 'Price must be positive')
 })
 
 type ProductFormData = z.infer<typeof productSchema>
+
+const CONSERVATION = [
+  { value: 'mint', label: 'Mint' },
+  { value: 'near mint', label: 'Near Mint' },
+  { value: 'excellent', label: 'Excellent' },
+  { value: 'very good plus', label: 'Very Good Plus' },
+  { value: 'very good', label: 'Very Good' },
+  { value: 'good plus', label: 'Good Plus' },
+  { value: 'good', label: 'Good' },
+  { value: 'fair', label: 'Fair' },
+  { value: 'poor', label: 'Poor' }
+]
 
 export default function ProductForm() {
   const {
@@ -83,20 +103,33 @@ export default function ProductForm() {
           error={errors.name?.message}
         />
 
+        <Input.Text
+          {...register('tipo')}
+          label="Type"
+          placeholder="LP, EP, etc."
+          error={errors.tipo?.message}
+        />
+
         <Form.Row>
           <Input.Text
-            {...register('tipo')}
-            label="Type"
-            placeholder="LP, EP, etc."
-            error={errors.tipo?.message}
-          />
-
-          <Input.Text
             {...register('conservacao')}
-            label="Condition"
-            placeholder="Mint, Near Mint, etc."
+            label="Select Condition"
+            placeholder="Select a condition"
             error={errors.conservacao?.message}
           />
+
+          <Input.Select
+            {...register('conservacao')}
+            label="Select Condition"
+            error={errors.conservacao?.message}
+          >
+            <option value="">Select a condition</option>
+            {CONSERVATION?.map((conservation) => (
+              <option key={conservation.value} value={conservation.value}>
+                {conservation.label}
+              </option>
+            ))}
+          </Input.Select>
         </Form.Row>
 
         <Input.Text

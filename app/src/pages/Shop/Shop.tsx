@@ -23,11 +23,6 @@ export default function Shop() {
     priceMax: ''
   })
 
-  const genres = ['Rock', 'Games', 'Jazz', 'Classical', 'Pop']
-  const conservation = ['Mint', 'Near Mint', 'Excellent', 'Very Good Plus', 'Very Good']
-  const types = ['LP', 'EP', 'Single']
-  const years = ['2020s', '2010s', '2000s', '1990s', '1980s', '1970s', '1960s']
-
   const navigate = useNavigate()
 
   const { data: ads } = useAds()
@@ -36,6 +31,11 @@ export default function Shop() {
     ...(ad.produto || {}),
     preco: Number(ad.preco || 0)
   })) as Product[]
+
+  const genres = products.map((p) => p.genero)
+  const conservation = products.map((p) => p.conservacao)
+  const types = products.map((p) => p.tipo)
+  const years = products.map((p) => p.lancamento)
 
   const handleProductClick = (product: Product) => {
     navigate(`/product`, { state: { product } })

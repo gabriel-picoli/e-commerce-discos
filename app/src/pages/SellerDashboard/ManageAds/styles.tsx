@@ -122,6 +122,19 @@ export const EditButton = styled(Button)`
   }
 `
 
+export const DeleteButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex: 1;
+  background: ${theme.colors.red};
+
+  &:hover {
+    background: ${theme.colors.redHover};
+  }
+`
+
 export const NotFoundContainer = styled.div`
   display: flex;
   align-items: center;

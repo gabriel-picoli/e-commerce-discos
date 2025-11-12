@@ -30,7 +30,7 @@ export default function CartItem({ product, quantity }: CartItemProps) {
         </S.Price>
       </S.Info>
 
-      <S.RemoveButton onClick={() => removeFromCart(product.id)} aria-label="Remover do carrinho">
+      <S.RemoveButton onClick={() => removeFromCart(product.id!)} aria-label="Remover do carrinho">
         <FiX size={16} />
       </S.RemoveButton>
     </S.Item>

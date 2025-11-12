@@ -101,13 +101,7 @@ export default function ManageAds() {
                     <FiEdit size={14} /> Edit
                   </S.EditButton>
 
-                  <S.DeleteButton
-                    onClick={() => {
-                      if (ad && ad.id !== undefined) {
-                        handleDelete(ad.id)
-                      }
-                    }}
-                  >
+                  <S.DeleteButton onClick={() => handleDelete(ad.id!)}>
                     <FiTrash2 size={14} /> Delete
                   </S.DeleteButton>
                 </S.ButtonGroup>

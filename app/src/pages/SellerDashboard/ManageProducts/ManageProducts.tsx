@@ -121,13 +121,7 @@ export default function ManageProducts() {
                     <FiEdit size={14} /> Edit
                   </S.EditButton>
 
-                  <S.DeleteButton
-                    onClick={() => {
-                      if (product.id && product.id !== undefined) {
-                        handleDelete(product.id)
-                      }
-                    }}
-                  >
+                  <S.DeleteButton onClick={() => handleDelete(product.id!)}>
                     <FiTrash2 size={14} /> Delete
                   </S.DeleteButton>
                 </S.ButtonGroup>

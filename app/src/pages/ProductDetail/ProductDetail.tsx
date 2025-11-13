@@ -18,15 +18,16 @@ import {
   FiAlertCircle
 } from 'react-icons/fi'
 
-import type { Product } from '../../interfaces/Products'
+import { useCartStore } from '../../stores/cartStore'
+
+import type { Ad } from '../../interfaces/Ad'
 
 import * as S from './styles'
 
 import Button from '../../components/button'
-import { useCartStore } from '../../stores/cartStore'
 
 type ProductDetailProps = {
-  product: Product
+  ad: Ad
 }
 
 const CONSERVATION_COLORS: Record<string, string> = {
@@ -53,7 +54,7 @@ const CONSERVATION_DESCRIPTIONS: Record<string, string> = {
   Poor: 'Estado deteriorado, muitas marcas e desgastes'
 }
 
-function ProductDetail({ product }: ProductDetailProps) {
+function ProductDetail({ ad }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
   const [detailsOpen, setDetailsOpen] = useState({
@@ -64,9 +65,9 @@ function ProductDetail({ product }: ProductDetailProps) {
 
   const addToCart = useCartStore((state) => state.addToCart)
 
-  const images = [product.capa, product.capa, product.capa]
+  const images = [ad.produto.capa, ad.produto.capa, ad.produto.capa]
 
-  const maxQuantity = product.quanti
+  const maxQuantity = ad.produto.quanti
 
   const toggleDetail = (key: keyof typeof detailsOpen) => {
     setDetailsOpen((prev) => ({ ...prev, [key]: !prev[key] }))
@@ -76,7 +77,7 @@ function ProductDetail({ product }: ProductDetailProps) {
     <S.Container>
       <S.GallerySection>
         <S.MainImage>
-          <img src={images[selectedImage]} alt={product.name} />
+          <img src={images[selectedImage]} alt={ad.produto.name} />
         </S.MainImage>
 
         <S.Thumbs>
@@ -86,7 +87,7 @@ function ProductDetail({ product }: ProductDetailProps) {
               $active={selectedImage === idx}
               onClick={() => setSelectedImage(idx)}
             >
-              <img src={img} alt={`${product.name} ${idx + 1}`} />
+              <img src={img} alt={`${ad.produto.name} ${idx + 1}`} />
             </S.ThumbButton>
           ))}
         </S.Thumbs>
@@ -95,45 +96,48 @@ function ProductDetail({ product }: ProductDetailProps) {
       <S.InfoSection>
         <S.Header>
           <S.TitleWrapper>
-            <S.Title>{product.name}</S.Title>
+            <S.Title>{ad.produto.name}</S.Title>
 
             <S.SizeBadge
               $active={true}
               style={{
-                borderColor: CONSERVATION_COLORS[product.conservacao],
-                background: CONSERVATION_COLORS[product.conservacao],
+                borderColor: CONSERVATION_COLORS[ad.produto.conservacao],
+                background: CONSERVATION_COLORS[ad.produto.conservacao],
                 color: '#fff'
               }}
             >
-              {product.conservacao}
+              {ad.produto.conservacao}
             </S.SizeBadge>
           </S.TitleWrapper>
 
           <S.MetaInfo>
             <S.Artist>
               <FiUser size={16} />
-              By <strong>{product.artista}</strong>
+              By <strong>{ad.produto.artista}</strong>
             </S.Artist>
           </S.MetaInfo>
         </S.Header>
 
         <S.PriceSection>
-          {product.preco && <S.Price>R$ {product.preco.toFixed(2).replace('.', ',')}</S.Price>}
+          {ad.produto.preco && (
+            <S.Price>R$ {ad.produto.preco.toFixed(2).replace('.', ',')}</S.Price>
+          )}
 
-          <S.StockBadge $available={product.quanti > 0}>
-            {product.quanti > 0
-              ? `${product.quanti} ${product.quanti === 1 ? 'unidade' : 'unidades'} disponível`
+          <S.StockBadge $available={ad.produto.quanti > 0}>
+            {ad.produto.quanti > 0
+              ? `${ad.produto.quanti} ${ad.produto.quanti === 1 ? 'unidade' : 'unidades'} disponível`
               : 'Produto esgotado'}
           </S.StockBadge>
         </S.PriceSection>
 
         <S.Description>
-          Vinil original em {product.tipo}, gênero {product.genero}. Lançado em {product.lancamento}
-          , este disco traz a autenticidade e qualidade sonora que só o vinil pode oferecer.
+          Vinil original em {ad.produto.tipo}, gênero {ad.produto.genero}. Lançado em{' '}
+          {ad.produto.lancamento}, este disco traz a autenticidade e qualidade sonora que só o vinil
+          pode oferecer.
         </S.Description>
 
         <S.OptionsSection>
-          {product.quanti > 0 && (
+          {ad.produto.quanti > 0 && (
             <S.OptionGroup>
               <S.QuantityControl>
                 <S.QuantitySelector>
@@ -157,12 +161,12 @@ function ProductDetail({ product }: ProductDetailProps) {
             </S.OptionGroup>
           )}
 
-          {product.quanti > 0 && (
+          {ad.produto.quanti > 0 && (
             <S.Actions>
               <Button.Primary
                 size="small"
                 onClick={() => {
-                  addToCart(product, quantity)
+                  addToCart(ad, quantity)
                 }}
               >
                 <FiShoppingCart size={20} />
@@ -209,26 +213,26 @@ function ProductDetail({ product }: ProductDetailProps) {
                   <S.IconItem>
                     <FiDisc />
                     <S.IconLabel>Tipo</S.IconLabel>
-                    <S.IconValue>{product.tipo}</S.IconValue>
+                    <S.IconValue>{ad.produto.tipo}</S.IconValue>
                   </S.IconItem>
 
                   <S.IconItem>
                     <FiTag />
                     <S.IconLabel>Gênero</S.IconLabel>
-                    <S.IconValue>{product.genero}</S.IconValue>
+                    <S.IconValue>{ad.produto.genero}</S.IconValue>
                   </S.IconItem>
 
                   <S.IconItem>
                     <FiCalendar />
                     <S.IconLabel>Lançamento</S.IconLabel>
-                    <S.IconValue>{product.lancamento}</S.IconValue>
+                    <S.IconValue>{ad.produto.lancamento}</S.IconValue>
                   </S.IconItem>
 
                   <S.IconItem>
-                    <FiStar style={{ color: CONSERVATION_COLORS[product.conservacao] }} />
+                    <FiStar style={{ color: CONSERVATION_COLORS[ad.produto.conservacao] }} />
                     <S.IconLabel>Conservação</S.IconLabel>
-                    <S.IconValue style={{ color: CONSERVATION_COLORS[product.conservacao] }}>
-                      {product.conservacao}
+                    <S.IconValue style={{ color: CONSERVATION_COLORS[ad.produto.conservacao] }}>
+                      {ad.produto.conservacao}
                     </S.IconValue>
                   </S.IconItem>
                 </S.IconGrid>
@@ -248,7 +252,7 @@ function ProductDetail({ product }: ProductDetailProps) {
             <S.DetailBody $open={detailsOpen.conservation}>
               <S.DetailContent>
                 <p style={{ marginBottom: '16px', fontWeight: 600, fontSize: '1.4rem' }}>
-                  {CONSERVATION_DESCRIPTIONS[product.conservacao]}
+                  {CONSERVATION_DESCRIPTIONS[ad.produto?.conservacao]}
                 </p>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -302,9 +306,9 @@ function ProductDetail({ product }: ProductDetailProps) {
 export default function ProductDetailWrapper() {
   const location = useLocation()
 
-  const { product } = location.state || {}
+  const { ad } = location.state || {}
 
-  if (!product) {
+  if (!ad) {
     return (
       <S.NotFoundContainer>
         <S.NotFoundCard>
@@ -312,10 +316,10 @@ export default function ProductDetailWrapper() {
             <FiAlertCircle size={60} />
           </S.IconWrapper>
 
-          <S.NotFoundTitle>Produto não encontrado</S.NotFoundTitle>
+          <S.NotFoundTitle>Ad not found</S.NotFoundTitle>
 
           <S.NotFoundSubtitle>
-            O produto que você procura não está disponível ou foi removido.
+            The ad you are looking for is not available or has been removed.
           </S.NotFoundSubtitle>
         </S.NotFoundCard>
       </S.NotFoundContainer>
@@ -324,7 +328,7 @@ export default function ProductDetailWrapper() {
 
   return (
     <>
-      <ProductDetail product={product} />
+      <ProductDetail ad={ad} />
     </>
   )
 }

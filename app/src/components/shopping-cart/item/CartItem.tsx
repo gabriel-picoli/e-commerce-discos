@@ -2,35 +2,35 @@ import { FiX } from 'react-icons/fi'
 
 import { useCartStore } from '../../../stores/cartStore'
 
-import type { Product } from '../../../interfaces/Products'
+import type { Ad } from '../../../interfaces/Ad'
 
 import { formatCurrency } from '../../../utils/currency'
 
 import * as S from './styles'
 
 type CartItemProps = {
-  product: Product
+  ad: Ad
   quantity: number
 }
 
-export default function CartItem({ product, quantity }: CartItemProps) {
+export default function CartItem({ ad, quantity }: CartItemProps) {
   const { removeFromCart } = useCartStore()
 
   return (
     <S.Item>
       <S.ImageWrapper>
-        <img src={product.capa} alt={product.name} />
+        <img src={ad.produto.capa} alt={ad.produto.name} />
       </S.ImageWrapper>
 
       <S.Info>
-        <S.Name>{product.name}</S.Name>
+        <S.Name>{ad.produto.name}</S.Name>
 
         <S.Price>
-          {quantity}x - {formatCurrency(product.preco)}
+          {quantity}x - {formatCurrency(ad.preco)}
         </S.Price>
       </S.Info>
 
-      <S.RemoveButton onClick={() => removeFromCart(product.id!)} aria-label="Remover do carrinho">
+      <S.RemoveButton onClick={() => removeFromCart(ad.id!)} aria-label="Remover do carrinho">
         <FiX size={16} />
       </S.RemoveButton>
     </S.Item>

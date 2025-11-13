@@ -4,6 +4,13 @@ import { fetchProductById } from './productsApi'
 
 import type { Ad } from '../interfaces/Ad'
 
+const normalizeAd = (ad: Ad) => ({
+  ...ad,
+  preco: Number(ad.preco) || 0,
+  quanti: ad.produto?.quanti || 0,
+  produto: ad.produto || null
+})
+
 // busca os anuncio e mescla com os produtos
 export const fetchAllAds = async (): Promise<Ad[]> => {
   const { data } = await api.get<Ad[]>('/anuncios/getAll')
@@ -15,7 +22,9 @@ export const fetchAllAds = async (): Promise<Ad[]> => {
     new Set(ads.filter((a) => !a.produto && a.id_produto).map((a) => a.id_produto))
   )
 
-  if (missingProductIds.length === 0) return ads
+  if (missingProductIds.length === 0) {
+    return ads.map(normalizeAd)
+  }
 
   const productsById: Record<number, any> = {}
 
@@ -23,10 +32,8 @@ export const fetchAllAds = async (): Promise<Ad[]> => {
     missingProductIds.map(async (productId) => {
       try {
         const product = await fetchProductById(productId)
-
         productsById[productId] = product
       } catch (err) {
-        // ignora erro de produtos, pois vai continuar undefined
         console.error('Failed to fetch product for ad:', productId, err)
       }
     })
@@ -38,19 +45,19 @@ export const fetchAllAds = async (): Promise<Ad[]> => {
     produto: a.produto || productsById[a.id_produto]
   }))
 
-  return enriched
+  return enriched.map(normalizeAd)
 }
 
 export const fetchAdByUserId = async (userId: number) => {
   const { data } = await api.get<Ad[]>(`/users/${userId}/anuncios`)
 
-  return data
+  return data.map(normalizeAd)
 }
 
 export const fetchAdById = async (adId: number) => {
   const { data } = await api.get<Ad>(`/anuncios/${adId}`)
 
-  const ad = data as Ad
+  let ad = data as Ad
 
   if (!ad.produto && ad.id_produto) {
     try {
@@ -60,19 +67,19 @@ export const fetchAdById = async (adId: number) => {
     }
   }
 
-  return ad
+  return normalizeAd(ad)
 }
 
 export const createAd = async (ad: Partial<Ad>) => {
   const { data } = await api.post<Ad>('/criarAnuncio', ad)
 
-  return data
+  return normalizeAd(data)
 }
 
 export const updateAd = async ({ id, ...updatedAd }: Ad) => {
   const { data } = await api.put<Ad>(`/anuncios/${id}`, updatedAd)
 
-  return data
+  return normalizeAd(data)
 }
 
 export const deleteAd = async (id: number) => {

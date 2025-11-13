@@ -21,7 +21,7 @@ export default function ShoppingCart() {
 
   const navigate = useNavigate()
 
-  const total = items.reduce((acc, item) => acc + item.product.preco * item.quantity, 0)
+  const total = items.reduce((acc, item) => acc + item.ad.preco * item.quantity, 0)
 
   return (
     <>
@@ -48,13 +48,7 @@ export default function ShoppingCart() {
                 <FiShoppingCart size={18} />
               </S.EmptyMessage>
             ) : (
-              items.map((product) => (
-                <CartItem
-                  key={product.product.id}
-                  product={product.product}
-                  quantity={product.quantity}
-                />
-              ))
+              items.map((ad) => <CartItem key={ad.ad.id} ad={ad.ad} quantity={ad.quantity} />)
             )}
           </S.ItemWrapper>
 

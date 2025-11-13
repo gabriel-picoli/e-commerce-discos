@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from 'zod'
@@ -36,12 +37,14 @@ export default function CheckoutPage() {
 
   const { mutate: createCheckout, isPending } = useCreateCheckout()
 
+  const navigate = useNavigate()
+
   const paymentMethod = watch('paymentMethod')
 
   const onSubmit = (data: CheckoutData) => {
     const checkoutPayload: Checkout = {
       cart: items.map((item) => ({
-        anuncio_id: item.product.id!,
+        anuncio_id: item.ad.id!,
         quantidade: item.quantity
       })),
       endereco: {
@@ -67,10 +70,12 @@ export default function CheckoutPage() {
       }
     }
 
+    navigate('/shop')
+
     createCheckout(checkoutPayload)
   }
 
-  const subtotal = items.reduce((acc, item) => acc + item.product.preco * item.quantity, 0)
+  const subtotal = items.reduce((acc, item) => acc + item.ad.preco * item.quantity, 0)
   const shipping = 15.0
   const total = subtotal + shipping
 
@@ -245,15 +250,15 @@ export default function CheckoutPage() {
 
             <S.ItemsList>
               {items.map((item) => (
-                <S.SummaryItem key={item.product.id}>
-                  <S.ItemImage src={item.product.capa} alt={item.product.name} />
+                <S.SummaryItem key={item.ad.id}>
+                  <S.ItemImage src={item.ad.produto.capa} alt={item.ad.produto.name} />
                   <S.ItemInfo>
-                    <S.ItemName>{item.product.name}</S.ItemName>
+                    <S.ItemName>{item.ad.produto.name}</S.ItemName>
                     <S.ItemQuantity>
-                      {item.quantity}x {formatCurrency(item.product.preco)}
+                      {item.quantity}x {formatCurrency(item.ad.preco)}
                     </S.ItemQuantity>
                   </S.ItemInfo>
-                  <S.ItemTotal>{formatCurrency(item.product.preco * item.quantity)}</S.ItemTotal>
+                  <S.ItemTotal>{formatCurrency(item.ad.preco * item.quantity)}</S.ItemTotal>
                 </S.SummaryItem>
               ))}
             </S.ItemsList>

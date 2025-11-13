@@ -7,5 +7,5 @@ export interface Ad {
   preco: number
   id_user: number
   id_produto: number
-  produto?: Product
+  produto: Product
 }

@@ -1,17 +1,17 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import type { Product } from '../interfaces/Products'
+import type { Ad } from '../interfaces/Ad'
 
 type CartItem = {
-  product: Product
+  ad: Ad
   quantity: number
 }
 
 type CartState = {
   items: CartItem[]
-  addToCart: (product: Product, quantity: number) => void
-  removeFromCart: (productId: number) => void
+  addToCart: (ad: Ad, quantity: number) => void
+  removeFromCart: (adId: number) => void
   clearCart: () => void
 }
 
@@ -20,22 +20,22 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       items: [],
 
-      addToCart: (product, quantity = 1) => {
+      addToCart: (ad, quantity = 1) => {
         const { items } = get()
-        const existing = items.find((item) => item.product.id === product.id)
+        const existing = items.find((item) => item.ad.id === ad.id)
 
         if (existing) {
           const updatedItems = items.map((item) =>
-            item.product.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
+            item.ad.id === ad.id ? { ...item, quantity: item.quantity + quantity } : item
           )
           set({ items: updatedItems })
         } else {
-          set({ items: [...items, { product, quantity }] })
+          set({ items: [...items, { ad, quantity }] })
         }
       },
 
-      removeFromCart: (productId) => {
-        set({ items: get().items.filter((item) => item.product.id !== productId) })
+      removeFromCart: (adId) => {
+        set({ items: get().items.filter((item) => item.ad.id !== adId) })
       },
 
       clearCart: () => {

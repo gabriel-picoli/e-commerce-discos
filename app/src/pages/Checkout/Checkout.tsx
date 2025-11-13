@@ -4,11 +4,15 @@ import z from 'zod'
 
 import { FiCreditCard, FiTruck, FiUser } from 'react-icons/fi'
 
+import { useCreateCheckout } from '../../hooks/useCheckout'
+
 import { useCartStore } from '../../stores/cartStore'
 
-import { formatCurrency } from '../../utils/currency'
+import type { Checkout } from '../../interfaces/Checkout'
 
 import { checkoutSchema } from '../../schemas/checkoutSchema'
+
+import { formatCurrency } from '../../utils/currency'
 
 import * as S from './styles'
 
@@ -28,17 +32,47 @@ export default function CheckoutPage() {
     resolver: zodResolver(checkoutSchema)
   })
 
-  const { items } = useCartStore()
+  const { items, clearCart } = useCartStore()
+
+  const { mutate: createCheckout, isPending } = useCreateCheckout()
+
+  const paymentMethod = watch('paymentMethod')
 
   const onSubmit = (data: CheckoutData) => {
-    console.log('Order data:', data)
+    const checkoutPayload: Checkout = {
+      cart: items.map((item) => ({
+        anuncio_id: item.product.id!,
+        quantidade: item.quantity
+      })),
+      endereco: {
+        cep: data.cep,
+        rua: data.address,
+        numero: data.number,
+        complemento: data.complement,
+        bairro: data.neighborhood,
+        cidade: data.city,
+        estado: data.state
+      },
+      pagamento: {
+        metodo: data.paymentMethod,
+        detalhes:
+          data.paymentMethod === 'credit' || data.paymentMethod === 'debit'
+            ? {
+                cardNumber: data.cardNumber!,
+                cardName: data.cardName!,
+                cardExpiry: data.cardExpiry!,
+                cardCvv: data.cardCvv!
+              }
+            : undefined
+      }
+    }
+
+    createCheckout(checkoutPayload)
   }
 
   const subtotal = items.reduce((acc, item) => acc + item.product.preco * item.quantity, 0)
   const shipping = 15.0
   const total = subtotal + shipping
-
-  const paymentMethod = watch('paymentMethod')
 
   return (
     <S.Container>

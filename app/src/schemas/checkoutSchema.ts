@@ -12,7 +12,7 @@ export const checkoutSchema = z
     address: z.string().min(1, 'Address is required'),
     number: z.string().min(1, 'Number is required'),
     complement: z.string().optional(),
-    neighborhood: z.string().optional(),
+    neighborhood: z.string().min(1, 'Neighborhood is required'),
     city: z.string().min(1, 'City is required'),
     state: z.string().min(1, 'State is required'),
 

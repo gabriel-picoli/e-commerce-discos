@@ -13,7 +13,7 @@ class AnuncioController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'titulo' => 'required|string|max:255',
-            'descricao' => 'required|string|max:255',
+            'descricao' => 'required|string',
             'preco' => 'required|numeric|min:0',
             'id_user' => 'required|exists:users,id',
             'id_produto' => 'required|exists:produtos,id',

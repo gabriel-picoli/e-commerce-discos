@@ -32,7 +32,7 @@ export default function CheckoutPage() {
     resolver: zodResolver(checkoutSchema)
   })
 
-  const { items, clearCart } = useCartStore()
+  const { items } = useCartStore()
 
   const { mutate: createCheckout, isPending } = useCreateCheckout()
 
@@ -276,8 +276,8 @@ export default function CheckoutPage() {
               <S.TotalText>{formatCurrency(total)}</S.TotalText>
             </S.TotalRow>
 
-            <Button type="submit" form="checkout-form" size="small">
-              Confirm Payment
+            <Button type="submit" form="checkout-form" size="small" disabled={isPending}>
+              {isPending ? 'Ordering...' : 'Complete payment'}
             </Button>
           </S.SummaryCard>
         </S.Sidebar>

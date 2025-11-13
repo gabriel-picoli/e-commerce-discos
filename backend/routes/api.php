@@ -22,11 +22,21 @@ Route::middleware('web')->group(function () {
             return $request->user();
         });
 
+    //Atualizar usuário
+    //    ||
+    //    ||
+    //    ||
+    //    ||
+    //  \ || /
+    //   \  /
+    //    \/
+        Route::put('/users/{id}', [UserController::class, 'update']);
+
         // Criação de produtos e anuncios
         Route::post('/criarProduto', [ProdutoController::class, 'store']);
         Route::post('/criarAnuncio', [AnuncioController::class, 'store']);
 
-        // Getters de produtos e anuncios   
+        // Getters de produtos e anuncios
         Route::get('/produtos/getAll', [ProdutoController::class, 'showAll'])->name('produtos.showAll');
         Route::get('/anuncios/getAll', [AnuncioController::class, 'showAll'])->name('anuncios.showAll');
 

@@ -54,7 +54,7 @@ export default function AdForm() {
   const onSubmit = (data: AdFormData) => {
     if (!userId) return
 
-    const adData: Ad = {
+    const adData: Omit<Ad, 'produto'> = {
       ...data,
       preco: parseCurrency(data.preco),
       id_user: userId

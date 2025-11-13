@@ -1,11 +1,7 @@
 export const parseCurrency = (value: string): number => {
   if (!value) return 0
 
-  // limpa o valor para apenas numero
-  const cleaned = value
-    .replace(/[R$\s]/g, '') // remove R$ e os espaços
-    .replace(/\./g, '') // remove separador de milhar
-    .replace(',', '.') // troca virgula decimal por ponto
+  const cleaned = value.replace(/[\$,\s]/g, '').replace(',', '')
 
   const number = parseFloat(cleaned)
 
@@ -13,5 +9,5 @@ export const parseCurrency = (value: string): number => {
 }
 
 export const formatCurrency = (value: number): string => {
-  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }

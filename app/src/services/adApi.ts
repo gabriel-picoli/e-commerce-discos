@@ -6,9 +6,9 @@ import type { Ad } from '../interfaces/Ad'
 
 // busca os anuncio e mescla com os produtos
 export const fetchAllAds = async (): Promise<Ad[]> => {
-  const response = await api.get<Ad[]>('/anuncios/getAll')
+  const { data } = await api.get<Ad[]>('/anuncios/getAll')
 
-  const ads = response.data || []
+  const ads = data || []
 
   // busca os produtos que faltam
   const missingProductIds = Array.from(
@@ -20,13 +20,14 @@ export const fetchAllAds = async (): Promise<Ad[]> => {
   const productsById: Record<number, any> = {}
 
   await Promise.all(
-    missingProductIds.map(async (pid) => {
+    missingProductIds.map(async (productId) => {
       try {
-        const prod = await fetchProductById(pid)
-        productsById[pid] = prod
+        const product = await fetchProductById(productId)
+
+        productsById[productId] = product
       } catch (err) {
         // ignora erro de produtos, pois vai continuar undefined
-        console.error('Failed to fetch product for ad:', pid, err)
+        console.error('Failed to fetch product for ad:', productId, err)
       }
     })
   )
@@ -41,15 +42,15 @@ export const fetchAllAds = async (): Promise<Ad[]> => {
 }
 
 export const fetchAdByUserId = async (userId: number) => {
-  const response = await api.get<Ad[]>(`/users/${userId}/anuncios`)
+  const { data } = await api.get<Ad[]>(`/users/${userId}/anuncios`)
 
-  return response.data
+  return data
 }
 
 export const fetchAdById = async (adId: number) => {
-  const response = await api.get<Ad>(`/anuncios/${adId}`)
+  const { data } = await api.get<Ad>(`/anuncios/${adId}`)
 
-  const ad = response.data as Ad
+  const ad = data as Ad
 
   if (!ad.produto && ad.id_produto) {
     try {
@@ -63,15 +64,15 @@ export const fetchAdById = async (adId: number) => {
 }
 
 export const createAd = async (ad: Partial<Ad>) => {
-  const response = await api.post<Ad>('/criarAnuncio', ad)
+  const { data } = await api.post<Ad>('/criarAnuncio', ad)
 
-  return response.data
+  return data
 }
 
-export const updateAd = async ({ id, ...data }: Ad) => {
-  const response = await api.put<Ad>(`/anuncios/${id}`, data)
+export const updateAd = async ({ id, ...updatedAd }: Ad) => {
+  const { data } = await api.put<Ad>(`/anuncios/${id}`, updatedAd)
 
-  return response.data
+  return data
 }
 
 export const deleteAd = async (id: number) => {

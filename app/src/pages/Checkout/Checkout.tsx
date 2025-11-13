@@ -1,78 +1,73 @@
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import z from 'zod'
 
 import { FiCreditCard, FiTruck, FiUser } from 'react-icons/fi'
 
-import { formatCurrency } from '../../utils/currency'
+import { useCreateCheckout } from '../../hooks/useCheckout'
 
 import { useCartStore } from '../../stores/cartStore'
+
+import type { Checkout } from '../../interfaces/Checkout'
+
+import { checkoutSchema } from '../../schemas/checkoutSchema'
+
+import { formatCurrency } from '../../utils/currency'
 
 import * as S from './styles'
 
 import Input from '../../components/input'
 import Button from '../../components/button'
+import Form from '../../components/form'
+
+type CheckoutData = z.infer<typeof checkoutSchema>
 
 export default function CheckoutPage() {
-  const [formData, setFormData] = useState({
-    // Contact
-    name: '',
-    email: '',
-    phone: '',
-    // Address
-    cep: '',
-    address: '',
-    number: '',
-    complement: '',
-    neighborhood: '',
-    city: '',
-    state: '',
-    // Payment
-    paymentMethod: 'credit',
-    cardNumber: '',
-    cardName: '',
-    cardExpiry: '',
-    cardCvv: ''
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<CheckoutData>({
+    resolver: zodResolver(checkoutSchema)
   })
 
   const { items } = useCartStore()
 
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const { mutate: createCheckout, isPending } = useCreateCheckout()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }))
+  const paymentMethod = watch('paymentMethod')
+
+  const onSubmit = (data: CheckoutData) => {
+    const checkoutPayload: Checkout = {
+      cart: items.map((item) => ({
+        anuncio_id: item.product.id!,
+        quantidade: item.quantity
+      })),
+      endereco: {
+        cep: data.cep,
+        rua: data.address,
+        numero: data.number,
+        complemento: data.complement,
+        bairro: data.neighborhood,
+        cidade: data.city,
+        estado: data.state
+      },
+      pagamento: {
+        metodo: data.paymentMethod,
+        detalhes:
+          data.paymentMethod === 'credit' || data.paymentMethod === 'debit'
+            ? {
+                cardNumber: data.cardNumber!,
+                cardName: data.cardName!,
+                cardExpiry: data.cardExpiry!,
+                cardCvv: data.cardCvv!
+              }
+            : undefined
+      }
     }
-  }
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {}
-
-    if (!formData.name) newErrors.name = 'Nome é obrigatório'
-    if (!formData.email) newErrors.email = 'Email é obrigatório'
-    if (!formData.phone) newErrors.phone = 'Telefone é obrigatório'
-    if (!formData.cep) newErrors.cep = 'CEP é obrigatório'
-    if (!formData.address) newErrors.address = 'Endereço é obrigatório'
-    if (!formData.number) newErrors.number = 'Número é obrigatório'
-    if (!formData.city) newErrors.city = 'Cidade é obrigatória'
-    if (!formData.state) newErrors.state = 'Estado é obrigatório'
-
-    if (formData.paymentMethod === 'credit' || formData.paymentMethod === 'debit') {
-      if (!formData.cardNumber) newErrors.cardNumber = 'Número do cartão é obrigatório'
-      if (!formData.cardName) newErrors.cardName = 'Nome no cartão é obrigatório'
-      if (!formData.cardExpiry) newErrors.cardExpiry = 'Validade é obrigatória'
-      if (!formData.cardCvv) newErrors.cardCvv = 'CVV é obrigatório'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = () => {
-    if (validateForm()) {
-      alert('Pedido confirmado com sucesso!')
-      console.log('Order data:', formData)
-    }
+    createCheckout(checkoutPayload)
   }
 
   const subtotal = items.reduce((acc, item) => acc + item.product.preco * item.quantity, 0)
@@ -82,223 +77,167 @@ export default function CheckoutPage() {
   return (
     <S.Container>
       <S.Content>
-        <S.MainContent>
-          <S.Section>
-            <S.SectionHeader>
-              <FiUser size={20} />
-              <S.SectionTitle>Contact Information</S.SectionTitle>
-            </S.SectionHeader>
-            <S.FormGrid>
-              <Input
-                label="Full Name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                error={errors.name}
-                placeholder="John Smith"
-              />
-              <Input
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                error={errors.email}
-                placeholder="john@email.com"
-              />
-              <Input
-                label="Phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                error={errors.phone}
-                placeholder="(123) 456-7890"
-              />
-            </S.FormGrid>
-          </S.Section>
+        <Form id="checkout-form" onSubmit={handleSubmit(onSubmit)}>
+          <S.MainContent>
+            <S.Section>
+              <S.SectionHeader>
+                <FiUser size={20} />
+                <S.SectionTitle>Contact Information</S.SectionTitle>
+              </S.SectionHeader>
+              <S.FormGrid>
+                <Input
+                  label="Full Name"
+                  placeholder="John Smith"
+                  error={errors.name?.message}
+                  {...register('name')}
+                />
 
-          <S.Section>
-            <S.SectionHeader>
-              <FiTruck size={20} />
-              <S.SectionTitle>Shipping Address</S.SectionTitle>
-            </S.SectionHeader>
-            <S.FormGrid>
-              <S.GridItem $span={1}>
                 <Input
-                  label="ZIP Code"
-                  name="cep"
-                  value={formData.cep}
-                  onChange={handleChange}
-                  error={errors.cep}
-                  placeholder="00000-000"
+                  label="Email"
+                  error={errors.email?.message}
+                  placeholder="john@email.com"
+                  {...register('email')}
                 />
-              </S.GridItem>
-              <S.GridItem $span={2}>
-                <Input
-                  label="Address"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  error={errors.address}
-                  placeholder="Street, Avenue..."
-                />
-              </S.GridItem>
-              <S.GridItem $span={1}>
-                <Input
-                  label="Number"
-                  name="number"
-                  value={formData.number}
-                  onChange={handleChange}
-                  error={errors.number}
-                  placeholder="123"
-                />
-              </S.GridItem>
-              <S.GridItem $span={2}>
-                <Input
-                  label="Complement"
-                  name="complement"
-                  value={formData.complement}
-                  onChange={handleChange}
-                  placeholder="Apt, Block... (optional)"
-                />
-              </S.GridItem>
-              <Input
-                label="Neighborhood"
-                name="neighborhood"
-                value={formData.neighborhood}
-                onChange={handleChange}
-                placeholder="Downtown"
-              />
-              <Input
-                label="City"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                error={errors.city}
-                placeholder="New York"
-              />
-              <Input.Select
-                label="State"
-                name="state"
-                value={formData.state}
-                onChange={handleChange}
-                error={errors.state}
-              >
-                <option value="">Select</option>
-                <option value="SP">SP</option>
-                <option value="RJ">RJ</option>
-                <option value="MG">MG</option>
-                <option value="RS">RS</option>
-              </Input.Select>
-            </S.FormGrid>
-          </S.Section>
 
-          <S.Section>
-            <S.SectionHeader>
-              <FiCreditCard size={20} />
-              <S.SectionTitle>Payment Method</S.SectionTitle>
-            </S.SectionHeader>
-
-            <S.PaymentMethods>
-              <S.PaymentMethod
-                $active={formData.paymentMethod === 'credit'}
-                onClick={() => setFormData((prev) => ({ ...prev, paymentMethod: 'credit' }))}
-              >
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="credit"
-                  checked={formData.paymentMethod === 'credit'}
-                  onChange={handleChange}
-                />
-                <span>Credit Card</span>
-              </S.PaymentMethod>
-              <S.PaymentMethod
-                $active={formData.paymentMethod === 'debit'}
-                onClick={() => setFormData((prev) => ({ ...prev, paymentMethod: 'debit' }))}
-              >
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="debit"
-                  checked={formData.paymentMethod === 'debit'}
-                  onChange={handleChange}
-                />
-                <span>Debit Card</span>
-              </S.PaymentMethod>
-              <S.PaymentMethod
-                $active={formData.paymentMethod === 'pix'}
-                onClick={() => setFormData((prev) => ({ ...prev, paymentMethod: 'pix' }))}
-              >
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="pix"
-                  checked={formData.paymentMethod === 'pix'}
-                  onChange={handleChange}
-                />
-                <span>PIX</span>
-              </S.PaymentMethod>
-              <S.PaymentMethod
-                $active={formData.paymentMethod === 'boleto'}
-                onClick={() => setFormData((prev) => ({ ...prev, paymentMethod: 'boleto' }))}
-              >
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="boleto"
-                  checked={formData.paymentMethod === 'boleto'}
-                  onChange={handleChange}
-                />
-                <span>Bank Slip</span>
-              </S.PaymentMethod>
-            </S.PaymentMethods>
-
-            {(formData.paymentMethod === 'credit' || formData.paymentMethod === 'debit') && (
-              <S.FormGrid style={{ marginTop: '24px' }}>
-                <S.GridItem $span={3}>
-                  <Input
-                    label="Card Number"
-                    name="cardNumber"
-                    value={formData.cardNumber}
-                    onChange={handleChange}
-                    error={errors.cardNumber}
-                    placeholder="0000 0000 0000 0000"
-                    maxLength={19}
-                  />
-                </S.GridItem>
-                <S.GridItem $span={3}>
-                  <Input
-                    label="Name on Card"
-                    name="cardName"
-                    value={formData.cardName}
-                    onChange={handleChange}
-                    error={errors.cardName}
-                    placeholder="FULL NAME"
-                  />
-                </S.GridItem>
                 <Input
-                  label="Expiration Date"
-                  name="cardExpiry"
-                  value={formData.cardExpiry}
-                  onChange={handleChange}
-                  error={errors.cardExpiry}
-                  placeholder="MM/YY"
-                  maxLength={5}
-                />
-                <Input
-                  label="CVV"
-                  name="cardCvv"
-                  value={formData.cardCvv}
-                  onChange={handleChange}
-                  error={errors.cardCvv}
-                  placeholder="123"
-                  maxLength={3}
+                  label="Phone"
+                  error={errors.phone?.message}
+                  placeholder="(123) 456-7890"
+                  {...register('phone')}
                 />
               </S.FormGrid>
-            )}
-          </S.Section>
-        </S.MainContent>
+            </S.Section>
+
+            <S.Section>
+              <S.SectionHeader>
+                <FiTruck size={20} />
+                <S.SectionTitle>Shipping Address</S.SectionTitle>
+              </S.SectionHeader>
+
+              <S.FormGrid>
+                <S.GridItem $span={1}>
+                  <Input
+                    label="ZIP Code"
+                    error={errors.cep?.message}
+                    placeholder="00000-000"
+                    {...register('cep')}
+                  />
+                </S.GridItem>
+
+                <S.GridItem $span={2}>
+                  <Input
+                    label="Address"
+                    error={errors.address?.message}
+                    placeholder="Street, Avenue..."
+                    {...register('address')}
+                  />
+                </S.GridItem>
+
+                <S.GridItem $span={1}>
+                  <Input
+                    label="Number"
+                    error={errors.number?.message}
+                    placeholder="123"
+                    {...register('number')}
+                  />
+                </S.GridItem>
+
+                <S.GridItem $span={2}>
+                  <Input
+                    label="Complement"
+                    placeholder="Apt, Block... (optional)"
+                    {...register('complement')}
+                  />
+                </S.GridItem>
+
+                <Input label="Neighborhood" placeholder="Downtown" {...register('neighborhood')} />
+
+                <Input
+                  label="City"
+                  error={errors.city?.message}
+                  placeholder="New York"
+                  {...register('city')}
+                />
+
+                <Input.Select label="State" error={errors.state?.message} {...register('state')}>
+                  <option value="">Select</option>
+                  <option value="SP">SP</option>
+                  <option value="RJ">RJ</option>
+                  <option value="MG">MG</option>
+                  <option value="RS">RS</option>
+                </Input.Select>
+              </S.FormGrid>
+            </S.Section>
+
+            <S.Section>
+              <S.SectionHeader>
+                <FiCreditCard size={20} />
+                <S.SectionTitle>Payment Method</S.SectionTitle>
+              </S.SectionHeader>
+
+              <S.PaymentMethods>
+                <S.PaymentMethod $active={paymentMethod === 'credit'}>
+                  <input type="radio" value="credit" {...register('paymentMethod')} />
+                  <span>Credit Card</span>
+                </S.PaymentMethod>
+
+                <S.PaymentMethod $active={paymentMethod === 'debit'}>
+                  <input type="radio" value="debit" {...register('paymentMethod')} />
+                  <span>Debit Card</span>
+                </S.PaymentMethod>
+
+                <S.PaymentMethod $active={paymentMethod === 'pix'}>
+                  <input type="radio" value="pix" {...register('paymentMethod')} />
+                  <span>PIX</span>
+                </S.PaymentMethod>
+
+                <S.PaymentMethod $active={paymentMethod === 'boleto'}>
+                  <input type="radio" value="boleto" {...register('paymentMethod')} />
+                  <span>Bank Slip</span>
+                </S.PaymentMethod>
+              </S.PaymentMethods>
+
+              {(paymentMethod === 'credit' || paymentMethod === 'debit') && (
+                <S.FormGrid style={{ marginTop: '24px' }}>
+                  <S.GridItem $span={3}>
+                    <Input
+                      label="Card Number"
+                      placeholder="0000 0000 0000 0000"
+                      maxLength={19}
+                      error={errors.cardNumber?.message}
+                      {...register('cardNumber')}
+                    />
+                  </S.GridItem>
+
+                  <S.GridItem $span={3}>
+                    <Input
+                      label="Name on Card"
+                      placeholder="FULL NAME"
+                      error={errors.cardName?.message}
+                      {...register('cardName')}
+                    />
+                  </S.GridItem>
+
+                  <Input
+                    label="Expiration Date"
+                    placeholder="MM/YY"
+                    maxLength={5}
+                    error={errors.cardExpiry?.message}
+                    {...register('cardExpiry')}
+                  />
+
+                  <Input
+                    label="CVV"
+                    placeholder="123"
+                    maxLength={3}
+                    error={errors.cardCvv?.message}
+                    {...register('cardCvv')}
+                  />
+                </S.FormGrid>
+              )}
+            </S.Section>
+          </S.MainContent>
+        </Form>
 
         <S.Sidebar>
           <S.SummaryCard>
@@ -322,23 +261,23 @@ export default function CheckoutPage() {
             <S.Divider />
 
             <S.SummaryRow>
-              <span>Subtotal</span>
-              <span>{formatCurrency(subtotal)}</span>
+              <S.SummaryText>Subtotal</S.SummaryText>
+              <S.SummaryText>{formatCurrency(subtotal)}</S.SummaryText>
             </S.SummaryRow>
             <S.SummaryRow>
-              <span>Shipping</span>
-              <span>{formatCurrency(shipping)}</span>
+              <S.SummaryText>Shipping</S.SummaryText>
+              <S.SummaryText>{formatCurrency(shipping)}</S.SummaryText>
             </S.SummaryRow>
 
             <S.Divider />
 
             <S.TotalRow>
-              <span>Total</span>
-              <span>{formatCurrency(total)}</span>
+              <S.TotalText>Total</S.TotalText>
+              <S.TotalText>{formatCurrency(total)}</S.TotalText>
             </S.TotalRow>
-            
-            <Button size="small" onClick={handleSubmit}>
-              Confirm Payment
+
+            <Button type="submit" form="checkout-form" size="small" disabled={isPending}>
+              {isPending ? 'Ordering...' : 'Complete payment'}
             </Button>
           </S.SummaryCard>
         </S.Sidebar>

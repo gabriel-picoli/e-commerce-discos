@@ -193,16 +193,22 @@ export const Divider = styled.hr`
 export const SummaryRow = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 1.4rem;
   margin-bottom: 12px;
-  color: ${theme.colors.neutral_400};
+`
+
+export const SummaryText = styled.p`
+  font-size: 1.4rem;
+  color: ${theme.colors.neutral_500};
 `
 
 export const TotalRow = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 2rem;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+`
+
+export const TotalText = styled.p`
+  font-size: 1.8rem;
   font-weight: 600;
   color: ${theme.colors.primary};
 `

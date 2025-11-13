@@ -8,6 +8,6 @@ export const parseCurrency = (value: string): number => {
   return isNaN(number) ? 0 : number
 }
 
-export const formatCurrency = (value: number): string => {
-  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+export const formatCurrency = (value?: number): string => {
+  return (value ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }

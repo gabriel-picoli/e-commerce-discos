@@ -10,6 +10,7 @@ export const SectionTitle = styled.h2`
   font-size: 4rem;
   font-weight: 900;
   color: ${theme.colors.neutral_900};
+  text-transform: capitalize;
   letter-spacing: -0.5px;
   margin-bottom: 1.5rem;
   line-height: 1.1;

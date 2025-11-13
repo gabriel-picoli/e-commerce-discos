@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import type { Product } from '../../interfaces/Products'
+import { useAds } from '../../hooks/useAds'
 
 import { formatCurrency } from '../../utils/currency'
 
@@ -10,7 +10,6 @@ import * as S from './styles'
 
 import Section from '../../components/section'
 import Filter from '../../components/filter/Filter'
-import { useAds } from '../../hooks/useAds'
 
 export default function Shop() {
   const [currentFilters, setCurrentFilters] = useState<any>({
@@ -18,7 +17,6 @@ export default function Shop() {
     artist: '',
     conservation: '',
     type: '',
-    year: '',
     priceMin: '',
     priceMax: ''
   })
@@ -27,18 +25,21 @@ export default function Shop() {
 
   const { data: ads } = useAds()
 
-  const products = (ads || []).map((ad: any) => ({
-    ...(ad.produto || {}),
+  const normalizedAds = (ads || []).map((ad: any) => ({
+    ...ad,
+    produto: {
+      ...(ad.produto || {})
+    },
     preco: Number(ad.preco || 0)
-  })) as Product[]
+  }))
 
-  const genres = products.map((p) => p.genero)
-  const conservation = products.map((p) => p.conservacao)
-  const types = products.map((p) => p.tipo)
-  const years = products.map((p) => p.lancamento)
+  const genres = normalizedAds.map((ad) => ad.produto.genero)
+  const conservation = normalizedAds.map((ad) => ad.produto.conservacao)
+  const types = normalizedAds.map((ad) => ad.produto.tipo)
+  const years = normalizedAds.map((ad) => ad.produto.lancamento)
 
-  const handleProductClick = (product: Product) => {
-    navigate(`/product`, { state: { product } })
+  const handleProductClick = (ad: any) => {
+    navigate(`/product`, { state: { ad } })
   }
 
   return (
@@ -57,9 +58,9 @@ export default function Shop() {
 
       <Section>
         <Section.Container>
-          {products
-            .filter((product) => {
-              // se n tiver filtros, mostra todos
+          {normalizedAds
+            .filter((ad) => {
+              const product = ad.produto
               if (!currentFilters) return true
 
               if (
@@ -100,20 +101,20 @@ export default function Shop() {
               }
 
               const min = Number(currentFilters.priceMin)
-              if (!isNaN(min) && min > 0 && product.preco < min) return false
+              if (!isNaN(min) && min > 0 && ad.preco < min) return false
 
               const max = Number(currentFilters.priceMax)
-              if (!isNaN(max) && max > 0 && product.preco > max) return false
+              if (!isNaN(max) && max > 0 && ad.preco > max) return false
 
               return true
             })
-            .map((product) => (
+            .map((ad) => (
               <Section.VinylAd
-                key={product.id}
-                name={product.name}
-                price={formatCurrency(product.preco)}
-                image={product.capa}
-                onClick={() => handleProductClick(product)}
+                key={ad.id}
+                name={ad.produto.name}
+                price={formatCurrency(ad.preco)}
+                image={ad.produto.capa}
+                onClick={() => handleProductClick(ad)}
               />
             ))}
         </Section.Container>

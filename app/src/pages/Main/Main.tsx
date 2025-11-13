@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAds } from '../../hooks/useAds'
 
-import type { Product } from '../../interfaces/Products'
+import type { Ad } from '../../interfaces/Ad'
 
 import { formatCurrency } from '../../utils/currency'
 
@@ -16,16 +16,14 @@ export default function Main() {
 
   const { data: ads } = useAds()
 
-  const products = (ads || []).map((ad: any) => ({
-    ...(ad.produto || {}),
-    preco: Number(ad.preco || 0)
-  })) as Product[]
+  const nomalizedAds = ads || []
 
-  const rockVinyls = products.filter((p) => p.genero.toLowerCase().includes('rock'))
-  const gameVinyls = products.filter((p) => p.genero.toLowerCase().includes('games'))
+  const categories = Array.from(
+    new Set(nomalizedAds.map((ad) => ad.produto.genero?.toLowerCase() || 'unknown'))
+  ).slice(0, 4)
 
-  const handleProductClick = (product: Product) => {
-    navigate(`/product`, { state: { product } })
+  const handleProductClick = (ad: Ad) => {
+    navigate(`/product`, { state: { ad } })
   }
 
   return (
@@ -39,35 +37,29 @@ export default function Main() {
 
       <S.SectionContainer>
         <Section>
-          <Section.Title>Rock</Section.Title>
+          {categories.map((category) => {
+            const vinyls = nomalizedAds.filter(
+              (ad) => ad.produto.genero?.toLowerCase() === category
+            )
 
-          <Section.Container>
-            {rockVinyls.map((vinyl) => (
-              <Section.VinylAd
-                key={vinyl.id}
-                name={vinyl.name}
-                price={formatCurrency(vinyl.preco)}
-                image={vinyl.capa}
-                onClick={() => handleProductClick(vinyl)}
-              />
-            ))}
-          </Section.Container>
-        </Section>
+            return (
+              <Section key={category}>
+                <Section.Title>{category}</Section.Title>
 
-        <Section>
-          <Section.Title>Games</Section.Title>
-
-          <Section.Container>
-            {gameVinyls.map((vinyl) => (
-              <Section.VinylAd
-                key={vinyl.id}
-                name={vinyl.name}
-                price={formatCurrency(vinyl.preco)}
-                image={vinyl.capa}
-                onClick={() => handleProductClick(vinyl)}
-              />
-            ))}
-          </Section.Container>
+                <Section.Container>
+                  {vinyls.map((vinyl) => (
+                    <Section.VinylAd
+                      key={vinyl.id}
+                      name={vinyl.produto.name}
+                      price={formatCurrency(vinyl.preco)}
+                      image={vinyl.produto.capa}
+                      onClick={() => handleProductClick(vinyl)}
+                    />
+                  ))}
+                </Section.Container>
+              </Section>
+            )
+          })}
         </Section>
       </S.SectionContainer>
     </S.Main>

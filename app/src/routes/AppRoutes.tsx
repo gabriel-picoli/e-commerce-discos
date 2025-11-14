@@ -16,7 +16,6 @@ const Shop = lazy(() => import('../pages/Shop'))
 const Checkout = lazy(() => import('../pages/Checkout'))
 
 // paginas de vendedor
-const SellerDashboard = lazy(() => import('../pages/SellerDashboard/SellerDashboard'))
 const ManageProducts = lazy(() => import('../pages/SellerDashboard/ManageProducts/ManageProducts'))
 const ProductForm = lazy(() => import('../pages/SellerDashboard/ProductForm/ProductForm'))
 const ManageAds = lazy(() => import('../pages/SellerDashboard/ManageAds/ManageAds'))
@@ -47,8 +46,7 @@ export default function AppRoutes() {
         <Route path="/seller" element={<ProtectedRoute />}>
           <Route element={<SellerRoute />}>
             <Route element={<SellerLayout />}>
-              <Route index element={<SellerDashboard />} />
-              <Route path="products" element={<ManageProducts />} />
+              <Route index path="products" element={<ManageProducts />} />
               <Route path="products/new" element={<ProductForm />} />
               <Route path="products/edit/:id" element={<ProductForm />} />
 

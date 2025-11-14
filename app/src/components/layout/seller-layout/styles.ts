@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Link } from 'react-router-dom'
+import { NavLink as RouterNavLink } from 'react-router-dom'
 
 import theme from '../../../styles/theme'
 
@@ -35,7 +35,7 @@ export const Nav = styled.nav`
   gap: 0.5rem;
 `
 
-export const NavLink = styled(Link)`
+export const NavLink = styled(RouterNavLink)`
   color: ${theme.colors.neutral_300};
   text-decoration: none;
   padding: 0.75rem 1rem;

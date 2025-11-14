@@ -1,29 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { FiUser } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+
 import { useAuth } from '../../../hooks/useAuth'
 
 import * as S from './styles'
 
 import Search from '../../search'
 import ShoppingCart from '../../shopping-cart'
+import UserDropdown from '../../user-dropdown'
 
 export default function Header() {
   const { user } = useAuth()
   const isSeller = user?.vendedor === 'S'
-
-  const navigate = useNavigate()
-
-  const handleProfileClick = () => {
-    if (!user) {
-      navigate('/login')
-
-      return
-    }
-
-    if (user.vendedor === 'S') {
-      navigate('/seller')
-    }
-  }
 
   return (
     <S.Header>
@@ -55,9 +42,7 @@ export default function Header() {
           </>
         )}
 
-        <S.Icon onClick={handleProfileClick}>
-          <FiUser size={20} />
-        </S.Icon>
+        <UserDropdown />
       </S.ActionsContainer>
     </S.Header>
   )

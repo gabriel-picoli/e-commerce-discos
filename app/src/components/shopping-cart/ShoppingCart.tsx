@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { toast } from 'sonner'
+
 import { FiShoppingCart, FiX } from 'react-icons/fi'
 
 import { useNavigate } from 'react-router-dom'
@@ -43,10 +45,7 @@ export default function ShoppingCart() {
 
           <S.ItemWrapper>
             {items.length === 0 ? (
-              <S.EmptyMessage>
-                Seu carrinho está vazio
-                <FiShoppingCart size={18} />
-              </S.EmptyMessage>
+              <S.EmptyMessage>Your shopping cart is empty.</S.EmptyMessage>
             ) : (
               items.map((ad) => <CartItem key={ad.ad.id} ad={ad.ad} quantity={ad.quantity} />)
             )}
@@ -62,6 +61,12 @@ export default function ShoppingCart() {
             <Button
               size="small"
               onClick={() => {
+                if (items.length === 0) {
+                  toast.warning('Your shopping cart is empty.')
+
+                  return
+                }
+
                 navigate('/checkout')
 
                 setOpen(false)

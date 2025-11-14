@@ -17,6 +17,16 @@ const theme = {
     blue: '#078fffff',
     blueHover: '#0068e0ff',
 
+    mint: '#10b981',
+    'near-mint': '#22c55e',
+    excellent: '#84cc16',
+    'very-good-plus': '#eab308',
+    'very-good': '#f59e0b',
+    'good-plus': '#f97316',
+    good: '#ef4444',
+    fair: '#dc2626',
+    poor: '#991b1b',
+
     // escala neutra (fundo, bordas, textos)
     neutral_50: '#F9F9F9', // fundo geral (app, páginas)
     neutral_100: '#F4F4F4', // superfícies claras

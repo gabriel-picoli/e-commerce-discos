@@ -21,53 +21,48 @@ interface LoginResponse {
 }
 
 export function useAuth() {
-  const setAuth = useAuthStore((state) => state.setAuth)
-  const clearAuth = useAuthStore((state) => state.clearAuth)
-  const authenticated = useAuthStore((state) => state.authenticated)
+  const { setAuth, clearAuth, authenticated, user } = useAuthStore()
 
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   // funçao que faz a req para a api de login
-  const loginRequest = async (user: { email: string; password: string }) => {
+  const loginRequest = async (credentials: { email: string; password: string }) => {
     try {
       await getCsrfCookie()
-
-      const { data } = await api.post<LoginResponse>('/login', user)
-
+      const { data } = await api.post<LoginResponse>('/login', credentials)
       return data
     } catch (error) {
       throw error
     }
   }
 
-  // mutation para o login
   const loginMutation = useMutation({
     mutationFn: loginRequest,
 
-    // callbacks de sucesso
     onSuccess: (data) => {
       if (!data) return
 
       const { user } = data
 
       setAuth(user)
-
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+      queryClient.setQueryData(['user'], user) // define os dados diretamente
 
       showSuccess(`Welcome back, ${user.name}!`)
 
-      // redireciona pos login
-      navigate('/')
+      // redireciona baseado no tipo de usuario
+      if (user.vendedor === 'S') {
+        navigate('/seller/products', { replace: true })
+      } else {
+        navigate('/shop', { replace: true })
+      }
     },
 
-    // callback de erro
     onError: (error: ApiError) => {
       handleApiError(error)
     }
   })
 
-  // funçao que chama o mutation de login
   const login = async (data: { email: string; password: string }) => {
     await loginMutation.mutateAsync(data)
   }
@@ -75,39 +70,46 @@ export function useAuth() {
   const logout = () => {
     clearAuth()
     queryClient.clear()
-    navigate('/login')
+    navigate('/login', { replace: true })
     showInfo('You have been logged out.')
   }
 
-  // checa se usuario esta logado
+  // verifica sessao (so roda se authenticated = true)
   const userQuery = useQuery({
     queryKey: ['user'],
     queryFn: fetchUser,
-    enabled: authenticated,
-    retry: false
+    enabled: authenticated && !user, // so busca se nao tem user ainda
+    retry: false,
+    staleTime: 5 * 60 * 1000, // 5 minutos
+    gcTime: 10 * 60 * 1000 // 10 minutos
   })
 
-  // atualiza o estado de auth quando os dados do usuario sao buscados
+  // atualiza store quando query retorna dados
   useEffect(() => {
-    if (userQuery.data) {
-      // atualiza o estado com os dados mais recentes
+    if (userQuery.data && authenticated) {
       setAuth(userQuery.data)
     }
-  }, [userQuery.data])
+  }, [userQuery.data, authenticated])
 
-  // trata erro de sessao expirada ou invalida
+  // trata erro de sessao
   useEffect(() => {
     if (userQuery.isError && authenticated) {
       console.warn('Session expired or invalid')
+
       clearAuth()
+
+      queryClient.clear()
+
       showError('Session expired. Please log in again.')
+
+      navigate('/login', { replace: true })
     }
   }, [userQuery.isError, authenticated])
 
   return {
     login,
     logout,
-    user: useAuthStore((s) => s.user),
-    isLoading: loginMutation.isPending || userQuery.isLoading
+    user,
+    isLoading: loginMutation.isPending || (userQuery.isLoading && authenticated)
   }
 }

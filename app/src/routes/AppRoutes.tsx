@@ -50,8 +50,12 @@ export default function AppRoutes() {
               <Route index element={<SellerDashboard />} />
               <Route path="products" element={<ManageProducts />} />
               <Route path="products/new" element={<ProductForm />} />
+              <Route path="products/edit/:id" element={<ProductForm />} />
+
               <Route path="ads" element={<ManageAds />} />
               <Route path="ads/new" element={<AdForm />} />
+              <Route path="ads/edit/:id" element={<AdForm />} />
+
               <Route path="profile" element={<SellerProfile />} />
             </Route>
           </Route>

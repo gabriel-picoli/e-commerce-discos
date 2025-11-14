@@ -76,10 +76,12 @@ export const createAd = async (ad: Partial<Ad>) => {
   return normalizeAd(data)
 }
 
-export const updateAd = async ({ id, ...updatedAd }: Ad) => {
-  const { data } = await api.put<Ad>(`/anuncios/${id}`, updatedAd)
+export const updateAd = async (adData: Partial<Ad> & { id: number }): Promise<Ad> => {
+  const { id, ...destructedData } = adData
 
-  return normalizeAd(data)
+  const { data } = await api.put(`/ads/${id}`, destructedData)
+
+  return data
 }
 
 export const deleteAd = async (id: number) => {

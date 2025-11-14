@@ -10,7 +10,7 @@ import { useCreateProduct, useProductById, useUpdateProduct } from '../../../hoo
 
 import type { Product } from '../../../interfaces/Products'
 
-import { parseCurrency } from '../../../utils/currency'
+import { formatCurrency, parseCurrency } from '../../../utils/currency'
 
 import * as S from './styles'
 
@@ -73,12 +73,6 @@ export default function ProductForm() {
   const isEditMode = !!id
   const productId = id ? Number(id) : undefined
 
-  console.log(id)
-
-  console.log(isEditMode)
-
-  console.log(productId)
-
   const { data: existingProduct, isLoading: isLoadingProduct } = useProductById(productId ?? 0)
 
   const createMutation = useCreateProduct()
@@ -130,19 +124,7 @@ export default function ProductForm() {
         quanti: existingProduct.quanti,
         capa: existingProduct.capa,
         lancamento: existingProduct.lancamento,
-        preco: String(existingProduct.preco)
-      })
-
-      console.log({
-        name: existingProduct.name,
-        tipo: existingProduct.tipo,
-        conservacao: existingProduct.conservacao,
-        genero: existingProduct.genero,
-        artista: existingProduct.artista,
-        quanti: existingProduct.quanti,
-        capa: existingProduct.capa,
-        lancamento: existingProduct.lancamento,
-        preco: String(existingProduct.preco)
+        preco: formatCurrency(existingProduct.preco)
       })
     }
   }, [existingProduct, isEditMode, reset])
@@ -191,19 +173,21 @@ export default function ProductForm() {
           error={errors.genero?.message}
         />
 
-        <Input.Text
-          {...register('artista')}
-          label="Artist"
-          placeholder="Artist or band name"
-          error={errors.artista?.message}
-        />
+        <Form.Row>
+          <Input.Text
+            {...register('artista')}
+            label="Artist"
+            placeholder="Artist or band name"
+            error={errors.artista?.message}
+          />
 
-        <Input.Number
-          {...register('quanti', { valueAsNumber: true })}
-          label="Quantity"
-          placeholder="Available quantity"
-          error={errors.quanti?.message}
-        />
+          <Input.Number
+            {...register('quanti', { valueAsNumber: true })}
+            label="Quantity"
+            placeholder="Available quantity"
+            error={errors.quanti?.message}
+          />
+        </Form.Row>
 
         <Input.Text
           {...register('capa')}

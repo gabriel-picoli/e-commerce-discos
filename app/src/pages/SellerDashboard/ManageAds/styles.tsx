@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import theme from '../../../styles/theme'
 
 export const Container = styled.div`
@@ -6,6 +7,29 @@ export const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+`
+
+export const Meta = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`
+
+export const MetaText = styled.p`
+  font-size: 1.4rem;
+  color: ${theme.colors.neutral_500};
+`
+
+export const MetaDivider = styled.p`
+  border-right: 1px solid ${theme.colors.neutral_500};
+  height: 1rem;
+`
+
+export const Thumb = styled.img`
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
 `
 
 export const Header = styled.header`
@@ -95,13 +119,9 @@ export const AdPrice = styled.div`
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   font-weight: bold;
   color: ${theme.colors.primary};
-
-  svg {
-    font-size: 1.6rem;
-  }
 `
 
 export const ButtonGroup = styled.div`

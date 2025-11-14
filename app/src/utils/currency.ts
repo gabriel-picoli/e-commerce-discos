@@ -1,13 +1,18 @@
 export const parseCurrency = (value: string): number => {
   if (!value) return 0
 
-  const cleaned = value.replace(/[\$,\s]/g, '').replace(',', '')
+  // remove $ e espaços
+  const cleaned = value.replace(/[\$\s]/g, '')
 
-  const number = parseFloat(cleaned)
+  // remove virgulas de milhar: "1,200.50" -> "1200.50"
+  const noThousands = cleaned.replace(/,/g, '')
 
-  return isNaN(number) ? 0 : number
+  return parseFloat(noThousands) || 0
 }
 
 export const formatCurrency = (value?: number): string => {
-  return (value ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+  return (value ?? 0).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  })
 }

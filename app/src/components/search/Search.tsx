@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import { FiSearch } from 'react-icons/fi'
 
 import type { Ad } from '../../interfaces/Ad'
-import type { Product } from '../../interfaces/Products'
 
 import useDebounce from '../../hooks/useDebounce'
 import { useAds } from '../../hooks/useAds'
@@ -74,9 +73,9 @@ export default function Search({
 
   const handleResultClick = (ad: Ad) => {
     // navega para o produto
-    const product = { ...(ad.produto as Product), preco: Number(ad.preco) }
+    const adData = { ...(ad as Ad), preco: Number(ad.preco) }
 
-    navigate('/product', { state: { product } })
+    navigate('/product', { state: { ad: adData } })
 
     setOpen(false)
 

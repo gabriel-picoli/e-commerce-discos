@@ -23,7 +23,7 @@ export default function CartItem({ ad, quantity }: CartItemProps) {
       </S.ImageWrapper>
 
       <S.Info>
-        <S.Name>{ad.produto.name}</S.Name>
+        <S.Name>{ad.titulo}</S.Name>
 
         <S.Price>
           {quantity}x - {formatCurrency(ad.preco)}

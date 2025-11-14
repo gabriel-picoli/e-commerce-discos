@@ -1,10 +1,12 @@
+import { useEffect } from 'react'
+
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 import { useAuth } from '../../../hooks/useAuth'
-import { useCreateProduct } from '../../../hooks/useProducts'
+import { useCreateProduct, useProductById, useUpdateProduct } from '../../../hooks/useProducts'
 
 import type { Product } from '../../../interfaces/Products'
 
@@ -15,6 +17,7 @@ import * as S from './styles'
 import Input from '../../../components/input'
 import Button from '../../../components/button'
 import Form from '../../../components/form'
+import Loading from '../../../components/loading/Loading'
 
 const productSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters'),
@@ -54,6 +57,7 @@ export default function ProductForm() {
     register,
     handleSubmit,
     watch,
+    reset,
     setValue,
     formState: { errors }
   } = useForm<ProductFormData>({
@@ -65,14 +69,28 @@ export default function ProductForm() {
 
   const navigate = useNavigate()
 
+  const { id } = useParams<{ id: string }>()
+  const isEditMode = !!id
+  const productId = id ? Number(id) : undefined
+
+  console.log(id)
+
+  console.log(isEditMode)
+
+  console.log(productId)
+
+  const { data: existingProduct, isLoading: isLoadingProduct } = useProductById(productId ?? 0)
+
   const createMutation = useCreateProduct()
   const isCreating = (createMutation as any).isLoading || false
+
+  const updateMutation = useUpdateProduct()
+  const isUpdating = (updateMutation as any).isLoading || false
 
   const onSubmit = async (data: ProductFormData) => {
     try {
       if (!user || !userId) {
-        console.error('User not found. Cannot create product.')
-
+        console.error('User not found. Cannot save product.')
         return
       }
 
@@ -89,12 +107,48 @@ export default function ProductForm() {
         id_user: userId
       }
 
-      await createMutation.mutateAsync(payload)
+      if (isEditMode && productId) {
+        await updateMutation.mutateAsync({ ...payload, id: productId })
+      } else {
+        await createMutation.mutateAsync(payload)
+      }
 
       navigate('/seller/products')
     } catch (error) {
-      console.error('Error creating product:', error)
+      console.error('Error saving product:', error)
     }
+  }
+
+  useEffect(() => {
+    if (isEditMode && existingProduct) {
+      reset({
+        name: existingProduct.name,
+        tipo: existingProduct.tipo,
+        conservacao: existingProduct.conservacao,
+        genero: existingProduct.genero,
+        artista: existingProduct.artista,
+        quanti: existingProduct.quanti,
+        capa: existingProduct.capa,
+        lancamento: existingProduct.lancamento,
+        preco: String(existingProduct.preco)
+      })
+
+      console.log({
+        name: existingProduct.name,
+        tipo: existingProduct.tipo,
+        conservacao: existingProduct.conservacao,
+        genero: existingProduct.genero,
+        artista: existingProduct.artista,
+        quanti: existingProduct.quanti,
+        capa: existingProduct.capa,
+        lancamento: existingProduct.lancamento,
+        preco: String(existingProduct.preco)
+      })
+    }
+  }, [existingProduct, isEditMode, reset])
+
+  if (isEditMode && isLoadingProduct) {
+    return <Loading />
   }
 
   return (
@@ -178,8 +232,14 @@ export default function ProductForm() {
           />
         </Form.Row>
 
-        <Button.Primary type="submit" disabled={isCreating}>
-          {isCreating ? 'Creating…' : 'Create Product'}
+        <Button.Primary type="submit" disabled={isCreating || isUpdating}>
+          {isCreating || isUpdating
+            ? isEditMode
+              ? 'Updating…'
+              : 'Creating…'
+            : isEditMode
+              ? 'Update Product'
+              : 'Create Product'}
         </Button.Primary>
       </Form>
     </S.FormContainer>

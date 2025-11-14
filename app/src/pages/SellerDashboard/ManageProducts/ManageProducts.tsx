@@ -40,8 +40,11 @@ export default function ManageProducts() {
   }
 
   const handleCreateProduct = () => navigate('/seller/products/new')
-  const handleEditProduct = (product: Product) =>
+  const handleEditProduct = (product: Product) => {
     navigate(`/seller/products/edit/${product.id}`, { state: { product } })
+
+    console.log(navigate(`/seller/products/edit/${product.id}`, { state: { product } }))
+  }
 
   useEffect(() => {
     if (!user || user.vendedor !== 'S') {

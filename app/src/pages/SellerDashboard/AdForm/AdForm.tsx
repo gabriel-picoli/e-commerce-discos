@@ -1,15 +1,17 @@
+import { useEffect } from 'react'
+
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useAuth } from '../../../hooks/useAuth'
-import { useCreateAd } from '../../../hooks/useAds'
+import { useAdById, useCreateAd, useUpdateAd } from '../../../hooks/useAds'
 import { useProductsByUser } from '../../../hooks/useProducts'
 
 import type { Ad } from '../../../interfaces/Ad'
 
-import { parseCurrency } from '../../../utils/currency'
+import { formatCurrency, parseCurrency } from '../../../utils/currency'
 
 import * as S from './styles'
 
@@ -32,24 +34,32 @@ const adSchema = z.object({
 type AdFormData = z.infer<typeof adSchema>
 
 export default function AdForm() {
-  const navigate = useNavigate()
-
-  const { user } = useAuth()
-  const userId = user?.id ?? 0
-
-  const { mutate: createAd, isPending } = useCreateAd(userId as number)
-
-  const { data: products, isLoading: isLoadingProducts } = useProductsByUser(userId as number)
-
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<AdFormData>({
     resolver: zodResolver(adSchema)
   })
+
+  const { user } = useAuth()
+  const userId = user?.id ?? 0
+
+  const navigate = useNavigate()
+
+  const { id } = useParams<{ id: string }>()
+
+  const isEditMode = !!id
+  const adId = id ? parseInt(id) : undefined
+
+  const { data: existingAd, isLoading: isLoadingAd } = useAdById(adId ?? 0)
+  const { mutate: createAd, isPending: isCreating } = useCreateAd(userId)
+  const { mutate: updateAd, isPending: isUpdating } = useUpdateAd()
+
+  const { data: products, isLoading: isLoadingProducts } = useProductsByUser(userId)
 
   const onSubmit = (data: AdFormData) => {
     if (!userId) return
@@ -59,18 +69,35 @@ export default function AdForm() {
       preco: parseCurrency(data.preco),
       id_user: userId
     }
-    createAd(adData)
+
+    if (isEditMode && adId) {
+      updateAd({ ...adData, id: adId })
+    } else {
+      createAd(adData)
+    }
 
     navigate('/seller/ads')
   }
 
-  if (isLoadingProducts) {
+  // preenche formulario com dados existentes
+  useEffect(() => {
+    if (isEditMode && existingAd) {
+      reset({
+        titulo: existingAd.titulo,
+        descricao: existingAd.descricao,
+        preco: formatCurrency(existingAd.preco),
+        id_produto: existingAd.id_produto
+      })
+    }
+  }, [existingAd, isEditMode, reset])
+
+  if (isLoadingProducts || (isEditMode && isLoadingAd)) {
     return <Loading />
   }
 
   return (
     <S.FormContainer>
-      <S.Title>Create Advertisement</S.Title>
+      <S.Title>{isEditMode ? 'Edit Advertisement' : 'Create Advertisement'}</S.Title>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input.Text
           {...register('titulo')}
@@ -110,8 +137,14 @@ export default function AdForm() {
           ))}
         </Input.Select>
 
-        <Button.Primary type="submit" disabled={isPending}>
-          {isPending ? 'Creating...' : 'Create Advertisement'}
+        <Button.Primary type="submit" disabled={isCreating || isUpdating}>
+          {isCreating || isUpdating
+            ? isEditMode
+              ? 'Updating...'
+              : 'Creating...'
+            : isEditMode
+              ? 'Update Advertisement'
+              : 'Create Advertisement'}
         </Button.Primary>
       </Form>
     </S.FormContainer>

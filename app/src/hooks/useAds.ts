@@ -1,6 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { createAd, deleteAd, fetchAdById, fetchAdByUserId, fetchAllAds } from '../services/adApi'
+import {
+  createAd,
+  deleteAd,
+  fetchAdById,
+  fetchAdByUserId,
+  fetchAllAds,
+  updateAd
+} from '../services/adApi'
 
 import type { Ad } from '../interfaces/Ad'
 
@@ -41,6 +48,30 @@ export const useCreateAd = (userId: number) => {
       queryClient.invalidateQueries({ queryKey: ['ads', userId] })
 
       showSuccess('Advertisement created successfully!')
+    },
+
+    onError: (error) => {
+      handleApiError(error)
+    }
+  })
+}
+
+// hook pra atualizar anuncio
+export const useUpdateAd = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (adData: Partial<Ad> & { id: number }) => updateAd(adData),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['ads'] })
+
+      queryClient.invalidateQueries({ queryKey: ['ad', variables.id] })
+
+      if (variables && (variables as any).id_user) {
+        queryClient.invalidateQueries({ queryKey: ['ads', (variables as any).id_user] })
+      }
+
+      showSuccess('Advertisement updated successfully!')
     },
 
     onError: (error) => {

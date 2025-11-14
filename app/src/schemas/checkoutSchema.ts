@@ -17,7 +17,12 @@ export const checkoutSchema = z
     state: z.string().min(1, 'State is required'),
 
     // payment
-    paymentMethod: z.enum(['credit', 'debit', 'pix', 'boleto']),
+    paymentMethod: z
+      .enum(['credit', 'debit', 'pix', 'boleto'])
+      .nullable()
+      .refine((val) => val !== null, {
+        message: 'You must select a payment method'
+      }),
     cardNumber: z.string().optional(),
     cardName: z.string().optional(),
     cardExpiry: z.string().optional(),

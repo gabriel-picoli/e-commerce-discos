@@ -17,12 +17,10 @@ export const createUser = async (user: User) => {
 }
 
 // atualiza dados do usuario
-export const updateUser = async (user: Partial<User>) => {
-  console.log(user)
+export const updateUser = async ({ id, userData }: { id: number; userData: Partial<User> }) => {
+  const { data } = await api.put(`/users/${id}`, userData)
 
-  // const { data } = await api.put(`/users/${user.id}`, user)
-
-  // return data
+  return data
 }
 
 export const deleteUser = async ({ id }: User) => {

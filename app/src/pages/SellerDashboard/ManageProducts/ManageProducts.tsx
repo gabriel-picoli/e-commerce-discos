@@ -17,6 +17,8 @@ import { useProductsByUser, useDeleteProduct } from '../../../hooks/useProducts'
 
 import type { Product } from '../../../interfaces/Products'
 
+import { capitalize } from '../../../utils/capitalize'
+
 import * as S from './styles'
 
 import Loading from '../../../components/loading/Loading'
@@ -103,7 +105,7 @@ export default function ManageProducts() {
                   </S.DetailItem>
 
                   <S.DetailItem>
-                    <FiLayers /> {product.conservacao}
+                    <FiLayers /> {capitalize(product.conservacao)}
                   </S.DetailItem>
 
                   <S.DetailItem>

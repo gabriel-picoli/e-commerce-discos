@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Link } from 'react-router-dom'
+import { NavLink as RouterNavLink } from 'react-router-dom'
 
 import theme from '../../../styles/theme'
 
@@ -16,7 +16,7 @@ export const Sidebar = styled.aside`
   padding: 2rem;
   position: fixed;
   height: 100vh;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: ${theme.shadows.lg};
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@ export const Nav = styled.nav`
   gap: 0.5rem;
 `
 
-export const NavLink = styled(Link)`
+export const NavLink = styled(RouterNavLink)`
   color: ${theme.colors.neutral_300};
   text-decoration: none;
   padding: 0.75rem 1rem;

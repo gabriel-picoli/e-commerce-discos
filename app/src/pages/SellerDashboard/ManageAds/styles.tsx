@@ -9,29 +9,6 @@ export const Container = styled.div`
   padding: 2rem;
 `
 
-export const Meta = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`
-
-export const MetaText = styled.p`
-  font-size: 1.4rem;
-  color: ${theme.colors.neutral_500};
-`
-
-export const MetaDivider = styled.p`
-  border-right: 1px solid ${theme.colors.neutral_500};
-  height: 1rem;
-`
-
-export const Thumb = styled.img`
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
-`
-
 export const Header = styled.header`
   display: flex;
   justify-content: space-between;
@@ -61,19 +38,41 @@ export const Button = styled.button`
 
 export const AdList = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
 `
 
 export const AdCard = styled.div`
   background: ${theme.colors.background.card};
   border-radius: 10px;
-  box-shadow: ${theme.shadows.md};
-  transition: all 0.25s ease;
   overflow: hidden;
+  box-shadow: ${theme.shadows.md};
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 
   &:hover {
     box-shadow: ${theme.shadows.lg};
+  }
+`
+
+export const ImageWrapper = styled.div`
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #f5f5f5;
+`
+
+export const AdThumb = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+
+  ${AdCard}:hover & {
+    transform: scale(1.05);
   }
 `
 
@@ -90,15 +89,21 @@ export const AdHeader = styled.div`
   gap: 0.6rem;
 `
 
-export const AdIcon = styled.div`
-  font-size: 2.4rem;
-  color: ${theme.colors.primary};
+export const Meta = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 `
 
 export const AdTitle = styled.h3`
   font-size: 1.6rem;
   color: ${theme.colors.text.primary};
   font-weight: 600;
+`
+
+export const MetaText = styled.p`
+  font-size: 1.4rem;
+  color: ${theme.colors.neutral_500};
 `
 
 export const AdDescription = styled.p`

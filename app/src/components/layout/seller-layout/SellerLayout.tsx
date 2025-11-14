@@ -10,7 +10,6 @@ export default function SellerLayout() {
       <S.Sidebar>
         <S.Logo>Pozzoleone</S.Logo>
         <S.Nav>
-          <S.NavLink to="/seller">Dashboard</S.NavLink>
           <S.NavLink to="/seller/products">Products</S.NavLink>
           <S.NavLink to="/seller/ads">Advertisements</S.NavLink>
           <S.NavLink to="/seller/profile">Profile</S.NavLink>

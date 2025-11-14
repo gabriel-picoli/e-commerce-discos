@@ -12,6 +12,7 @@ import * as S from './styles'
 
 import Section from '../../components/section'
 import Filter from '../../components/filter/Filter'
+import Loading from '../../components/loading/Loading'
 
 export default function Shop() {
   const [currentFilters, setCurrentFilters] = useState<any>({
@@ -25,7 +26,7 @@ export default function Shop() {
 
   const navigate = useNavigate()
 
-  const { data: ads } = useAds()
+  const { data: ads, isLoading: loading } = useAds()
 
   const normalizedAds = (ads || []).map((ad: Ad) => ({
     ...ad,
@@ -43,6 +44,8 @@ export default function Shop() {
   const handleProductClick = (ad: any) => {
     navigate(`/product`, { state: { ad } })
   }
+
+  if (loading) return <Loading />
 
   return (
     <S.Container>

@@ -81,17 +81,15 @@ export default function ManageAds() {
         <S.AdList>
           {ads.map((ad) => (
             <S.AdCard key={ad.id_produto}>
-              <S.Thumb src={ad.produto.capa} alt={ad.titulo} />
+              <S.ImageWrapper>
+                <S.AdThumb src={ad.produto.capa} alt={ad.titulo} />
+              </S.ImageWrapper>
 
               <S.AdContent>
-                <S.AdTitle>{ad.titulo}</S.AdTitle>
-
                 <S.Meta>
+                  <S.AdTitle>{ad.titulo}</S.AdTitle>
+                  
                   <S.MetaText>{ad.produto.genero}</S.MetaText>
-
-                  <S.MetaDivider />
-
-                  <S.MetaText>{ad.produto.conservacao}</S.MetaText>
                 </S.Meta>
 
                 <S.AdDescription>{truncate(ad.descricao, 80)}</S.AdDescription>

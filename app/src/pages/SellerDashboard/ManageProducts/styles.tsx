@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import theme from '../../../styles/theme'
 
 export const Container = styled.div`
@@ -84,7 +85,7 @@ export const ProductInfo = styled.div`
 `
 
 export const ProductName = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   color: ${theme.colors.text.primary};
   margin-bottom: 0.5rem;
   font-weight: 600;

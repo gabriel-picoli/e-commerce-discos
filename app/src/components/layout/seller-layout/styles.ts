@@ -16,7 +16,7 @@ export const Sidebar = styled.aside`
   padding: 2rem;
   position: fixed;
   height: 100vh;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: ${theme.shadows.lg};
   z-index: 10;
   display: flex;
   flex-direction: column;

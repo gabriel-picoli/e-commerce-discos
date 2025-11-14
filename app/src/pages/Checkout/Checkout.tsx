@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -6,6 +8,10 @@ import z from 'zod'
 import { FiCreditCard, FiTruck, FiUser } from 'react-icons/fi'
 
 import { useCreateCheckout } from '../../hooks/useCheckout'
+import { useAuth } from '../../hooks/useAuth'
+import { useUpdateUser } from '../../hooks/useUsers'
+
+import { fetchAddressByZip } from '../../services/fetchAddressByZip'
 
 import { useCartStore } from '../../stores/cartStore'
 
@@ -27,11 +33,16 @@ export default function CheckoutPage() {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors }
   } = useForm<CheckoutData>({
     resolver: zodResolver(checkoutSchema)
   })
+
+  const { user } = useAuth()
+
+  const { mutate: updateUser } = useUpdateUser()
 
   const { items } = useCartStore()
 
@@ -40,6 +51,12 @@ export default function CheckoutPage() {
   const navigate = useNavigate()
 
   const paymentMethod = watch('paymentMethod')
+
+  const cep = watch('cep')
+
+  const subtotal = items.reduce((acc, item) => acc + item.ad.preco * item.quantity, 0)
+  const shipping = 15.0
+  const total = subtotal + shipping
 
   const onSubmit = (data: CheckoutData) => {
     const checkoutPayload: Checkout = {
@@ -57,7 +74,7 @@ export default function CheckoutPage() {
         estado: data.state
       },
       pagamento: {
-        metodo: data.paymentMethod,
+        metodo: data.paymentMethod!,
         detalhes:
           data.paymentMethod === 'credit' || data.paymentMethod === 'debit'
             ? {
@@ -70,14 +87,64 @@ export default function CheckoutPage() {
       }
     }
 
-    navigate('/shop')
+    const userPayload = {
+      id: user?.id!,
+      userData: {
+        name: data.name,
+        email: data.email,
+        telefone: data.phone,
+        cep: data.cep,
+        endereco: `${data.address}, ${data.number}`,
+        cidade: data.city,
+        estado: data.state
+      }
+    }
 
-    createCheckout(checkoutPayload)
+    createCheckout(checkoutPayload, {
+      onSuccess: () => {
+        // atualiza os dados do usuario apos checkout bem-sucedido
+        updateUser(userPayload)
+
+        navigate('/shop')
+      }
+    })
   }
 
-  const subtotal = items.reduce((acc, item) => acc + item.ad.preco * item.quantity, 0)
-  const shipping = 15.0
-  const total = subtotal + shipping
+  useEffect(() => {
+    if (user) {
+      if (user.name) setValue('name', user.name)
+      if (user.email) setValue('email', user.email)
+      if (user.telefone) setValue('phone', user.telefone)
+      if (user.cep) setValue('cep', user.cep)
+      if (user.endereco) {
+        const [street, number] = user.endereco.split(',').map((v) => v.trim())
+
+        setValue('address', street)
+        setValue('number', number || '')
+      }
+      if (user.cidade) setValue('city', user.cidade)
+      if (user.estado) setValue('state', user.estado)
+    }
+  }, [user, setValue])
+
+  useEffect(() => {
+    const loadAddress = async () => {
+      const cleanZip = cep?.replace(/\D/g, '')
+
+      if (!cleanZip || cleanZip.length !== 8) return
+
+      const result = await fetchAddressByZip(cleanZip)
+
+      if (!result) return
+
+      setValue('address', result.logradouro || '')
+      setValue('neighborhood', result.bairro || '')
+      setValue('city', result.localidade || '')
+      setValue('state', result.uf || '')
+    }
+
+    loadAddress()
+  }, [cep, setValue])
 
   return (
     <S.Container>
@@ -89,6 +156,7 @@ export default function CheckoutPage() {
                 <FiUser size={20} />
                 <S.SectionTitle>Contact Information</S.SectionTitle>
               </S.SectionHeader>
+
               <S.FormGrid>
                 <Input
                   label="Full Name"
@@ -201,6 +269,9 @@ export default function CheckoutPage() {
                   <span>Bank Slip</span>
                 </S.PaymentMethod>
               </S.PaymentMethods>
+              {errors.paymentMethod && (
+                <S.ErrorMessage>{errors.paymentMethod.message}</S.ErrorMessage>
+              )}
 
               {(paymentMethod === 'credit' || paymentMethod === 'debit') && (
                 <S.FormGrid style={{ marginTop: '24px' }}>

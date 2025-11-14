@@ -62,7 +62,7 @@ export const DropdownItem = styled.button`
   text-align: left;
 
   &:hover {
-    background-color: ${theme.colors.background || '#f5f5f5'};
+    background-color: ${theme.colors.neutral_100};
     color: ${theme.colors.primaryHover};
   }
 

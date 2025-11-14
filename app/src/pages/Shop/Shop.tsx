@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAds } from '../../hooks/useAds'
 
+import type { Ad } from '../../interfaces/Ad'
+
 import { formatCurrency } from '../../utils/currency'
 
 import * as S from './styles'
@@ -25,7 +27,7 @@ export default function Shop() {
 
   const { data: ads } = useAds()
 
-  const normalizedAds = (ads || []).map((ad: any) => ({
+  const normalizedAds = (ads || []).map((ad: Ad) => ({
     ...ad,
     produto: {
       ...(ad.produto || {})
@@ -111,7 +113,7 @@ export default function Shop() {
             .map((ad) => (
               <Section.VinylAd
                 key={ad.id}
-                name={ad.produto.name}
+                name={ad.titulo}
                 price={formatCurrency(ad.preco)}
                 image={ad.produto.capa}
                 onClick={() => handleProductClick(ad)}

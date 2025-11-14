@@ -10,8 +10,6 @@ import { useCreateProduct, useProductById, useUpdateProduct } from '../../../hoo
 
 import type { Product } from '../../../interfaces/Products'
 
-import { formatCurrency, parseCurrency } from '../../../utils/currency'
-
 import * as S from './styles'
 
 import Input from '../../../components/input'
@@ -34,8 +32,7 @@ const productSchema = z.object({
       return false
     }
   }, 'Must be a valid URL'),
-  lancamento: z.string().min(4, 'Release year is required'),
-  preco: z.string().min(1, 'Price is required')
+  lancamento: z.string().min(4, 'Release year is required')
 })
 
 type ProductFormData = z.infer<typeof productSchema>
@@ -56,16 +53,14 @@ export default function ProductForm() {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
-    setValue,
     formState: { errors }
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema)
   })
 
   const { user } = useAuth()
-  const userId = user?.id ?? 0
+  const userId = user?.id
 
   const navigate = useNavigate()
 
@@ -73,7 +68,7 @@ export default function ProductForm() {
   const isEditMode = !!id
   const productId = id ? Number(id) : undefined
 
-  const { data: existingProduct, isLoading: isLoadingProduct } = useProductById(productId ?? 0)
+  const { data: existingProduct, isLoading: isLoadingProduct } = useProductById(productId!)
 
   const createMutation = useCreateProduct()
   const isCreating = (createMutation as any).isLoading || false
@@ -97,7 +92,6 @@ export default function ProductForm() {
         quanti: data.quanti,
         capa: data.capa,
         lancamento: data.lancamento,
-        preco: parseCurrency(data.preco),
         id_user: userId
       }
 
@@ -123,8 +117,7 @@ export default function ProductForm() {
         artista: existingProduct.artista,
         quanti: existingProduct.quanti,
         capa: existingProduct.capa,
-        lancamento: existingProduct.lancamento,
-        preco: formatCurrency(existingProduct.preco)
+        lancamento: existingProduct.lancamento
       })
     }
   }, [existingProduct, isEditMode, reset])
@@ -166,12 +159,21 @@ export default function ProductForm() {
           </Input.Select>
         </Form.Row>
 
-        <Input.Text
-          {...register('genero')}
-          label="Genre"
-          placeholder="Rock, Jazz, etc."
-          error={errors.genero?.message}
-        />
+        <Form.Row>
+          <Input.Text
+            {...register('genero')}
+            label="Genre"
+            placeholder="Rock, Jazz, etc."
+            error={errors.genero?.message}
+          />
+
+          <Input.Text
+            {...register('lancamento')}
+            label="Release Year"
+            placeholder="YYYY"
+            error={errors.lancamento?.message}
+          />
+        </Form.Row>
 
         <Form.Row>
           <Input.Text
@@ -195,26 +197,6 @@ export default function ProductForm() {
           placeholder="https://example.com/image.jpg"
           error={errors.capa?.message}
         />
-
-        <Form.Row>
-          <Input.Text
-            {...register('lancamento')}
-            label="Release Year"
-            placeholder="YYYY"
-            error={errors.lancamento?.message}
-          />
-
-          <Input.Currency
-            label="Price"
-            placeholder="Price in BRL"
-            value={watch('preco')}
-            onChange={(e) => {
-              setValue('preco', e.target.value)
-            }}
-            name="preco"
-            error={errors.preco?.message}
-          />
-        </Form.Row>
 
         <Button.Primary type="submit" disabled={isCreating || isUpdating}>
           {isCreating || isUpdating

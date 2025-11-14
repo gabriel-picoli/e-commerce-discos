@@ -74,9 +74,9 @@ export default function Search({
 
   const handleResultClick = (ad: Ad) => {
     // navega para o produto
-    const product = { ...(ad.produto as Product), preco: Number(ad.preco) }
+    const adData = { ...(ad as Ad), preco: Number(ad.preco) }
 
-    navigate('/product', { state: { product } })
+    navigate('/product', { state: { ad: adData } })
 
     setOpen(false)
 

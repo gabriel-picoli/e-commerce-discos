@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { FiEdit, FiTag, FiFileText, FiDollarSign, FiAlertCircle, FiTrash2 } from 'react-icons/fi'
+import { FiEdit, FiAlertCircle, FiTrash2 } from 'react-icons/fi'
 
 import { useAuth } from '../../../hooks/useAuth'
 import { useAdsByUser, useDeleteAd } from '../../../hooks/useAds'
@@ -10,6 +10,7 @@ import { useAdsByUser, useDeleteAd } from '../../../hooks/useAds'
 import type { Ad } from '../../../interfaces/Ad'
 
 import { formatCurrency } from '../../../utils/currency'
+import { truncate } from '../../../utils/truncate'
 
 import * as S from './styles'
 
@@ -80,21 +81,22 @@ export default function ManageAds() {
         <S.AdList>
           {ads.map((ad) => (
             <S.AdCard key={ad.id_produto}>
+              <S.Thumb src={ad.produto.capa} alt={ad.titulo} />
+
               <S.AdContent>
-                <S.AdHeader>
-                  <S.AdIcon>
-                    <FiTag />
-                  </S.AdIcon>
-                  <S.AdTitle>{ad.titulo}</S.AdTitle>
-                </S.AdHeader>
+                <S.AdTitle>{ad.titulo}</S.AdTitle>
 
-                <S.AdDescription>
-                  <FiFileText /> {ad.descricao || 'No description provided.'}
-                </S.AdDescription>
+                <S.Meta>
+                  <S.MetaText>{ad.produto.genero}</S.MetaText>
 
-                <S.AdPrice>
-                  <FiDollarSign /> {formatCurrency(ad.preco)}
-                </S.AdPrice>
+                  <S.MetaDivider />
+
+                  <S.MetaText>{ad.produto.conservacao}</S.MetaText>
+                </S.Meta>
+
+                <S.AdDescription>{truncate(ad.descricao, 80)}</S.AdDescription>
+
+                <S.AdPrice>{formatCurrency(ad.preco)}</S.AdPrice>
 
                 <S.ButtonGroup>
                   <S.EditButton onClick={() => handleEditAd(ad)}>

@@ -115,23 +115,23 @@ Input.Currency = forwardRef<HTMLInputElement, InputProps & { value: string }>(
     return (
       <S.InputContainer>
         <S.Label htmlFor={inputId}>{label}</S.Label>
+
         <NumericFormat
           id={inputId}
-          thousandSeparator="."
-          decimalSeparator=","
-          prefix="R$ "
+          thousandSeparator=","
+          decimalSeparator="."
+          prefix="$"
           decimalScale={2}
           fixedDecimalScale
           value={value}
           name={name}
           onValueChange={(values) => {
             if (numericFormatProps.onChange) {
-              // Create a synthetic event to match the expected signature
               numericFormatProps.onChange({
-                ...({} as unknown as React.ChangeEvent<HTMLInputElement>),
+                ...({} as React.ChangeEvent<HTMLInputElement>),
                 target: {
-                  ...({} as unknown as HTMLInputElement),
-                  value: values.value,
+                  ...({} as HTMLInputElement),
+                  value: values.formattedValue,
                   name: name || ''
                 }
               })
@@ -141,6 +141,7 @@ Input.Currency = forwardRef<HTMLInputElement, InputProps & { value: string }>(
           getInputRef={ref}
           {...numericFormatProps}
         />
+
         {error && <S.ErrorMessage>{error}</S.ErrorMessage>}
       </S.InputContainer>
     )

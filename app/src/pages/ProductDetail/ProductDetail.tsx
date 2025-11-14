@@ -22,6 +22,8 @@ import { useCartStore } from '../../stores/cartStore'
 
 import type { Ad } from '../../interfaces/Ad'
 
+import theme from '../../styles/theme'
+
 import * as S from './styles'
 
 import Button from '../../components/button'
@@ -30,28 +32,40 @@ type ProductDetailProps = {
   ad: Ad
 }
 
+const CONSERVATION_NORMALIZE: Record<string, string> = {
+  mint: 'Mint',
+  'near mint': 'Near Mint',
+  excellent: 'Excellent',
+  'very good plus': 'Very Good Plus',
+  'very good': 'Very Good',
+  'good plus': 'Good Plus',
+  good: 'Good',
+  fair: 'Fair',
+  poor: 'Poor'
+}
+
 const CONSERVATION_COLORS: Record<string, string> = {
-  Mint: '#10b981',
-  'Near Mint': '#22c55e',
-  Excellent: '#84cc16',
-  'Very Good Plus': '#eab308',
-  'Very Good': '#f59e0b',
-  'Good Plus': '#f97316',
-  Good: '#ef4444',
-  Fair: '#dc2626',
-  Poor: '#991b1b'
+  Mint: theme.colors.mint,
+  'Near Mint': theme.colors['near-mint'],
+  Excellent: theme.colors.excellent,
+  'Very Good Plus': theme.colors['very-good-plus'],
+  'Very Good': theme.colors['very-good'],
+  'Good Plus': theme.colors['good-plus'],
+  Good: theme.colors.good,
+  Fair: theme.colors.fair,
+  Poor: theme.colors.poor
 }
 
 const CONSERVATION_DESCRIPTIONS: Record<string, string> = {
-  Mint: 'Perfeito estado, nunca tocado, sem qualquer marca ou desgaste',
-  'Near Mint': 'Quase perfeito, mínimos sinais de uso, excelente qualidade',
-  Excellent: 'Excelente estado geral, poucas marcas leves de uso',
-  'Very Good Plus': 'Muito bom com marcas mínimas que não afetam reprodução',
-  'Very Good': 'Bom estado geral, algumas marcas visíveis mas reproduz bem',
-  'Good Plus': 'Estado aceitável com marcas moderadas',
-  Good: 'Estado aceitável, marcas e desgastes visíveis',
-  Fair: 'Estado regular, desgaste considerável',
-  Poor: 'Estado deteriorado, muitas marcas e desgastes'
+  Mint: 'Perfect condition, never played, no marks or wear',
+  'Near Mint': 'Almost perfect, minimal signs of use, excellent quality',
+  Excellent: 'Excellent overall condition, few light signs of use',
+  'Very Good Plus': 'Very good with minimal marks that do not affect playback',
+  'Very Good': 'Good overall condition, some visible marks but plays well',
+  'Good Plus': 'Acceptable condition with moderate marks',
+  Good: 'Acceptable condition, visible marks and wear',
+  Fair: 'Regular condition, considerable wear',
+  Poor: 'Deteriorated condition, many marks and heavy wear'
 }
 
 function ProductDetail({ ad }: ProductDetailProps) {
@@ -72,6 +86,14 @@ function ProductDetail({ ad }: ProductDetailProps) {
   const toggleDetail = (key: keyof typeof detailsOpen) => {
     setDetailsOpen((prev) => ({ ...prev, [key]: !prev[key] }))
   }
+
+  function normalizeConservation(value: string): string {
+    if (!value) return 'None' // fallback
+
+    return CONSERVATION_NORMALIZE[value.trim().toLowerCase()] || value
+  }
+
+  const conservation = normalizeConservation(ad.produto.conservacao)
 
   return (
     <S.Container>
@@ -101,12 +123,12 @@ function ProductDetail({ ad }: ProductDetailProps) {
             <S.SizeBadge
               $active={true}
               style={{
-                borderColor: CONSERVATION_COLORS[ad.produto.conservacao],
-                background: CONSERVATION_COLORS[ad.produto.conservacao],
+                borderColor: CONSERVATION_COLORS[conservation],
+                background: CONSERVATION_COLORS[conservation],
                 color: '#fff'
               }}
             >
-              {ad.produto.conservacao}
+              {conservation}
             </S.SizeBadge>
           </S.TitleWrapper>
 
@@ -130,11 +152,7 @@ function ProductDetail({ ad }: ProductDetailProps) {
           </S.StockBadge>
         </S.PriceSection>
 
-        <S.Description>
-          Vinil original em {ad.produto.tipo}, gênero {ad.produto.genero}. Lançado em{' '}
-          {ad.produto.lancamento}, este disco traz a autenticidade e qualidade sonora que só o vinil
-          pode oferecer.
-        </S.Description>
+        <S.Description>{ad.descricao}</S.Description>
 
         <S.OptionsSection>
           {ad.produto.quanti > 0 && (
@@ -180,30 +198,32 @@ function ProductDetail({ ad }: ProductDetailProps) {
           <S.IconItem>
             <FiTruck />
 
-            <S.IconLabel>Envio rápido</S.IconLabel>
+            <S.IconLabel>Fast Shipping</S.IconLabel>
 
-            <S.IconValue>3-5 dias</S.IconValue>
+            <S.IconValue>3–5 days</S.IconValue>
           </S.IconItem>
+
           <S.IconItem>
             <FiShield />
 
-            <S.IconLabel>Garantia</S.IconLabel>
+            <S.IconLabel>Warranty</S.IconLabel>
 
-            <S.IconValue>30 dias</S.IconValue>
+            <S.IconValue>30 days</S.IconValue>
           </S.IconItem>
+
           <S.IconItem>
             <FiPackage />
 
-            <S.IconLabel>Embalagem</S.IconLabel>
+            <S.IconLabel>Packaging</S.IconLabel>
 
-            <S.IconValue>Protegida</S.IconValue>
+            <S.IconValue>Protected</S.IconValue>
           </S.IconItem>
         </S.IconGrid>
 
         <S.DetailsAccordion>
           <S.DetailCard>
             <S.DetailHeader $open={detailsOpen.specs} onClick={() => toggleDetail('specs')}>
-              Especificações do Produto
+              Product Specifications
               <FiChevronDown size={20} />
             </S.DetailHeader>
 
@@ -212,27 +232,27 @@ function ProductDetail({ ad }: ProductDetailProps) {
                 <S.IconGrid>
                   <S.IconItem>
                     <FiDisc />
-                    <S.IconLabel>Tipo</S.IconLabel>
+                    <S.IconLabel>Type</S.IconLabel>
                     <S.IconValue>{ad.produto.tipo}</S.IconValue>
                   </S.IconItem>
 
                   <S.IconItem>
                     <FiTag />
-                    <S.IconLabel>Gênero</S.IconLabel>
+                    <S.IconLabel>Genre</S.IconLabel>
                     <S.IconValue>{ad.produto.genero}</S.IconValue>
                   </S.IconItem>
 
                   <S.IconItem>
                     <FiCalendar />
-                    <S.IconLabel>Lançamento</S.IconLabel>
+                    <S.IconLabel>Release</S.IconLabel>
                     <S.IconValue>{ad.produto.lancamento}</S.IconValue>
                   </S.IconItem>
 
                   <S.IconItem>
-                    <FiStar style={{ color: CONSERVATION_COLORS[ad.produto.conservacao] }} />
-                    <S.IconLabel>Conservação</S.IconLabel>
-                    <S.IconValue style={{ color: CONSERVATION_COLORS[ad.produto.conservacao] }}>
-                      {ad.produto.conservacao}
+                    <FiStar style={{ color: CONSERVATION_COLORS[conservation] }} />
+                    <S.IconLabel>Condition</S.IconLabel>
+                    <S.IconValue style={{ color: CONSERVATION_COLORS[conservation] }}>
+                      {conservation}
                     </S.IconValue>
                   </S.IconItem>
                 </S.IconGrid>
@@ -245,7 +265,7 @@ function ProductDetail({ ad }: ProductDetailProps) {
               $open={detailsOpen.conservation}
               onClick={() => toggleDetail('conservation')}
             >
-              Guia de Conservação
+              Condition Guide
               <FiChevronDown size={20} />
             </S.DetailHeader>
 
@@ -281,19 +301,18 @@ function ProductDetail({ ad }: ProductDetailProps) {
 
           <S.DetailCard>
             <S.DetailHeader $open={detailsOpen.shipping} onClick={() => toggleDetail('shipping')}>
-              Envio e Entrega
+              Shipping & Delivery
               <FiChevronDown size={20} />
             </S.DetailHeader>
+
             <S.DetailBody $open={detailsOpen.shipping}>
               <S.DetailContent>
                 <p>
-                  Todos os vinis são cuidadosamente embalados com proteção especial para garantir
-                  que cheguem em perfeito estado. Utilizamos caixas reforçadas e plástico bolha para
-                  máxima proteção durante o transporte.
+                  All vinyl records are carefully packed with special protection to ensure they
+                  arrive in perfect condition. We use reinforced boxes and bubble wrap for maximum
+                  safety during transport.
                 </p>
-                <p style={{ marginTop: '12px' }}>
-                  Prazo de entrega: 3-5 dias úteis para todo o Brasil.
-                </p>
+                <p style={{ marginTop: '12px' }}>Delivery time: 3–5 business days across Brazil.</p>
               </S.DetailContent>
             </S.DetailBody>
           </S.DetailCard>

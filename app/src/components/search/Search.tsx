@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import { FiSearch } from 'react-icons/fi'
 
 import type { Ad } from '../../interfaces/Ad'
-import type { Product } from '../../interfaces/Products'
 
 import useDebounce from '../../hooks/useDebounce'
 import { useAds } from '../../hooks/useAds'

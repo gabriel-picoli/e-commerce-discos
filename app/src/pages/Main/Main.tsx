@@ -50,7 +50,7 @@ export default function Main() {
                   {vinyls.map((vinyl) => (
                     <Section.VinylAd
                       key={vinyl.id}
-                      name={vinyl.produto.name}
+                      name={vinyl.titulo}
                       price={formatCurrency(vinyl.preco)}
                       image={vinyl.produto.capa}
                       onClick={() => handleProductClick(vinyl)}

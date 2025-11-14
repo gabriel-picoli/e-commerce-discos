@@ -22,6 +22,8 @@ import { useCartStore } from '../../stores/cartStore'
 
 import type { Ad } from '../../interfaces/Ad'
 
+import { formatCurrency } from '../../utils/currency'
+
 import theme from '../../styles/theme'
 
 import * as S from './styles'
@@ -118,7 +120,7 @@ function ProductDetail({ ad }: ProductDetailProps) {
       <S.InfoSection>
         <S.Header>
           <S.TitleWrapper>
-            <S.Title>{ad.produto.name}</S.Title>
+            <S.Title>{ad.titulo}</S.Title>
 
             <S.SizeBadge
               $active={true}
@@ -141,9 +143,7 @@ function ProductDetail({ ad }: ProductDetailProps) {
         </S.Header>
 
         <S.PriceSection>
-          {ad.produto.preco && (
-            <S.Price>R$ {ad.produto.preco.toFixed(2).replace('.', ',')}</S.Price>
-          )}
+          {ad.preco && <S.Price>{formatCurrency(ad.preco)}</S.Price>}
 
           <S.StockBadge $available={ad.produto.quanti > 0}>
             {ad.produto.quanti > 0

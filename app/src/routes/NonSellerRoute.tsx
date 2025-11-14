@@ -19,7 +19,7 @@ export default function NonSellerRoute() {
 
   // redireciona vendedores para dashboard
   if (user.vendedor === 'S') {
-    return <Navigate to="/seller" replace />
+    return <Navigate to="/seller/products" replace />
   }
 
   return <Outlet />

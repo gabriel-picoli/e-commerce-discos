@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { fetchUser, createUser, updateUser, deleteUser } from '../services/userApi'
 
 import { handleApiError } from '../utils/handleApiError'
+import { getCsrfCookie } from '../utils/getCsrfCookie'
 
 export const useUser = () => {
   return useQuery({
@@ -16,6 +17,8 @@ export const useCreateUser = () => {
   const queryClient = useQueryClient() // da acesso ao cache
 
   const navigate = useNavigate()
+
+  getCsrfCookie()
 
   return useMutation({
     mutationFn: createUser, // funçao que cria o usuario

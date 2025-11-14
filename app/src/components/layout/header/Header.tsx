@@ -21,11 +21,9 @@ export default function Header() {
           <>
             <Link to="/">Home</Link>
             <Link to="/shop">Shop</Link>
-            <Link to="/contact">Contact</Link>
           </>
         ) : (
           <>
-            <Link to="/seller">Dashboard</Link>
             <Link to="/seller/products">My Products</Link>
             <Link to="/seller/ads">My Ads</Link>
             <Link to="/seller/profile">Profile</Link>

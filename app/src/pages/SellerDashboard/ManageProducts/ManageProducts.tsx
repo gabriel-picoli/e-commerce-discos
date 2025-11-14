@@ -25,11 +25,10 @@ import Loading from '../../../components/loading/Loading'
 
 export default function ManageProducts() {
   const { user } = useAuth()
-  const userId = user?.id ?? 0
 
   const navigate = useNavigate()
 
-  const { data: products = [], isLoading, isError } = useProductsByUser(userId)
+  const { data: products = [], isLoading, isError } = useProductsByUser(user?.id!)
   const deleteMutation = useDeleteProduct()
 
   const handleDelete = async (id: number) => {
@@ -116,10 +115,6 @@ export default function ManageProducts() {
                     <FiPackage /> {product.quanti} in stock
                   </S.DetailItem>
                 </S.ProductDetails>
-
-                {product.preco && (
-                  <S.ProductPrice>R$ {Number(product.preco).toFixed(2)}</S.ProductPrice>
-                )}
 
                 <S.ButtonGroup>
                   <S.EditButton onClick={() => handleEditProduct(product)}>

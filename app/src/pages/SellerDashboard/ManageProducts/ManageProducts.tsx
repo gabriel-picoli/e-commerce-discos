@@ -55,7 +55,16 @@ export default function ManageProducts() {
   }, [user, navigate])
 
   if (isLoading || isFetching) {
-    return <Loading transparent />
+    return (
+      <S.Container>
+        <S.Header>
+          <S.Title>Manage Products</S.Title>
+          <S.Button onClick={handleCreateProduct}>+ Add Product</S.Button>
+        </S.Header>
+        
+        <Loading transparent />
+      </S.Container>
+    )
   }
 
   return (

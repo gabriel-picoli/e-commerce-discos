@@ -51,10 +51,10 @@ export default function Shop() {
     <S.Container>
       <Filter onFilterChange={setCurrentFilters}>
         <Filter.Controls>
-          <Filter.Select label="Gênero" filterKey="genre" options={genres} />
-          <Filter.Select label="Conservação" filterKey="conservation" options={conservation} />
-          <Filter.Select label="Tipo" filterKey="type" options={types} />
-          <Filter.Select label="Década" filterKey="year" options={years} />
+          <Filter.Select label="Genre" filterKey="genre" options={genres} />
+          <Filter.Select label="Conservation" filterKey="conservation" options={conservation} />
+          <Filter.Select label="Type" filterKey="type" options={types} />
+          <Filter.Select label="Decade" filterKey="year" options={years} />
           <Filter.PriceRange />
         </Filter.Controls>
 

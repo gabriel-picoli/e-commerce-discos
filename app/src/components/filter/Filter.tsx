@@ -28,7 +28,7 @@ const FilterRoot = ({ children, onFilterChange }: FilterProps) => {
           <S.HeaderIcon>
             <FiSliders size={18} />
           </S.HeaderIcon>
-          <S.FilterHeaderTitle>Filtros</S.FilterHeaderTitle>
+          <S.FilterHeaderTitle>Filters</S.FilterHeaderTitle>
         </S.FilterHeader>
 
         {children}
@@ -58,7 +58,7 @@ const FilterSelect = ({ label, filterKey, options }: FilterSelectProps) => {
         value={filters[filterKey as keyof Filters]}
         onChange={(e) => updateFilter(filterKey, e.target.value)}
       >
-        <option value="">Todos</option>
+        <option value="">All</option>
         {options.map((opt) => (
           <option key={opt} value={opt}>
             {opt}
@@ -75,7 +75,7 @@ const FilterPriceRange = () => {
 
   return (
     <S.FilterGroup>
-      <S.FilterLabel>Faixa de Preço</S.FilterLabel>
+      <S.FilterLabel>Price Range</S.FilterLabel>
       <S.PriceInputs>
         <S.PriceInput
           type="number"
@@ -103,14 +103,13 @@ const FilterActiveTags = () => {
   if (activeFilters.length === 0) return null
 
   const filterLabels: Record<string, string> = {
-    genre: 'Gênero',
-    artist: 'Artista',
-    conservation: 'Conservação',
-    type: 'Tipo',
-    year: 'Ano',
-    priceMin: 'Mínimo',
-    priceMax: 'Máximo',
-   
+    genre: 'Genre',
+    artist: 'Artist',
+    conservation: 'Conservation',
+    type: 'Type',
+    year: 'Year',
+    priceMin: 'Min',
+    priceMax: 'Max'
   }
 
   return (

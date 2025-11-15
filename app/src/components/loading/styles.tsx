@@ -25,7 +25,7 @@ const dots = keyframes`
   80%, 100% { color: transparent; text-shadow: none; }
 `
 
-export const Overlay = styled.div`
+export const Overlay = styled.div<{ $transparent?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,11 +38,17 @@ export const Overlay = styled.div`
   left: 0;
   z-index: 9999;
 
-  background: linear-gradient(120deg, #f8f9ff, #edf0ff, #eae6ff);
+  background: ${({ $transparent }) =>
+    $transparent
+      ? 'rgba(255, 255, 255, 0.4)' /* fundo mais transparente */
+      : 'linear-gradient(120deg, #f8f9ff, #edf0ff, #eae6ff)'};
+
   background-size: 300% 300%;
+
   animation:
-    ${gradientFlow} 9s ease-in-out infinite,
+    ${({ $transparent }) => !$transparent && gradientFlow} 9s ease-in-out infinite,
     ${fadeIn} 0.6s ease-out;
+
   backdrop-filter: blur(6px);
 `
 

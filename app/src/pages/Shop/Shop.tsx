@@ -26,7 +26,7 @@ export default function Shop() {
 
   const navigate = useNavigate()
 
-  const { data: ads, isLoading: loading } = useAds()
+  const { data: ads, isFetching } = useAds()
 
   const normalizedAds = (ads || []).map((ad: Ad) => ({
     ...ad,
@@ -45,7 +45,7 @@ export default function Shop() {
     navigate(`/product`, { state: { ad } })
   }
 
-  if (loading) return <Loading />
+  if (isFetching) return <Loading />
 
   return (
     <S.Container>

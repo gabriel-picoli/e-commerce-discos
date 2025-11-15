@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { toast } from 'sonner'
 
 import { FiShoppingCart, FiX } from 'react-icons/fi'

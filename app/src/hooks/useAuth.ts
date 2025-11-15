@@ -30,7 +30,9 @@ export function useAuth() {
   const loginRequest = async (credentials: { email: string; password: string }) => {
     try {
       await getCsrfCookie()
+
       const { data } = await api.post<LoginResponse>('/login', credentials)
+
       return data
     } catch (error) {
       throw error
@@ -69,8 +71,11 @@ export function useAuth() {
 
   const logout = () => {
     clearAuth()
+
     queryClient.clear()
+
     navigate('/login', { replace: true })
+
     showInfo('You have been logged out.')
   }
 

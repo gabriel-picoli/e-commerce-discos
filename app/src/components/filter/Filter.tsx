@@ -4,8 +4,10 @@ import { FiX, FiSliders } from 'react-icons/fi'
 
 import { useFilterStore, type Filters } from '../../stores/filterStore'
 
-import * as S from './styles'
 import { formatCurrency } from '../../utils/currency'
+import { normalizeOptions } from '../../utils/normalizeOptions'
+
+import * as S from './styles'
 
 type FilterProps = {
   children: React.ReactNode
@@ -59,7 +61,7 @@ const FilterSelect = ({ label, filterKey, options }: FilterSelectProps) => {
         onChange={(e) => updateFilter(filterKey, e.target.value)}
       >
         <option value="">All</option>
-        {options.map((opt) => (
+        {normalizeOptions(options).map((opt) => (
           <option key={opt} value={opt}>
             {opt}
           </option>
@@ -98,9 +100,12 @@ const FilterPriceRange = () => {
 const FilterActiveTags = () => {
   const getActiveFilters = useFilterStore((state) => state.getActiveFilters)
   const updateFilter = useFilterStore((state) => state.updateFilter)
+  
   const activeFilters = getActiveFilters()
 
-  if (activeFilters.length === 0) return null
+  if (activeFilters.length === 0) {
+    return
+  }
 
   const filterLabels: Record<string, string> = {
     genre: 'Genre',
@@ -117,6 +122,10 @@ const FilterActiveTags = () => {
       {activeFilters.map(({ key, value }) => {
         const isPrice = key === 'priceMin' || key === 'priceMax'
         const displayValue = isPrice ? formatCurrency(Number(value)) : String(value)
+
+        if (value === '' || value === null || value === 0) {
+          return
+        }
 
         return (
           <S.FilterTag key={key} onClick={() => updateFilter(key, '')}>

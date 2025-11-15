@@ -68,13 +68,10 @@ export default function ProductForm() {
   const isEditMode = !!id
   const productId = id ? Number(id) : undefined
 
-  const { data: existingProduct, isLoading: isLoadingProduct } = useProductById(productId!)
+  const { data: existingProduct, isFetching: isLoadingProduct } = useProductById(productId!)
 
-  const createMutation = useCreateProduct()
-  const isCreating = (createMutation as any).isLoading || false
-
-  const updateMutation = useUpdateProduct()
-  const isUpdating = (updateMutation as any).isLoading || false
+  const { mutateAsync: createProduct, isPending: isCreating } = useCreateProduct()
+  const { mutateAsync: updateProduct, isPending: isUpdating } = useUpdateProduct()
 
   const onSubmit = async (data: ProductFormData) => {
     try {
@@ -96,9 +93,9 @@ export default function ProductForm() {
       }
 
       if (isEditMode && productId) {
-        await updateMutation.mutateAsync({ ...payload, id: productId })
+        await updateProduct({ ...payload, id: productId })
       } else {
-        await createMutation.mutateAsync(payload)
+        await createProduct(payload)
       }
 
       navigate('/seller/products')
@@ -122,13 +119,14 @@ export default function ProductForm() {
     }
   }, [existingProduct, isEditMode, reset])
 
-  if (isEditMode && isLoadingProduct) {
-    return <Loading />
+  if (isCreating || isUpdating || (isEditMode && isLoadingProduct)) {
+    return <Loading transparent />
   }
 
   return (
     <S.FormContainer>
       <S.Title>New Product</S.Title>
+
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input.Text
           {...register('name')}

@@ -28,11 +28,12 @@ export default function ManageProducts() {
 
   const navigate = useNavigate()
 
-  const { data: products = [], isLoading, isError } = useProductsByUser(user?.id!)
+  const { data: products = [], isLoading, isError, isFetching } = useProductsByUser(user?.id!)
   const deleteMutation = useDeleteProduct()
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this product?')) return
+
     try {
       await deleteMutation.mutateAsync(id)
     } catch (error) {
@@ -41,10 +42,9 @@ export default function ManageProducts() {
   }
 
   const handleCreateProduct = () => navigate('/seller/products/new')
+
   const handleEditProduct = (product: Product) => {
     navigate(`/seller/products/edit/${product.id}`, { state: { product } })
-
-    console.log(navigate(`/seller/products/edit/${product.id}`, { state: { product } }))
   }
 
   useEffect(() => {
@@ -54,6 +54,10 @@ export default function ManageProducts() {
     }
   }, [user, navigate])
 
+  if (isLoading || isFetching) {
+    return <Loading transparent />
+  }
+
   return (
     <S.Container>
       <S.Header>
@@ -61,9 +65,7 @@ export default function ManageProducts() {
         <S.Button onClick={handleCreateProduct}>+ Add Product</S.Button>
       </S.Header>
 
-      {isLoading ? (
-        <Loading />
-      ) : isError ? (
+      {isError ? (
         <S.NotFoundContainer>
           <S.NotFoundCard>
             <S.IconWrapper>
@@ -112,7 +114,8 @@ export default function ManageProducts() {
                   </S.DetailItem>
 
                   <S.DetailItem>
-                    <FiPackage /> {product.quanti} in stock
+                    <FiPackage />
+                    {product.quanti === 0 ? 'Out of stock' : `${product.quanti} available`}
                   </S.DetailItem>
                 </S.ProductDetails>
 

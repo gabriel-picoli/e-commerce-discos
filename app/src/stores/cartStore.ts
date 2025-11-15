@@ -11,6 +11,8 @@ type CartItem = {
 type CartState = {
   items: CartItem[]
   addToCart: (ad: Ad, quantity: number) => void
+  isOpen: boolean
+  setIsOpen: (open: boolean) => void
   removeFromCart: (adId: number) => void
   clearCart: () => void
 }
@@ -19,19 +21,27 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      isOpen: false,
+      setIsOpen: (open: boolean) => set({ isOpen: open }),
 
       addToCart: (ad, quantity = 1) => {
         const { items } = get()
         const existing = items.find((item) => item.ad.id === ad.id)
 
+        let newItems
+
         if (existing) {
-          const updatedItems = items.map((item) =>
+          newItems = items.map((item) =>
             item.ad.id === ad.id ? { ...item, quantity: item.quantity + quantity } : item
           )
-          set({ items: updatedItems })
         } else {
-          set({ items: [...items, { ad, quantity }] })
+          newItems = [...items, { ad, quantity }]
         }
+
+        set({
+          items: newItems,
+          isOpen: true
+        })
       },
 
       removeFromCart: (adId) => {

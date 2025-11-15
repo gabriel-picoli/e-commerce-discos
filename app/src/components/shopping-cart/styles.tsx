@@ -26,6 +26,25 @@ export const IconButton = styled.button`
   position: relative;
 `
 
+export const IconWrapper = styled.div`
+  position: relative;
+`
+
+export const Badge = styled.span`
+  position: absolute;
+  top: -5px;
+  right: -3px;
+  background: ${theme.colors.primary};
+  color: #fff;
+  width: 14px;
+  height: 14px;
+  font-size: 1.1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 export const SideCart = styled.aside`
   position: fixed;
   top: 0;

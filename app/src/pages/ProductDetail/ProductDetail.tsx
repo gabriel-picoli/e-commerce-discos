@@ -182,13 +182,15 @@ function ProductDetail({ ad }: ProductDetailProps) {
           {ad.produto.quanti > 0 && (
             <S.Actions>
               <Button.Primary
-                size="small"
+                size="medium"
                 onClick={() => {
                   addToCart(ad, quantity)
+
+                  useCartStore.getState().setIsOpen(true) // abre sidebar
                 }}
               >
                 <FiShoppingCart size={20} />
-                Adicionar ao carrinho
+                Add to cart
               </Button.Primary>
             </S.Actions>
           )}

@@ -17,9 +17,9 @@ import CartItem from './item/CartItem'
 import Button from '../button'
 
 export default function ShoppingCart() {
-  const [open, setOpen] = useState(false)
+  const { items = [], isOpen, setIsOpen } = useCartStore()
 
-  const { items } = useCartStore()
+  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0)
 
   const navigate = useNavigate()
 
@@ -27,18 +27,20 @@ export default function ShoppingCart() {
 
   return (
     <>
-      {open && <S.Overlay onClick={() => setOpen(false)} />}
+      {isOpen && <S.Overlay onClick={() => setIsOpen(false)} />}
 
       <S.CartWrapper>
-        <Icon onClick={() => setOpen(!open)} aria-label="Open Cart">
-          {open ? <FiX size={20} /> : <FiShoppingCart size={20} />}
-        </Icon>
+        <S.IconWrapper onClick={() => setIsOpen(!isOpen)}>
+          <Icon>{isOpen ? <FiX size={20} /> : <FiShoppingCart size={20} />}</Icon>
 
-        <S.SideCart className={open ? 'active' : ''}>
+          {totalItems > 0 && <S.Badge>{totalItems}</S.Badge>}
+        </S.IconWrapper>
+
+        <S.SideCart className={isOpen ? 'active' : ''}>
           <S.Header>
             <S.Title>Shopping Cart</S.Title>
 
-            <S.CloseButton onClick={() => setOpen(false)}>
+            <S.CloseButton onClick={() => setIsOpen(false)}>
               <FiX size={20} />
             </S.CloseButton>
           </S.Header>
@@ -69,7 +71,7 @@ export default function ShoppingCart() {
 
                 navigate('/checkout')
 
-                setOpen(false)
+                setIsOpen(false)
               }}
             >
               Buy

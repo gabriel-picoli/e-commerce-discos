@@ -26,7 +26,8 @@ export const useAds = () => {
 export const useAdsByUser = (userId: number) => {
   return useQuery({
     queryKey: ['ads', userId],
-    queryFn: () => fetchAdByUserId(userId)
+    queryFn: () => fetchAdByUserId(userId),
+    refetchOnMount: true
   })
 }
 

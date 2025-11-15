@@ -132,7 +132,7 @@ export const SummaryCard = styled.div`
   border-radius: 8px;
   padding: 24px;
   position: sticky;
-  top: calc(80px + 16px); /* altura do header + espaçamento */
+  top: 8.5rem;
 `
 
 export const SummaryTitle = styled.h3`
@@ -211,50 +211,6 @@ export const TotalText = styled.p`
   font-size: 1.8rem;
   font-weight: 600;
   color: ${theme.colors.primary};
-`
-
-export const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
-
-export const Label = styled.label`
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: ${theme.colors.primary};
-`
-
-export const StyledInput = styled.input<{ $hasError?: boolean }>`
-  padding: 12px;
-  border: 1px solid ${(props) => (props.$hasError ? '#e53e3e' : '#ddd')};
-  border-radius: 4px;
-  font-size: 1.4rem;
-  transition: border-color 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: ${theme.colors.primary};
-  }
-
-  &::placeholder {
-    color: ${theme.colors.neutral_400};
-  }
-`
-
-export const StyledSelect = styled.select<{ $hasError?: boolean }>`
-  padding: 12px;
-  border: 1px solid ${(props) => (props.$hasError ? '#e53e3e' : '#ddd')};
-  border-radius: 4px;
-  font-size: 1.4rem;
-  background: white;
-  cursor: pointer;
-  transition: border-color 0.2s;
-
-  &:focus {
-    outline: none;
-    border-color: ${theme.colors.primary};
-  }
 `
 
 export const ErrorMessage = styled.span`

@@ -269,6 +269,7 @@ export default function CheckoutPage() {
                   <span>Bank Slip</span>
                 </S.PaymentMethod>
               </S.PaymentMethods>
+
               {errors.paymentMethod && (
                 <S.ErrorMessage>{errors.paymentMethod.message}</S.ErrorMessage>
               )}

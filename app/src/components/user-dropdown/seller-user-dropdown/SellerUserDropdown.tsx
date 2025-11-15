@@ -6,6 +6,8 @@ import { FiUser, FiUserCheck, FiLogOut, FiChevronDown } from 'react-icons/fi'
 
 import { useAuth } from '../../../hooks/useAuth'
 
+import { capitalize } from '../../../utils/capitalize'
+
 import * as S from './styles'
 
 export default function SellerUserDropdown() {
@@ -51,7 +53,8 @@ export default function SellerUserDropdown() {
             <FiUser size={20} />
           </S.UserIcon>
           <S.UserDetails>
-            <S.UserName>{user?.name || 'Usuário'}</S.UserName>
+            <S.UserName>{capitalize(user?.name!)}</S.UserName>
+
             <S.UserRole>Seller</S.UserRole>
           </S.UserDetails>
         </S.UserInfo>
@@ -66,7 +69,9 @@ export default function SellerUserDropdown() {
             <FiUserCheck size={18} />
             My Profile
           </S.DropdownItem>
+
           <S.Divider />
+          
           <S.DropdownItem onClick={handleLogout}>
             <FiLogOut size={18} />
             Logout

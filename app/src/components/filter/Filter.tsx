@@ -6,6 +6,7 @@ import { useFilterStore, type Filters } from '../../stores/filterStore'
 
 import { formatCurrency } from '../../utils/currency'
 import { normalizeOptions } from '../../utils/normalizeOptions'
+import { capitalize } from '../../utils/capitalize'
 
 import * as S from './styles'
 
@@ -30,6 +31,7 @@ const FilterRoot = ({ children, onFilterChange }: FilterProps) => {
           <S.HeaderIcon>
             <FiSliders size={18} />
           </S.HeaderIcon>
+          
           <S.FilterHeaderTitle>Filters</S.FilterHeaderTitle>
         </S.FilterHeader>
 
@@ -63,7 +65,7 @@ const FilterSelect = ({ label, filterKey, options }: FilterSelectProps) => {
         <option value="">All</option>
         {normalizeOptions(options).map((opt) => (
           <option key={opt} value={opt}>
-            {opt}
+            {capitalize(opt)}
           </option>
         ))}
       </S.Select>
@@ -85,7 +87,9 @@ const FilterPriceRange = () => {
           value={formatCurrency(filters.priceMin)}
           onChange={(e) => updateFilter('priceMin', e.target.value)}
         />
-        <S.PriceSeparator>até</S.PriceSeparator>
+
+        <S.PriceSeparator>to</S.PriceSeparator>
+
         <S.PriceInput
           type="number"
           placeholder="Max"
@@ -100,7 +104,7 @@ const FilterPriceRange = () => {
 const FilterActiveTags = () => {
   const getActiveFilters = useFilterStore((state) => state.getActiveFilters)
   const updateFilter = useFilterStore((state) => state.updateFilter)
-  
+
   const activeFilters = getActiveFilters()
 
   if (activeFilters.length === 0) {
@@ -129,7 +133,7 @@ const FilterActiveTags = () => {
 
         return (
           <S.FilterTag key={key} onClick={() => updateFilter(key, '')}>
-            {filterLabels[key]}: {displayValue}
+            {filterLabels[key]}: {capitalize(displayValue)}
             <FiX size={14} />
           </S.FilterTag>
         )

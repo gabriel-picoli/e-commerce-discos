@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 
 import * as S from './styles'
 
@@ -15,10 +15,38 @@ const OptimizedImage = memo(
   ({ src, alt, width, height, placeholder, className }: OptimizedImageProps) => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [imageSrc, setImageSrc] = useState(placeholder || '')
+    const [isInView, setIsInView] = useState(false)
+    const imgRef = useRef<HTMLDivElement>(null)
 
+    // Intersection Observer para lazy loading mais eficiente
     useEffect(() => {
-      const img = new Image()
+      if (!imgRef.current) return
 
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setIsInView(true)
+              observer.disconnect()
+            }
+          })
+        },
+        {
+          rootMargin: '50px', // carrega um pouco antes de entrar na viewport
+          threshold: 0.01
+        }
+      )
+
+      observer.observe(imgRef.current)
+
+      return () => observer.disconnect()
+    }, [])
+
+    // Carrega imagem apenas quando visivel
+    useEffect(() => {
+      if (!isInView || !src) return
+
+      const img = new Image()
       img.src = src
 
       img.onload = () => {
@@ -26,17 +54,41 @@ const OptimizedImage = memo(
         setIsLoaded(true)
       }
 
+      img.onerror = () => {
+        console.error(`Failed to load image: ${src}`)
+
+        setIsLoaded(true)
+      }
+
       return () => {
         img.onload = null
+        img.onerror = null
       }
-    }, [src])
+    }, [src, isInView])
 
     return (
-      <S.ImageWrapper $isLoaded={isLoaded} $width={width} $height={height} className={className}>
+      <S.ImageWrapper
+        ref={imgRef}
+        $isLoaded={isLoaded}
+        $width={width}
+        $height={height}
+        className={className}
+      >
         {!isLoaded && <S.Placeholder />}
-        
-        <img src={imageSrc} alt={alt} loading="lazy" decoding="async" />
+
+        {isInView && (
+          <img src={imageSrc} alt={alt} loading="lazy" decoding="async" fetchPriority="low" />
+        )}
       </S.ImageWrapper>
+    )
+  },
+  (prevProps, nextProps) => {
+    // comparaçao otimizada
+    return (
+      prevProps.src === nextProps.src &&
+      prevProps.alt === nextProps.alt &&
+      prevProps.width === nextProps.width &&
+      prevProps.height === nextProps.height
     )
   }
 )

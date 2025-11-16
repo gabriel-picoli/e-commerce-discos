@@ -82,6 +82,7 @@ export default function Shop() {
           {filteredAds
             .filter((ad) => {
               const product = ad.produto
+
               if (!currentFilters) return true
 
               if (

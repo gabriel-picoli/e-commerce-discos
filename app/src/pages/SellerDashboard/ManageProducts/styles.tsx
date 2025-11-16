@@ -58,24 +58,6 @@ export const ProductCard = styled.div`
   }
 `
 
-export const ImageWrapper = styled.div`
-  width: 100%;
-  height: 180px;
-  overflow: hidden;
-  background: #f5f5f5;
-`
-
-export const ProductImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-
-  ${ProductCard}:hover & {
-    transform: scale(1.05);
-  }
-`
-
 export const ProductInfo = styled.div`
   padding: 1rem;
   display: flex;

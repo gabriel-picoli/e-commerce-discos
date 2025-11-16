@@ -11,24 +11,6 @@ export const Item = styled.div`
   min-height: 64px;
 `
 
-export const ImageWrapper = styled.div`
-  flex-shrink: 0;
-  width: 56px;
-  height: 56px;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #f7f7f7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`
-
 export const Info = styled.div`
   flex: 1;
   display: flex;

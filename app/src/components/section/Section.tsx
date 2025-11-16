@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import { memo, type ReactNode } from 'react'
+
 import * as S from './styles'
 
 type SectionProps = {
@@ -29,18 +30,28 @@ type VinylAdProps = {
   onClick?: () => void
 }
 
-function VinylAd({ name, price, image, onClick }: VinylAdProps) {
-  return (
-    <S.VinylAdCard onClick={onClick}>
-      <S.VinylImage src={image} alt={name} />
+const VinylAd = memo(
+  ({ name, price, image, onClick }: VinylAdProps) => {
+    return (
+      <S.VinylAdCard onClick={onClick}>
+        <S.VinylImage src={image} alt={name} />
 
-      <S.VinylInfo>
-        <S.VinylName>{name}</S.VinylName>
-        <S.VinylPrice>{price}</S.VinylPrice>
-      </S.VinylInfo>
-    </S.VinylAdCard>
-  )
-}
+        <S.VinylInfo>
+          <S.VinylName>{name}</S.VinylName>
+          <S.VinylPrice>{price}</S.VinylPrice>
+        </S.VinylInfo>
+      </S.VinylAdCard>
+    )
+  },
+  (prevProps, nextProps) => {
+    // compara apenas propriedades criticas
+    return (
+      prevProps.name === nextProps.name &&
+      prevProps.price === nextProps.price &&
+      prevProps.image === nextProps.image
+    )
+  }
+)
 
 Section.Title = Title
 Section.Container = Container

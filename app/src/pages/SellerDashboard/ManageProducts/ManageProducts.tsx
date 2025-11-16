@@ -22,6 +22,7 @@ import { capitalize } from '../../../utils/capitalize'
 import * as S from './styles'
 
 import Loading from '../../../components/loading/Loading'
+import OptimizedImage from '../../../components/optimized-image'
 
 export default function ManageProducts() {
   const { user } = useAuth()
@@ -61,7 +62,7 @@ export default function ManageProducts() {
           <S.Title>Manage Products</S.Title>
           <S.Button onClick={handleCreateProduct}>+ Add Product</S.Button>
         </S.Header>
-        
+
         <Loading transparent />
       </S.Container>
     )
@@ -102,9 +103,7 @@ export default function ManageProducts() {
         <S.ProductList>
           {products.map((product) => (
             <S.ProductCard key={product.id}>
-              <S.ImageWrapper>
-                <S.ProductImage src={product.capa} alt={product.name} />
-              </S.ImageWrapper>
+              <OptimizedImage src={product.capa} alt={product.name} />
 
               <S.ProductInfo>
                 <S.ProductName>{product.name}</S.ProductName>

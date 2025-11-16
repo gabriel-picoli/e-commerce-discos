@@ -15,6 +15,7 @@ import { truncate } from '../../../utils/truncate'
 import * as S from './styles'
 
 import Loading from '../../../components/loading/Loading'
+import OptimizedImage from '../../../components/optimized-image'
 
 export default function ManageAds() {
   const { user } = useAuth()
@@ -94,9 +95,7 @@ export default function ManageAds() {
         <S.AdList>
           {ads.map((ad) => (
             <S.AdCard key={ad.id_produto}>
-              <S.ImageWrapper>
-                <S.AdThumb src={ad.produto.capa} alt={ad.titulo} />
-              </S.ImageWrapper>
+              <OptimizedImage src={ad.produto.capa} alt={ad.titulo} />
 
               <S.AdContent>
                 <S.Meta>

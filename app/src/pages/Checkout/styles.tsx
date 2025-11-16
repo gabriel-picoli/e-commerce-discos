@@ -155,13 +155,6 @@ export const SummaryItem = styled.div`
   align-items: center;
 `
 
-export const ItemImage = styled.img`
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 4px;
-`
-
 export const ItemInfo = styled.div`
   flex: 1;
 `

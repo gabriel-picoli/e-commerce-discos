@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -36,14 +36,30 @@ export default function Shop() {
     preco: Number(ad.preco || 0)
   }))
 
-  const genres = normalizedAds.map((ad) => ad.produto.genero)
-  const conservation = normalizedAds.map((ad) => ad.produto.conservacao)
-  const types = normalizedAds.map((ad) => ad.produto.tipo)
-  const years = normalizedAds.map((ad) => ad.produto.lancamento)
+  const filteredAds = useMemo(() => {
+    return normalizedAds.filter((ad) => {
+      return (
+        (!currentFilters.genre || ad.produto.genero === currentFilters.genre) &&
+        (!currentFilters.conservation || ad.produto.conservacao === currentFilters.conservation) &&
+        (!currentFilters.type || ad.produto.tipo === currentFilters.type) &&
+        (!currentFilters.year || ad.produto.lancamento === currentFilters.year) &&
+        (!currentFilters.priceMin || ad.preco >= Number(currentFilters.priceMin)) &&
+        (!currentFilters.priceMax || ad.preco <= Number(currentFilters.priceMax))
+      )
+    })
+  }, [normalizedAds, currentFilters])
 
-  const handleProductClick = (ad: any) => {
-    navigate(`/product`, { state: { ad } })
-  }
+  const genres = filteredAds.map((ad) => ad.produto.genero)
+  const conservation = filteredAds.map((ad) => ad.produto.conservacao)
+  const types = filteredAds.map((ad) => ad.produto.tipo)
+  const years = filteredAds.map((ad) => ad.produto.lancamento)
+
+  const handleAdClick = useCallback(
+    (ad: Ad) => {
+      navigate('/product', { state: { ad } })
+    },
+    [navigate]
+  )
 
   if (isFetching) return <Loading />
 
@@ -63,7 +79,7 @@ export default function Shop() {
 
       <Section>
         <Section.Container>
-          {normalizedAds
+          {filteredAds
             .filter((ad) => {
               const product = ad.produto
               if (!currentFilters) return true
@@ -119,7 +135,7 @@ export default function Shop() {
                 name={ad.titulo}
                 price={formatCurrency(ad.preco)}
                 image={ad.produto.capa}
-                onClick={() => handleProductClick(ad)}
+                onClick={() => handleAdClick(ad)}
               />
             ))}
         </Section.Container>

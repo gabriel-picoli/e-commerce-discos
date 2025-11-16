@@ -15,6 +15,7 @@ import { truncate } from '../../../utils/truncate'
 import * as S from './styles'
 
 import Loading from '../../../components/loading/Loading'
+import OptimizedImage from '../../../components/optimized-image'
 
 export default function ManageAds() {
   const { user } = useAuth()
@@ -22,7 +23,7 @@ export default function ManageAds() {
 
   const navigate = useNavigate()
 
-  const { data: ads = [], isLoading, isError } = useAdsByUser(userId)
+  const { data: ads = [], isFetching, isLoading, isError } = useAdsByUser(userId)
   const deleteMutation = useDeleteAd()
 
   const handleDelete = async (id: number) => {
@@ -36,6 +37,7 @@ export default function ManageAds() {
   }
 
   const handleCreateAd = () => navigate('/seller/ads/new')
+
   const handleEditAd = (ad: Ad) => navigate(`/seller/ads/edit/${ad.id}`)
 
   useEffect(() => {
@@ -44,6 +46,20 @@ export default function ManageAds() {
       return
     }
   }, [user, navigate])
+
+  if (isLoading || isFetching) {
+    return (
+      <S.Container>
+        <S.Header>
+          <S.Title>Manage Advertisements</S.Title>
+          <S.Button onClick={handleCreateAd}>+ Create New Ad</S.Button>
+        </S.Header>
+
+        <Loading transparent />
+      </S.Container>
+    )
+  }
+
   return (
     <S.Container>
       <S.Header>
@@ -51,9 +67,7 @@ export default function ManageAds() {
         <S.Button onClick={handleCreateAd}>+ Create New Ad</S.Button>
       </S.Header>
 
-      {isLoading ? (
-        <Loading />
-      ) : isError ? (
+      {isError ? (
         <S.NotFoundContainer>
           <S.NotFoundCard>
             <S.IconWrapper>
@@ -81,14 +95,12 @@ export default function ManageAds() {
         <S.AdList>
           {ads.map((ad) => (
             <S.AdCard key={ad.id_produto}>
-              <S.ImageWrapper>
-                <S.AdThumb src={ad.produto.capa} alt={ad.titulo} />
-              </S.ImageWrapper>
+              <OptimizedImage src={ad.produto.capa} alt={ad.titulo} />
 
               <S.AdContent>
                 <S.Meta>
                   <S.AdTitle>{ad.titulo}</S.AdTitle>
-                  
+
                   <S.MetaText>{ad.produto.genero}</S.MetaText>
                 </S.Meta>
 

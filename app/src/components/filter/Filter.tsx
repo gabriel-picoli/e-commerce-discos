@@ -4,8 +4,11 @@ import { FiX, FiSliders } from 'react-icons/fi'
 
 import { useFilterStore, type Filters } from '../../stores/filterStore'
 
-import * as S from './styles'
 import { formatCurrency } from '../../utils/currency'
+import { normalizeOptions } from '../../utils/normalizeOptions'
+import { capitalize } from '../../utils/capitalize'
+
+import * as S from './styles'
 
 type FilterProps = {
   children: React.ReactNode
@@ -28,7 +31,8 @@ const FilterRoot = ({ children, onFilterChange }: FilterProps) => {
           <S.HeaderIcon>
             <FiSliders size={18} />
           </S.HeaderIcon>
-          <S.FilterHeaderTitle>Filtros</S.FilterHeaderTitle>
+          
+          <S.FilterHeaderTitle>Filters</S.FilterHeaderTitle>
         </S.FilterHeader>
 
         {children}
@@ -58,10 +62,10 @@ const FilterSelect = ({ label, filterKey, options }: FilterSelectProps) => {
         value={filters[filterKey as keyof Filters]}
         onChange={(e) => updateFilter(filterKey, e.target.value)}
       >
-        <option value="">Todos</option>
-        {options.map((opt) => (
+        <option value="">All</option>
+        {normalizeOptions(options).map((opt) => (
           <option key={opt} value={opt}>
-            {opt}
+            {capitalize(opt)}
           </option>
         ))}
       </S.Select>
@@ -75,7 +79,7 @@ const FilterPriceRange = () => {
 
   return (
     <S.FilterGroup>
-      <S.FilterLabel>Faixa de Preço</S.FilterLabel>
+      <S.FilterLabel>Price Range</S.FilterLabel>
       <S.PriceInputs>
         <S.PriceInput
           type="number"
@@ -83,7 +87,9 @@ const FilterPriceRange = () => {
           value={formatCurrency(filters.priceMin)}
           onChange={(e) => updateFilter('priceMin', e.target.value)}
         />
-        <S.PriceSeparator>até</S.PriceSeparator>
+
+        <S.PriceSeparator>to</S.PriceSeparator>
+
         <S.PriceInput
           type="number"
           placeholder="Max"
@@ -98,19 +104,21 @@ const FilterPriceRange = () => {
 const FilterActiveTags = () => {
   const getActiveFilters = useFilterStore((state) => state.getActiveFilters)
   const updateFilter = useFilterStore((state) => state.updateFilter)
+
   const activeFilters = getActiveFilters()
 
-  if (activeFilters.length === 0) return null
+  if (activeFilters.length === 0) {
+    return
+  }
 
   const filterLabels: Record<string, string> = {
-    genre: 'Gênero',
-    artist: 'Artista',
-    conservation: 'Conservação',
-    type: 'Tipo',
-    year: 'Ano',
-    priceMin: 'Mínimo',
-    priceMax: 'Máximo',
-   
+    genre: 'Genre',
+    artist: 'Artist',
+    conservation: 'Conservation',
+    type: 'Type',
+    year: 'Year',
+    priceMin: 'Min',
+    priceMax: 'Max'
   }
 
   return (
@@ -119,9 +127,13 @@ const FilterActiveTags = () => {
         const isPrice = key === 'priceMin' || key === 'priceMax'
         const displayValue = isPrice ? formatCurrency(Number(value)) : String(value)
 
+        if (value === '' || value === null || value === 0) {
+          return
+        }
+
         return (
           <S.FilterTag key={key} onClick={() => updateFilter(key, '')}>
-            {filterLabels[key]}: {displayValue}
+            {filterLabels[key]}: {capitalize(displayValue)}
             <FiX size={14} />
           </S.FilterTag>
         )

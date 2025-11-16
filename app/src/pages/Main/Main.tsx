@@ -10,11 +10,12 @@ import * as S from './styles'
 
 import Hero from '../../components/hero'
 import Section from '../../components/section'
+import Loading from '../../components/loading/Loading'
 
 export default function Main() {
   const navigate = useNavigate()
 
-  const { data: ads } = useAds()
+  const { data: ads, isFetching } = useAds()
 
   const nomalizedAds = ads || []
 
@@ -24,6 +25,10 @@ export default function Main() {
 
   const handleProductClick = (ad: Ad) => {
     navigate(`/product`, { state: { ad } })
+  }
+
+  if (isFetching) {
+    return <Loading />
   }
 
   return (

@@ -1,10 +1,12 @@
 import BounceLoader from 'react-spinners/BounceLoader'
+
 import theme from '../../styles/theme'
+
 import * as S from './styles'
 
-export default function Loading() {
+export default function Loading({ transparent = false }) {
   return (
-    <S.Overlay>
+    <S.Overlay $transparent={transparent}>
       <S.GlowCircle>
         <BounceLoader size={85} color={theme.colors.primary} />
       </S.GlowCircle>

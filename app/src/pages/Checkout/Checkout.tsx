@@ -26,6 +26,7 @@ import * as S from './styles'
 import Input from '../../components/input'
 import Button from '../../components/button'
 import Form from '../../components/form'
+import OptimizedImage from '../../components/optimized-image'
 
 type CheckoutData = z.infer<typeof checkoutSchema>
 
@@ -269,6 +270,7 @@ export default function CheckoutPage() {
                   <span>Bank Slip</span>
                 </S.PaymentMethod>
               </S.PaymentMethods>
+
               {errors.paymentMethod && (
                 <S.ErrorMessage>{errors.paymentMethod.message}</S.ErrorMessage>
               )}
@@ -322,7 +324,13 @@ export default function CheckoutPage() {
             <S.ItemsList>
               {items.map((item) => (
                 <S.SummaryItem key={item.ad.id}>
-                  <S.ItemImage src={item.ad.produto.capa} alt={item.ad.produto.name} />
+                  <OptimizedImage
+                    width={64}
+                    height={64}
+                    src={item.ad.produto.capa}
+                    alt={item.ad.titulo}
+                  />
+
                   <S.ItemInfo>
                     <S.ItemName>{item.ad.produto.name}</S.ItemName>
                     <S.ItemQuantity>

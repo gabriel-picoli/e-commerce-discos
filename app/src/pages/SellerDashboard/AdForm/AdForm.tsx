@@ -55,11 +55,11 @@ export default function AdForm() {
   const isEditMode = !!id
   const adId = id ? parseInt(id) : undefined
 
-  const { data: existingAd, isLoading: isLoadingAd } = useAdById(adId ?? 0)
+  const { data: existingAd, isFetching: isLoadingAd } = useAdById(adId ?? 0)
   const { mutate: createAd, isPending: isCreating } = useCreateAd(userId)
   const { mutate: updateAd, isPending: isUpdating } = useUpdateAd()
 
-  const { data: products, isLoading: isLoadingProducts } = useProductsByUser(userId)
+  const { data: products, isFetching: isLoadingProducts } = useProductsByUser(userId)
 
   const onSubmit = (data: AdFormData) => {
     if (!userId) return
@@ -91,13 +91,14 @@ export default function AdForm() {
     }
   }, [existingAd, isEditMode, reset])
 
-  if (isLoadingProducts || (isEditMode && isLoadingAd)) {
-    return <Loading />
+  if (isCreating || isUpdating || isLoadingAd || (isEditMode && isLoadingProducts)) {
+    return <Loading transparent />
   }
 
   return (
     <S.FormContainer>
       <S.Title>{isEditMode ? 'Edit Advertisement' : 'Create Advertisement'}</S.Title>
+
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input.Text
           {...register('titulo')}
@@ -115,7 +116,7 @@ export default function AdForm() {
 
         <Input.Currency
           label="Price"
-          placeholder="Price in BRL"
+          placeholder="Price"
           value={watch('preco')}
           onChange={(e) => {
             setValue('preco', e.target.value)

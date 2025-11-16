@@ -26,7 +26,8 @@ export const useProducts = () => {
 export const useProductsByUser = (userId: number) => {
   return useQuery({
     queryKey: ['products', userId],
-    queryFn: () => fetchProductsByUserId(userId)
+    queryFn: () => fetchProductsByUserId(userId),
+    refetchOnMount: true
   })
 }
 
@@ -34,7 +35,8 @@ export const useProductsByUser = (userId: number) => {
 export const useProductById = (productId: number) => {
   return useQuery({
     queryKey: ['product', productId],
-    queryFn: () => fetchProductById(productId)
+    queryFn: () => fetchProductById(productId),
+    enabled: !!productId
   })
 }
 

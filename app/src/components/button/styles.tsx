@@ -14,7 +14,7 @@ const buttonVariants = {
     color: white;
 
     &:hover {
-      background-color: ${theme.colors.primaryHover};
+      background: ${theme.colors.primary}dd;
     }
   `,
   outline: css`

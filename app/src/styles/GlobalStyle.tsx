@@ -15,6 +15,11 @@ const GlobalStyle = createGlobalStyle`
       cursor: default;
    }
 
+   // seta tamanho de fonte para option de selects
+   option{
+      font-size: 1.6rem;
+   }
+
 `
 
 export default GlobalStyle

@@ -147,8 +147,8 @@ function ProductDetail({ ad }: ProductDetailProps) {
 
           <S.StockBadge $available={ad.produto.quanti > 0}>
             {ad.produto.quanti > 0
-              ? `${ad.produto.quanti} ${ad.produto.quanti === 1 ? 'unidade' : 'unidades'} disponível`
-              : 'Produto esgotado'}
+              ? `${ad.produto.quanti} ${ad.produto.quanti === 1 ? 'unit' : 'units'} available`
+              : 'Out of stock'}
           </S.StockBadge>
         </S.PriceSection>
 
@@ -182,13 +182,15 @@ function ProductDetail({ ad }: ProductDetailProps) {
           {ad.produto.quanti > 0 && (
             <S.Actions>
               <Button.Primary
-                size="small"
+                size="medium"
                 onClick={() => {
                   addToCart(ad, quantity)
+
+                  useCartStore.getState().setIsOpen(true) // abre sidebar
                 }}
               >
                 <FiShoppingCart size={20} />
-                Adicionar ao carrinho
+                Add to cart
               </Button.Primary>
             </S.Actions>
           )}

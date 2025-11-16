@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import { FiX } from 'react-icons/fi'
 
 import { useCartStore } from '../../../stores/cartStore'
@@ -8,23 +10,22 @@ import { formatCurrency } from '../../../utils/currency'
 
 import * as S from './styles'
 
+import OptimizedImage from '../../optimized-image'
+
 type CartItemProps = {
   ad: Ad
   quantity: number
 }
 
-export default function CartItem({ ad, quantity }: CartItemProps) {
+export default memo(function CartItem({ ad, quantity }: CartItemProps) {
   const { removeFromCart } = useCartStore()
 
   return (
     <S.Item>
-      <S.ImageWrapper>
-        <img src={ad.produto.capa} alt={ad.produto.name} />
-      </S.ImageWrapper>
+      <OptimizedImage width={56} height={56} src={ad.produto.capa} alt={ad.titulo} />
 
       <S.Info>
-        <S.Name>{ad.titulo}</S.Name>
-
+        <S.Name>{ad.produto.name}</S.Name>
         <S.Price>
           {quantity}x - {formatCurrency(ad.preco)}
         </S.Price>
@@ -35,4 +36,4 @@ export default function CartItem({ ad, quantity }: CartItemProps) {
       </S.RemoveButton>
     </S.Item>
   )
-}
+})

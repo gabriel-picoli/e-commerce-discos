@@ -58,11 +58,9 @@ export const Description = styled.p`
 `
 
 export const BreadcrumbContainer = styled.div`
-  background-image: url(${hero});
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 4rem;
   position: relative;
+  overflow: hidden;
+  padding: 4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,6 +73,21 @@ export const BreadcrumbContainer = styled.div`
     position: absolute;
     inset: 0;
     background: rgba(56, 30, 30, 0.671);
+    z-index: 1;
+  }
+`
+
+export const BreadcrumbBackground = styled.div`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `
 

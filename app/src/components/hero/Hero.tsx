@@ -1,6 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import Button from '../button'
+
 import * as S from './styles'
+
+import Button from '../button'
+import OptimizedImage from '../optimized-image'
 
 export default function Hero() {
   const navigate = useNavigate()
@@ -31,6 +34,14 @@ export default function Hero() {
 
     return (
       <S.BreadcrumbContainer>
+        <S.BreadcrumbBackground>
+          <OptimizedImage
+            src="/images/hero-image.jpg"
+            alt="Hero Background"
+            placeholder="/images/hero-blur.jpg"
+          />
+        </S.BreadcrumbBackground>
+
         <S.BreadcrumbWrapper>
           {breadcrumbs.map((crumb, index) => (
             <S.BreadcrumbItem key={crumb.path}>
